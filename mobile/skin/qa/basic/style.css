@@ -75,8 +75,8 @@
 #bo_cate ul:after {display:block;visibility:hidden;clear:both;content:""} 
 #bo_cate li {display:inline-block;float:left}
 #bo_cate a {display:block;line-height:24px;padding:15px}
-#bo_cate #bo_cate_on {display:inline-block;position:relative;color:#3a8afd}
-#bo_cate #bo_cate_on:after {content:"";position:absolute;left:0;bottom:0;width:100%;height:4px;display:inline-block;background:#3a8afd}
+#bo_cate #bo_cate_on {display:inline-block;position:relative;color:#5268A5}
+#bo_cate #bo_cate_on:after {content:"";position:absolute;left:0;bottom:0;width:100%;height:4px;display:inline-block;background:#5268A5}
 
 /* 게시판 목록 공통 */
 .bo_fx {margin-bottom:5px;padding:0 10px}
@@ -112,7 +112,7 @@
 .chk_box input[type="checkbox"] + label:hover {color:#2172f8}
 .chk_box input[type="checkbox"] + label span {position:absolute;top:0;left:0;width:15px;height:15px;display:block;background:#fff;border:1px solid #d0d4df;border-radius:3px}
 .chk_box input[type="checkbox"]:checked + label {color:#000}
-.chk_box input[type="checkbox"]:checked + label span {background:url(./img/chk.png) no-repeat 50% 50% #3a8afd;border-color:#1471f6;border-radius:3px}
+.chk_box input[type="checkbox"]:checked + label span {background:url(./img/chk.png) no-repeat 50% 50% #5268A5;border-color:#1471f6;border-radius:3px}
 .chk_box input[type="radio"] {position:absolute;top:0;left:0;width:0;height:0;opacity:0;outline:0;z-index:-1;overflow:hidden}
 .chk_box input[type="radio"] + label {position:relative;padding-left:23px;display:inline-block;color:#676e70}
 .chk_box input[type="radio"] + label span {position:absolute;top:0;left:0;width:15px;height:15px;display:block;background:#f7f8f9;border:1px solid #cdd6df;border-radius:50%}
@@ -121,7 +121,7 @@
 .chk_box input[type="radio"]:checked + label span:before {width:9px;height:9px;background:#ff8080;content:'';position:absolute;top:3px;left:3px;border-radius:50%}
 .all_chk.chk_box input[type="checkbox"] + label span {top:18px;left:15px}
 
-.bo_cmt {background:#e9eff5;color:#3a8afd;font-size:11px;height:16px;line-height:16px;padding:0 5px;border-radius:3px;vertical-align:middle}
+.bo_cmt {background:#e9eff5;color:#5268A5;font-size:11px;height:16px;line-height:16px;padding:0 5px;border-radius:3px;vertical-align:middle}
 
 .bo_subject {display:block;width:100%;padding:5px 0}
 .bo_current {color:#e8180c}
@@ -154,7 +154,7 @@
 #bo_w .bo_w_flie .file_wr, .form_01 .bo_w_flie .file_wr {position:relative;color:#000;vertical-align:middle;margin:0}
 #bo_w .bo_w_flie .frm_input {margin:5px 0 0}
 
-.filebox .btn_file {display:inline-block;position:absolute;right:8px;top:8px;border:1px solid #3a8afd;border-radius:3px;width:60px;height:30px;color:#3a8afd;font-size:1em;line-height:30px;font-weight:bold;background:#fff;text-align:center;vertical-align:middle;cursor:pointer}
+.filebox .btn_file {display:inline-block;position:absolute;right:8px;top:8px;border:1px solid #5268A5;border-radius:3px;width:60px;height:30px;color:#5268A5;font-size:1em;line-height:30px;font-weight:bold;background:#fff;text-align:center;vertical-align:middle;cursor:pointer}
 .filebox .fileName {display:inline-block;position:relative;width:100%;height:45px;padding-left:45px;line-height:30px;border:1px solid #d0d3db;background-color:#fff;color:red;vertical-align:middle;border-radius:0}
 .filebox input[type="file"] {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
@@ -167,7 +167,7 @@
 #bo_v>header {padding:0 15px}
 
 #bo_v_title {}
-.bo_v_cate {display:inline-block;background:#e2eaf6;color:#3a8afd;border-radius:13px;line-height:20px;border-radius:5px;padding:0 5px;font-weight:bold}
+.bo_v_cate {display:inline-block;background:#e2eaf6;color:#5268A5;border-radius:13px;line-height:20px;border-radius:5px;padding:0 5px;font-weight:bold}
 .bo_v_tit {display:block;font-size:1.5em;margin:10px 0 0}
 
 #bo_v_info {position:relative;margin-top:10px;color:#767e86}
@@ -244,7 +244,7 @@
 #bo_v_ans {margin-top:10px;background:#fff;position:relative}
 #bo_v_ans h2 {font-size:1.2em;padding:15px 15px 5px}
 #bo_v_ans h2 span {display:inline-block}
-#bo_v_ans h2 .tit_rpl {font-size:11px;padding:0 5px;line-height:23px;border-radius:25px;margin-right:5px;font-weight:normal;background:#fff;color:#3a8afd;border:1px solid #a9c6fe}
+#bo_v_ans h2 .tit_rpl {font-size:11px;padding:0 5px;line-height:23px;border-radius:25px;margin-right:5px;font-weight:normal;background:#fff;color:#5268A5;border:1px solid #a9c6fe}
 #bo_v_ans h2 .tit_cnt {font-size:1.125em}
 #bo_v_ans #ans_datetime {padding:10px 0 15px;border-bottom:1px solid #eee;color:#767e86;font-size:0.825em;font-weight:normal}
 #bo_v_ans #ans_con {padding:15px;line-height:1.8em;border-bottom:1px solid #e4e4ec}
@@ -255,7 +255,7 @@
 #bo_v_ans #ans_add:before {content:"";position:absolute;top:-8px;right:6px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #b8bfc4 transparent}
 #bo_v_ans #ans_add:after {content:"";position:absolute;top:-6px;right:6px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #fff transparent}
 #bo_v_ans #ans_add a {display:block;border-bottom: 1px solid #f1f1f1;padding:10px;color:#6b757c}
-.add_qu {display:block;text-align:center;margin:15px;height:45px;line-height:45px;padding:0 10px;border:0;font-weight:bold;background:#3a8afd;color:#fff;border-radius:3px}
+.add_qu {display:block;text-align:center;margin:15px;height:45px;line-height:45px;padding:0 10px;border:0;font-weight:bold;background:#5268A5;color:#fff;border-radius:3px}
 
 #bo_v_ans #ans_msg {padding:40px 0;background:#f2f5f9;text-align:center}
 #bo_v_ans .btn_submit {width:100%;height:40px;border-radius:5px}

@@ -46,7 +46,7 @@
 #sev .ev_prd .ev_prd_img img {width:100%;height:auto}
 #sev .ev_prd .ev_txt_wr {float:left;max-width:139px;margin-left:10px}
 #sev .ev_prd .ev_prd_price {font-weight:bold;display:block;margin:5px 0 10px;font-size:1.25em;font-weight:bold}
-#sev .ev_prd .sev_more {color:#3a8afd;background:#fff;display:block;text-align:center}
+#sev .ev_prd .sev_more {color:#5268A5;background:#fff;display:block;text-align:center}
 
 #sev .bx-pager {position:absolute;top:0;right:10px}
 #sev .bx-pager .bx-pager-item {display:inline-block;margin:5px}
@@ -322,7 +322,7 @@
 
 #sit_star_sns a {display:inline-block;vertical-align:middle}
 #sit_star_sns .btn_sns_share {float:left;background:transparent;width:35px;height:25px;border:0;color:#4b5259;font-size:1.6em;font-weight:bold}
-#sit_star_sns .btn_sns_share:hover {color:#3a8afd}
+#sit_star_sns .btn_sns_share:hover {color:#5268A5}
 #sit_star_sns .sns_area {display:none;position:absolute;top:45px;right:0;width:200px;text-align:center;background:#fff;border:1px solid #e2e2e2;padding:10px;z-index:10}
 #sit_star_sns .sns_area:before {content:"";position:absolute;top:-8px;right:13px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #e2e2e2 transparent}
 #sit_star_sns .sns_area:after {content:"";position:absolute;top:-7px;right:13px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #fff transparent}
@@ -372,8 +372,8 @@
 #sit_tab .tab_tit:after {display:block;visibility:hidden;clear:both;content:""}
 #sit_tab .tab_tit li {float:left;width:25%;text-align:center;border-bottom:1px solid #d9dce3}
 #sit_tab .tab_tit li button {display:block;width:100%;position:relative;height:40px;background:#fff;border:0;color:#666;line-height:38px;text-align:center;z-index:1}
-#sit_tab .tab_tit li .selected {background:#fff;z-index:2;color:#3a8afd;font-weight:bold;position:relative}
-#sit_tab .tab_tit li .selected:before {content:'';position:absolute;bottom:-1px;left:0;width:100%;background:#3a8afd;height:3px}
+#sit_tab .tab_tit li .selected {background:#fff;z-index:2;color:#5268A5;font-weight:bold;position:relative}
+#sit_tab .tab_tit li .selected:before {content:'';position:absolute;bottom:-1px;left:0;width:100%;background:#5268A5;height:3px}
 
 #sit_tab .tab_con {background:#fff;border-bottom:1px solid #e5e5e5;padding:15px}
 
@@ -402,7 +402,7 @@ box-shadow:0 0 6px rgba(0,0,0,0.2)}
 #sit_ov_btn:after {display:block;visibility:hidden;clear:both;content:""}
 #sit_btn_cart {float:left;width:39%;margin-right:1%;line-height:50px;border:1px solid #98a3b3;color:#000;background:#fff;font-weight:bold;border-radius:3px}
 #sit_btn_buy {float:left;width:39%;margin-right:1%;line-height:50px;font-weight:bold}
-#sit_btn_phone {float:left;width:79%;margin-right:1%;line-height:50px;border:1px solid #3a8afd;color:#3a8afd;background:#fff;font-weight:bold;border-radius:3px}
+#sit_btn_phone {float:left;width:79%;margin-right:1%;line-height:50px;border:1px solid #5268A5;color:#5268A5;background:#fff;font-weight:bold;border-radius:3px}
 #sit_btn_wish {float:left;width:20%;display:inline-block;line-height:50px;text-align:center;font-size:1.25em;border:1px solid #b3b3b3;font-weight:bold;border-radius:3px;background:#fff}
 #sit_sel_option,#sit_tot_price {margin:10px 0;line-height:20px}
 #sit_tot_price {text-align:right}
@@ -448,7 +448,7 @@ box-shadow:0 0 6px rgba(0,0,0,0.2)}
 #sit_use_wbtn {margin:0 0 10px}
 #sit_use_wbtn:after {display:block;visibility:hidden;clear:both;content:""}
 #sit_use_wbtn .btn01 {line-height:40px;width:49%;float:right;text-align:center;border-radius:3px}
-#sit_use_wbtn .qa_wr {line-height:40px;width:49%;float:left;text-align:center;background:#3a8afd;color:#fff;border:1px solid #1c70e9;border-radius:3px}
+#sit_use_wbtn .qa_wr {line-height:40px;width:49%;float:left;text-align:center;background:#5268A5;color:#fff;border:1px solid #1c70e9;border-radius:3px}
 #sit_use_write {}
 #sit_use_write #is_subject {width:100%}
 #sit_use_write ul {margin:5px 0 0}
@@ -493,11 +493,11 @@ box-shadow:0 0 6px rgba(0,0,0,0.2)}
 #sit_qa_wbtn {margin:0 0 10px}
 #sit_qa_wbtn:after {display:block;visibility:hidden;clear:both;content:""}
 #sit_qa_wbtn .btn01 {line-height:40px;width:49%;float:right;text-align:center;border-radius:3px}
-#sit_qa_wbtn .qa_wr {line-height:40px;width:49%;float:left;text-align:center;background:#3a8afd;color:#fff;border:1px solid #1c70e9;border-radius:3px}
+#sit_qa_wbtn .qa_wr {line-height:40px;width:49%;float:left;text-align:center;background:#5268A5;color:#fff;border:1px solid #1c70e9;border-radius:3px}
 
 /* 사용후기 모음 */
 #sps_sch {margin:15px}
-#sps_sch a {display:inline-block;color:#3a8afd;font-weight:bold;border-bottom:1px solid #3a8afd;margin-top:10px}
+#sps_sch a {display:inline-block;color:#5268A5;font-weight:bold;border-bottom:1px solid #5268A5;margin-top:10px}
 #sps_sch .sch_wr {position:relative;background:#fff;border:1px solid #d0d3db}
 #sps_sch .sch_wr:after {display:block;visibility:hidden;clear:both;content:""}
 #sps_sch select {border:0;background:#fff;padding:9px 0;height:45px;border:1px solid #fff;border-right:1px solid #f8f8f8;float:left;width:40%}
@@ -564,7 +564,7 @@ box-shadow:0 0 6px rgba(0,0,0,0.2)}
 
 /* 상품문의 모음 */
 #sqa_sch {margin:15px}
-#sqa_sch a {display:inline-block;color:#3a8afd;font-weight:bold;border-bottom:1px solid #3a8afd;margin-top:10px}
+#sqa_sch a {display:inline-block;color:#5268A5;font-weight:bold;border-bottom:1px solid #5268A5;margin-top:10px}
 #sqa_sch .sch_wr {position:relative;background:#fff;border:1px solid #d0d3db}
 #sqa_sch .sch_wr:after {display:block;visibility:hidden;clear:both;content:""}
 #sqa_sch select {border:0;background:#fff;padding:9px 0;height:45px;border-right:1px solid #f8f8f8;float:left;width:40%}
@@ -654,8 +654,8 @@ box-shadow:0 0 6px rgba(0,0,0,0.2)}
 /*쿠폰존 리스트*/
 .couponzone_list {margin:10px 0;background:#fff;border-bottom:1px solid #ccc}
 .couponzone_list h2 {border-bottom:1px solid #efefef;padding:10px;line-height:30px;font-size:1.077em}
-.couponzone_list p {position:relative;text-align:left;color:#fff;line-height:18px;font-size:1.1em;background:#f2838f;margin:10px;padding:10px 20px;border-radius:5px;font-weight:bold}
-.couponzone_list p:before {content:"";position:absolute;top:0;left:0;width:5px;height:100%;border-radius:5px 0 0 5px;background:#da4453}
+.couponzone_list p {position:relative;text-align:left;color:#fff;line-height:18px;font-size:1.1em;background:#5268A5;margin:10px;padding:10px 20px;border-radius:5px;font-weight:bold}
+.couponzone_list p:before {content:"";position:absolute;top:0;left:0;width:5px;height:100%;border-radius:5px 0 0 5px;background:#2F3C6D}
 
 .couponzone_list ul {padding:0 10px 10px;margin:0;list-style:none;background:#fff}
 .couponzone_list ul:after {display:block;visibility:hidden;clear:both;content:""}
@@ -690,7 +690,7 @@ box-shadow:0px 1px 6px 0 #dedede
 .couponzone_list ul li .coupon_info .coupon_info_cls {position:absolute;right:0;top:0;color:#c7c9cc;border:0;background:#fff;padding:10px;font-size:1.2em}
 
 .couponzone_list ul li .coupon_btn {text-align:center}
-.couponzone_list ul li .coupon_btn .btn02 {width:100%;height:42px;line-height:28px;margin-top:15px;border:0;color:#fff;background:#3a8afd;border-radius:5px;font-weight:bold}
+.couponzone_list ul li .coupon_btn .btn02 {width:100%;height:42px;line-height:28px;margin-top:15px;border:0;color:#fff;background:#5268A5;border-radius:5px;font-weight:bold}
 .couponzone_list ul li .coupon_btn .btn02:hover {background:#2176f1;color:#fff}
 .couponzone_list ul li .coupon_btn .disabled {background:#c6c6c6;border:1px;color:#fff;border-color:#c6c6c6}
 .couponzone_list ul li .coupon_btn .disabled:hover {background:#c6c6c6;border:1px;color:#fff;border-color:#c6c6c6}

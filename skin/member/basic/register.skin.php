@@ -10,24 +10,34 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
 
     <form  name="fregister" id="fregister" action="<?php echo $register_action_url ?>" onsubmit="return fregister_submit(this);" method="POST" autocomplete="off">
 
-    <p><i class="fa fa-check-circle" aria-hidden="true"></i> 회원가입약관 및 개인정보 수집 및 이용의 내용에 동의하셔야 회원가입 하실 수 있습니다.</p>
-    
     <?php
     // 소셜로그인 사용시 소셜로그인 버튼
     @include_once(get_social_skin_path().'/social_register.skin.php');
     ?>
-    <section id="fregister_term">
-        <h2>(필수) 회원가입약관</h2>
-        <textarea readonly><?php echo get_text($config['cf_stipulation']) ?></textarea>
-        <fieldset class="fregister_agree">
+    
+	<div id="fregister_chkall" class="chk_all fregister_agree">
+        <input type="checkbox" name="chk_all" id="chk_all" class="selec_chk">
+        <label for="chk_all"><span></span>전체 동의</label>
+    </div>
+    
+    <section id="fregister_term" class="acc_wrap open">
+        <fieldset class="fregister_agree acc_tit">
             <input type="checkbox" name="agree" value="1" id="agree11" class="selec_chk">
-            <label for="agree11"><span></span><b class="sound_only">회원가입약관의 내용에 동의합니다.</b></label>
+            <label for="agree11"><span></span><em>(필수)</em> 회원가입약관</label>
+            <p class="ico_drop"></p>
         </fieldset>
+        <textarea readonly class="acc_con"><?php echo get_text($config['cf_stipulation']) ?></textarea>
     </section>
 
-    <section id="fregister_private" class="fregister_terms">
-        <h2>(필수) 개인정보 수집 및 이용</h2>
-        <div>
+    
+
+    <section id="fregister_private" class="fregister_terms acc_wrap open">
+        <fieldset class="fregister_agree acc_tit">
+            <input type="checkbox" name="agree2" value="1" id="agree21" class="selec_chk">
+            <label for="agree21"><span></span><em>(필수)</em> 개인정보 수집 및 이용</label>
+            <p class="ico_drop"></p>
+       </fieldset>      
+        <div class="acc_con">
             <table>
                 <caption>개인정보 수집 및 이용</caption>
                 <thead>
@@ -51,21 +61,12 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
                 </tbody>
             </table>
         </div>
-
-        <fieldset class="fregister_agree">
-            <input type="checkbox" name="agree2" value="1" id="agree21" class="selec_chk">
-            <label for="agree21"><span></span><b class="sound_only">개인정보 수집 및 이용의 내용에 동의합니다.</b></label>
-       </fieldset>
     </section>
 	
-	<div id="fregister_chkall" class="chk_all fregister_agree">
-        <input type="checkbox" name="chk_all" id="chk_all" class="selec_chk">
-        <label for="chk_all"><span></span>회원가입 약관에 모두 동의합니다</label>
-    </div>
 	    
     <div class="btn_confirm">
-    	<a href="<?php echo G5_URL ?>" class="btn_close">취소</a>
-        <button type="submit" class="btn_submit">회원가입</button>
+    	<!-- <a href="<?php echo G5_URL ?>" class="btn_close">취소</a> -->
+        <button type="submit" class="btn_submit">다음</button>
     </div>
 
     </form>
@@ -93,10 +94,19 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
         $("input[name=chk_all]").click(function() {
             if ($(this).prop('checked')) {
                 $("input[name^=agree]").prop('checked', true);
+                $('#fregister_chkall').addClass('on')
             } else {
                 $("input[name^=agree]").prop("checked", false);
+                $('#fregister_chkall').removeClass('on')
             }
         });
+
+        $('.ico_drop').click(function(){
+            const box = $(this).closest('.acc_wrap');
+
+            box.toggleClass('open');
+
+        })
     });
 
     </script>

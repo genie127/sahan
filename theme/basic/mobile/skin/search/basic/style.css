@@ -19,7 +19,7 @@
 #sch_res_board:after {display:block;visibility:hidden;clear:both;content:""}
 #sch_res_board li {display:inline-block;float:left;margin:3px 5px 3px 0}
 #sch_res_board a {display:block;line-height:24px;border-radius:13px;padding:0 10px;background:#fff;border:1px solid #d6e9ff;color:#6794d3}
-#sch_res_board .sch_on {background:#3a8afd;color:#fff;border:1px solid #3a8afd;
+#sch_res_board .sch_on {background:#5268A5;color:#fff;border:1px solid #5268A5;
 -webkit-box-shadow:inset 0 2px 5px rgb(33, 135, 202);
 -moz-box-shadow:inset 0 2px 5px rgb(33, 135, 202);
 box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
@@ -35,7 +35,7 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 .sch_res_info:after {display:block;visibility:hidden;clear:both;content:""}
 .sch_res_list p {margin:0 0 10px;line-height:1.4em;color:#777;font-size:1em}
 .sch_more {background:#fff;padding:15px 0;margin-bottom:15px;font-size:1em;border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;text-align:center}
-.sch_more a {color:#3a8afd}
+.sch_more a {color:#5268A5}
 .sch_datetime {}
 .sch_res_info .profile_img img {border-radius:50%}
 
@@ -45,6 +45,6 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 .chk_box input[type="radio"] {position:absolute;top:0;left:0;width:0;height:0;opacity:0;outline:0;z-index:-1;overflow:hidden}
 .chk_box input[type="radio"] + label {position:relative;padding-left:23px;display:inline-block;color:#676e70}
 .chk_box input[type="radio"] + label span {position:absolute;top:0;left:0;width:15px;height:15px;display:block;background:#f7f8f9;border:1px solid #cdd6df;border-radius:50%}
-.chk_box input[type="radio"]:checked + label {color:#3a8afd}
-.chk_box input[type="radio"]:checked + label span {border-color:#3a8afd}
-.chk_box input[type="radio"]:checked + label span:before {width:7px;height:7px;background:#3a8afd;content:'';position:absolute;top:3px;left:3px;border-radius:50%}
+.chk_box input[type="radio"]:checked + label {color:#5268A5}
+.chk_box input[type="radio"]:checked + label span {border-color:#5268A5}
+.chk_box input[type="radio"]:checked + label span:before {width:7px;height:7px;background:#5268A5;content:'';position:absolute;top:3px;left:3px;border-radius:50%}

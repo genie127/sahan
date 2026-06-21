@@ -22,7 +22,7 @@
 .cd-title { margin:0; font-size:18px; font-weight:bold; word-break:keep-all; }
 .cd-body { max-height:500px; overflow-y:auto; padding:16px; border-top:1px solid #e6e6e9; border-bottom:1px solid #e6e6e9; line-height:1.6; font-size:14px; color:#222; }
 .cd-actions { display:flex; gap:8px; justify-content:flex-end; padding:12px 16px 16px; }
-.cd-actions .cd-agree { padding:8px 14px; border:1px solid #3a8afd; background:#3a8afd; color:#fff; border-radius:8px; }
+.cd-actions .cd-agree { padding:8px 14px; border:1px solid #5268A5; background:#5268A5; color:#fff; border-radius:8px; }
 .cd-actions .cd-close { padding:8px 14px; border:1px solid #ccc; background:#fff; color:#111; border-radius:8px; }
 </style>
 

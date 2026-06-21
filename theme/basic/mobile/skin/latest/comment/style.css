@@ -9,7 +9,7 @@
 .cm_lt li {position:relative;line-height:18px;border-bottom:1px solid #e5ecee;margin-bottom:10px;padding:10px 0}
 .cm_lt li:after {display:block;visibility:hidden;clear:both;content:""}
 .cm_lt li:last-child {border-bottom:0;margin-bottom:0}
-.cm_lt li a:hover {color:#3a8afd}
+.cm_lt li a:hover {color:#5268A5}
 
 .cm_lt_nick {float:left}
 .cm_lt_nick img {border-radius:50%;width:35px;height:35px;margin-right:10px}
@@ -21,6 +21,6 @@
 .cm_lt .empty_li {line-height:145px ;color:#666;text-align:center;padding:0}
 .cm_lt .empty_li:before {background:none;padding:0}
 
-.cm_lt .lt_cmt {color:#3a8afd;font-size:11px;padding:0 5px;font-weight:bold}
-.cm_lt .lt_more {position:absolute;top:11px;right:20px;display:block;width:40px;line-height:25px;color:#3a8afd;border-radius:3px;text-align:center}
+.cm_lt .lt_cmt {color:#5268A5;font-size:11px;padding:0 5px;font-weight:bold}
+.cm_lt .lt_more {position:absolute;top:11px;right:20px;display:block;width:40px;line-height:25px;color:#5268A5;border-radius:3px;text-align:center}
 .cm_lt .lt_more:hover {color:#777}
