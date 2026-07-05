@@ -100,7 +100,6 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
         <h2>메인메뉴</h2>
         <div class="gnb_wrap">
             <ul id="gnb_1dul">
-                <li class="gnb_1dli gnb_mnal"><button type="button" class="gnb_menu_btn" title="전체메뉴"><i class="fa fa-bars" aria-hidden="true"></i><span class="sound_only">전체메뉴열기</span></button></li>
                 <?php
 				$menu_datas = get_menu_db(0, true);
 				$gnb_zindex = 999; // gnb_1dli z-index 값 설정용
@@ -109,7 +108,7 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
                     if( empty($row) ) continue;
                     $add_class = (isset($row['sub']) && $row['sub']) ? 'gnb_al_li_plus' : '';
                 ?>
-                <li class="gnb_1dli <?php echo $add_class; ?>" style="z-index:<?php echo $gnb_zindex--; ?>">
+                <li class="gnb_1dli <?php echo $add_class; ?>" data-name="<?php echo $row['me_name'] ?>">
                     <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_1da"><?php echo $row['me_name'] ?></a>
                     <?php
                     $k = 0;
@@ -137,42 +136,6 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
                     <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
                 <?php } ?>
             </ul>
-            <div id="gnb_all">
-                <h2>전체메뉴</h2>
-                <ul class="gnb_al_ul">
-                    <?php
-                    
-                    $i = 0;
-                    foreach( $menu_datas as $row ){
-                    ?>
-                    <li class="gnb_al_li">
-                        <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_al_a"><?php echo $row['me_name'] ?></a>
-                        <?php
-                        $k = 0;
-                        foreach( (array) $row['sub'] as $row2 ){
-                            if($k == 0)
-                                echo '<ul>'.PHP_EOL;
-                        ?>
-                            <li><a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>"><?php echo $row2['me_name'] ?></a></li>
-                        <?php
-                        $k++;
-                        }   //end foreach $row2
-
-                        if($k > 0)
-                            echo '</ul>'.PHP_EOL;
-                        ?>
-                    </li>
-                    <?php
-                    $i++;
-                    }   //end foreach $row
-
-                    if ($i == 0) {  ?>
-                        <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <br><a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
-                    <?php } ?>
-                </ul>
-                <button type="button" class="gnb_close_btn"><i class="fa fa-times" aria-hidden="true"></i></button>
-            </div>
-            <div id="gnb_all_bg"></div>
         </div>
     </nav>
     <script>

@@ -182,7 +182,7 @@ border:1px solid #558ab7 !important;
 
 
 /* 메인메뉴 */
-#gnb {position:relative;background:#fff}
+#gnb {position: fixed; bottom: 0; left: 50%; transform:translateX(-50%);  z-index: 10; background: #fff;}
 #gnb > h2 {position:absolute;font-size:0;line-height:0;overflow:hidden}
 #gnb .gnb_wrap {margin:0 auto;position:relative}
 #gnb .gnb_wrap:hover, #gnb .gnb_wrap:focus, #gnb .gnb_wrap:active{z-index:3}

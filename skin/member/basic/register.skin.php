@@ -90,15 +90,23 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
     }
     
     jQuery(function($){
-        // 모두선택
-        $("input[name=chk_all]").click(function() {
-            if ($(this).prop('checked')) {
-                $("input[name^=agree]").prop('checked', true);
-                $('#fregister_chkall').addClass('on')
-            } else {
-                $("input[name^=agree]").prop("checked", false);
-                $('#fregister_chkall').removeClass('on')
-            }
+       // 전체 선택
+        $("input[name=chk_all]").click(function () {
+            const isChecked = $(this).prop("checked");
+
+            $("input[name^=agree]").prop("checked", isChecked);
+            $("#fregister_chkall").toggleClass("on", isChecked);
+        });
+
+        // 개별 선택
+        $("input[name^=agree]").change(function () {
+            const total = $("input[name^=agree]").length;
+            const checked = $("input[name^=agree]:checked").length;
+
+            const allChecked = total === checked;
+
+            $("input[name=chk_all]").prop("checked", allChecked);
+            $("#fregister_chkall").toggleClass("on", allChecked);
         });
 
         $('.ico_drop').click(function(){
