@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+    @keyframes comet {
+        0%{height: 0;}
+        100%{height: 100%;}
+    }
+    @keyframes fadein {
+        0%{opacity:0}
+        100%{opacity:1}
+    }
+    @keyframes blink {
+        0%{opacity:0}
+        50%{opacity:1}
+        100%{opacity:0}
+    }
+
+    body{background: #000;}
+    *{box-sizing:border-box;}
+    * img{width:100%}
+    .container_fix{position: relative; padding: 0 20px;}
+    .delay1{animation-delay:.3s}
+    .delay2{animation-delay:.6s}
+    .delay3{animation-delay:.9s}
+    .delay4{animation-delay:1.2s}
+
+    .star_delay1{animation-delay:1.4s}
+    .star_delay2{animation-delay:1.6s}
+    .star_delay3{animation-delay:1.8s}
+    .star_delay4{animation-delay:2s}
+    .star_delay5{animation-delay:2.2s}
+    .star_delay6{animation-delay:2.4s}
+    .star_delay7{animation-delay:2.6s}
+    .star_delay8{animation-delay:2.8s}
+    .star_delay9{animation-delay:3s}
+    .star_delay10{animation-delay:3.2s}
+    .star_delay11{animation-delay:3.4s}
+    .star_delay12{animation-delay:3.6s}
+    .star_delay13{animation-delay:3.8s}
+
+    .main_wrap .container_fix{position: absolute; top: 0; left: 0; right: 0;}
+    .main_wrap{position: relative; width:440px; margin: 0 auto; background: #000; max-width:100%;}
+    .main_wrap .bg_comet{position: absolute; left: 0; bottom: 0; right: 0; animation-name: comet; animation-duration: 5s; animation-fill-mode: forwards; height:0; overflow: hidden; }
+    .main_wrap .bg_comet.comet2{animation-duration: 8s;}
+    .main_wrap .bg_comet img{position: absolute; left: 0; right: 0; bottom: 1px;}
+    .main_wrap .star{position: absolute; left: 0; top: 0; right: 0; }
+    .main_wrap .star img{position: absolute; left: 0; top: 0; animation-name:blink; animation-duration:2s; animation-iteration-count: infinite;}
+    .main_wrap .dot_wrap{position: absolute; left: 0; top: 0; right: 0; bottom: 0;}
+    .main_wrap .dot_wrap div[class^="dot"] img{opacity:0; position: absolute; left: 0; bottom: 0; width: 100%; animation-name:fadein; animation-duration:.3s; animation-fill-mode: forwards; animation-iteration-count: 1;}
+    
+    .nav{position: fixed; bottom: 0; left: 0; right: 0; }
+    .nav.main{bottom: 100px; left: 50%; transform:translateX(-50%); width: 700px; max-width:calc(100% - 40px);}
+</style>
+    
+    <div class="main_wrap">
+        <div class="bg"><img src="img/bg.png" alt=""></div>
+        <div class="bg_comet delay2"><img src="img/comet.png" alt=""></div>
+        <div class="bg_comet delay3 comet2"><img src="img/comet02.png" alt=""></div>
+        <div class="star">
+            <img src="img/star01.png" alt="" class="">
+            <img src="img/star02.png" alt="" class="delay3">
+            <img src="img/star03.png" alt="" class="delay2">
+            <img src="img/star04.png" alt="" class="delay1">
+            <img src="img/star05.png" alt="" class="delay4">
+        </div>
+        <div class="dot_wrap">
+            <div class="dot03">
+                <img src="img/dot301.png" alt="" class="star_delay10">
+                <img src="img/dot302.png" alt="" class="star_delay11">
+                <img src="img/dot303.png" alt="" class="star_delay12">
+            </div>
+            <div class="dot05">
+                <img src="img/dot501.png" alt="" class="star_delay3">
+                <img src="img/dot502.png" alt="" class="star_delay4">
+                <img src="img/dot503.png" alt="" class="star_delay5">
+                <img src="img/dot504.png" alt="" class="star_delay6">
+                <img src="img/dot505.png" alt="" class="star_delay7">
+            </div>
+            <div class="dot06">
+                <img src="img/dot601.png" alt="" class="star_delay2">
+                <img src="img/dot602.png" alt="" class="star_delay3">
+                <img src="img/dot603.png" alt="" class="star_delay4">
+                <img src="img/dot604.png" alt="" class="star_delay5">
+                <img src="img/dot605.png" alt="" class="star_delay6">
+                <img src="img/dot606.png" alt="" class="star_delay7">
+            </div>
+            <div class="dot07">
+                <img src="img/dot701.png" alt="">
+                <img src="img/dot702.png" alt="" class="star_delay1">
+                <img src="img/dot703.png" alt="" class="star_delay2">
+                <img src="img/dot704.png" alt="" class="star_delay3">
+                <img src="img/dot705.png" alt="" class="star_delay4">
+                <img src="img/dot706.png" alt="" class="star_delay5">
+                <img src="img/dot707.png" alt="" class="star_delay6">
+            </div>
+            <div class="dot010">
+                <img src="img/dot1001.png" alt="star_delay2">
+                <img src="img/dot1002.png" alt="" class="star_delay3">
+                <img src="img/dot1003.png" alt="" class="star_delay4">
+                <img src="img/dot1004.png" alt="" class="star_delay5">
+                <img src="img/dot1005.png" alt="" class="star_delay6">
+                <img src="img/dot1006.png" alt="" class="star_delay7">
+                <img src="img/dot1007.png" alt="" class="star_delay8">
+                <img src="img/dot1008.png" alt="" class="star_delay9">
+                <img src="img/dot1009.png" alt="" class="star_delay10">
+                <img src="img/dot1010.png" alt="" class="star_delay11">
+            </div>
+            <div class="dot014">
+                <img src="img/dot1401.png" alt="">
+                <img src="img/dot1402.png" alt="" class="star_delay1">
+                <img src="img/dot1403.png" alt="" class="star_delay2">
+                <img src="img/dot1404.png" alt="" class="star_delay3">
+                <img src="img/dot1405.png" alt="" class="star_delay4">
+                <img src="img/dot1406.png" alt="" class="star_delay5">
+                <img src="img/dot1407.png" alt="" class="star_delay6">
+                <img src="img/dot1408.png" alt="" class="star_delay7">
+                <img src="img/dot1409.png" alt="" class="star_delay8">
+                <img src="img/dot1410.png" alt="" class="star_delay9">
+                <img src="img/dot1411.png" alt="" class="star_delay10">
+                <img src="img/dot1412.png" alt="" class="star_delay11">
+                <img src="img/dot1413.png" alt="" class="star_delay12">
+                <img src="img/dot1414.png" alt="" class="star_delay13">
+            </div>
+        </div>
+        <div class="container_fix">
+            <h1 class="logo">
+                sahandkrodn
+            </h1>
+            <nav class="nav main">
+                <ul class="nav_li">
+                    <li>sahan</li>
+                    <li>message</li>
+                    <li>home</li>
+                    <li>gru</li>sk
+                    <li>settings</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</body>
+</html>

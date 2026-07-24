@@ -2,13 +2,20 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
+add_stylesheet('<link rel="stylesheet" href="'.$theme_url.'/default.css">', 0);
 add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 0);
 ?>
+<div class="sub_header">
+    <div class="container">
+        <button onclick="history.back()" class="arr_prev"></button>
+        <h3>로그인</h3>
+    </div>
+</div>
 
 <!-- 로그인 시작 { -->
 <div id="mb_login" class="mbskin">
     <div class="mbskin_box">
-        <h1><?php echo $g5['title'] ?></h1>
+        <h1 class="logo_center"><img src="<?php echo G5_IMG_URL ?>/logo.svg" alt="SAHAN"></h1>
         <form name="flogin" action="<?php echo $login_action_url ?>" onsubmit="return flogin_submit(this);" method="post">
         <input type="hidden" name="url" value="<?php echo $login_url ?>">
         
