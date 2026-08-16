@@ -781,4 +781,8 @@ run_event('write_update_after', $board, $wr_id, $w, $qstr, $redirect_url);
 if ($file_upload_msg)
     alert($file_upload_msg, $redirect_url);
 else
-    goto_url($redirect_url);
+    if ($bo_table == 'message') {
+        goto_url(get_pretty_url($bo_table));
+    } else {
+        goto_url(get_pretty_url($bo_table, $wr_id));
+    }

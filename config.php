@@ -146,7 +146,6 @@ define('G5_SET_DEVICE', 'both');
 define('G5_USE_MOBILE', false); // 모바일 홈페이지를 사용하지 않을 경우 false 로 설정
 define('G5_USE_CACHE',  true); // 최신글등에 cache 기능 사용 여부
 
-
 /********************
     시간 상수
 ********************/
@@ -209,7 +208,7 @@ define('G5_ESCAPE_FUNCTION', 'sql_escape_string');
 
 // 게시판에서 링크의 기본개수를 말합니다.
 // 필드를 추가하면 이 숫자를 필드수에 맞게 늘려주십시오.
-define('G5_LINK_COUNT', 2);
+define('G5_LINK_COUNT', 1);
 
 // 썸네일 jpg Quality 설정
 define('G5_THUMB_JPG_QUALITY', 90);

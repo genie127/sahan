@@ -741,7 +741,7 @@ if(defined('G5_THEME_DEVICE') && G5_THEME_DEVICE != '') {
             $set_device = false;
             break;
         case 'mobile':
-            $is_mobile  = true;
+            $is_mobile  = false;
             $set_device = false;
             break;
         default:

@@ -11,7 +11,6 @@ if(G5_COMMUNITY_USE === false) {
     return;
 }
 ?>
-
     </div>
 </div>
 
@@ -21,52 +20,83 @@ if(G5_COMMUNITY_USE === false) {
 <hr>
 
 <!-- 하단 시작 { -->
-<div id="ft">
+<nav id="gnb" class="<?if(!defined("_INDEX_")){?>sub<?}?> ">
+    <div class="gnb_wrap">
+        <ul id="gnb_1dul">
+            <?php
+            $menu_datas = get_menu_db(0, true);
+            $gnb_zindex = 999; // gnb_1dli z-index 값 설정용
+            $i = 0;
+            foreach( $menu_datas as $row ){
+                if( empty($row) ) continue;
 
-    <div id="ft_wr">
-        <div id="ft_link" class="ft_cnt">
-            <a href="<?php echo get_pretty_url('content', 'company'); ?>">회사소개</a>
-            <a href="<?php echo get_pretty_url('content', 'privacy'); ?>">개인정보처리방침</a>
-            <a href="<?php echo get_pretty_url('content', 'provision'); ?>">서비스이용약관</a>
-            <a href="<?php echo get_device_change_url(); ?>">모바일버전</a>
-        </div>
-        <div id="ft_company" class="ft_cnt">
-        	<h2>사이트 정보</h2>
-	        <p class="ft_info">
-	        	회사명 : 회사명 / 대표 : 대표자명<br>
-				주소  : OO도 OO시 OO구 OO동 123-45<br>
-				사업자 등록번호  : 123-45-67890<br>
-				전화 :  02-123-4567  팩스  : 02-123-4568<br>
-				통신판매업신고번호 :  제 OO구 - 123호<br>
-				개인정보관리책임자 :  정보책임자명<br>
-			</p>
-	    </div>
-        <?php
-        //공지사항
-        // 이 함수가 바로 최신글을 추출하는 역할을 합니다.
-        // 사용방법 : latest(스킨, 게시판아이디, 출력라인, 글자수);
-        // 테마의 스킨을 사용하려면 theme/basic 과 같이 지정
-        echo latest('theme/notice', 'notice', 4, 13);
-        ?>
-        
-		<?php echo visit('theme/basic'); // 접속자집계, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
-	</div>      
-        <!-- <div id="ft_catch"><img src="<?php echo G5_IMG_URL; ?>/ft_logo.png" alt="<?php echo G5_VERSION ?>"></div> -->
-        <div id="ft_copy">Copyright &copy; <b>소유하신 도메인.</b> All rights reserved.</div>
-    
-    
-    <button type="button" id="top_btn">
-    	<i class="fa fa-arrow-up" aria-hidden="true"></i><span class="sound_only">상단으로</span>
-    </button>
-    <script>
-    $(function() {
-        $("#top_btn").on("click", function() {
-            $("html, body").animate({scrollTop:0}, '500');
-            return false;
-        });
-    });
-    </script>
-</div>
+                $current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+                $menu_path = parse_url($row['me_link'], PHP_URL_PATH);
+                $menu_query = parse_url($row['me_link'], PHP_URL_QUERY);
+
+                $is_active = false;
+
+                // HOME
+                if ($menu_path === '/') {
+                    $is_active = ($current_path === '/');
+                }
+
+                // 게시판
+                else if ($menu_path === '/bbs/board.php') {
+                    parse_str($menu_query ?? '', $menu_params);
+
+                    $is_active =
+                        isset($menu_params['bo_table']) &&
+                        isset($_GET['bo_table']) &&
+                        $menu_params['bo_table'] === $_GET['bo_table'];
+                }
+
+                // 콘텐츠 페이지
+                else if ($menu_path === '/bbs/content.php') {
+                    parse_str($menu_query ?? '', $menu_params);
+
+                    $is_active =
+                        isset($menu_params['co_id']) &&
+                        isset($_GET['co_id']) &&
+                        $menu_params['co_id'] === $_GET['co_id'];
+                }
+
+                // 그 외 일반 페이지
+                else {
+                    $is_active = ($current_path === $menu_path);
+                }
+            ?>
+            <li class="gnb_1dli <?php echo $add_class; ?><?if($row['me_name'] == 'HOME'){?>home<?}?> <?php echo $is_active ? 'on' : ''; ?>" data-name="<?php echo $row['me_name'] ?>">
+                <a 
+                    <?if( $row['me_name'] == 'MESSAGES' && !$member['mb_id']){?>
+                    href="/bbs/board.php?bo_table=messages&type=all" target="_<?php echo $row['me_target']; ?>" 
+                    <?}else{?>
+                    href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" 
+                    <?}?>
+
+                    class="gnb_1da">
+                    <div class="img_wrap">
+                        <?if(defined("_INDEX_")){?>
+                            <img src="<?=G5_IMG_URL?>/nav<?php echo $row['me_name'] ?>.png" alt="<?php echo $row['me_name'] ?>" class="off_img">
+                        <?}else{?>
+                            <img src="<?=G5_IMG_URL?>/navSub<?php echo $row['me_name'] ?>.png" alt="<?php echo $row['me_name'] ?>" class="off_img">
+                        <?}?>
+                        <img src="<?=G5_IMG_URL?>/nav<?php echo $row['me_name'] ?>_on.png" alt="<?php echo $row['me_name'] ?>" class="on_img">
+                    </div>
+                    <p><?php echo $row['me_name'] ?></p>
+                </a>
+            </li>
+            <?php
+            $i++;
+            }   //end foreach $row
+
+            if ($i == 0) {  ?>
+                <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
+            <?php } ?>
+        </ul>
+    </div>
+</nav>
 
 <?php
 if(G5_DEVICE_BUTTON_DISPLAY && !G5_IS_MOBILE) { ?>

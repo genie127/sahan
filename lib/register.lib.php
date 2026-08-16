@@ -4,15 +4,15 @@ if (!defined('_GNUBOARD_')) exit;
 function empty_mb_id($reg_mb_id)
 {
     if (trim($reg_mb_id)=='')
-        return "회원아이디를 입력해 주십시오.";
+        return "개인고유번호를 입력해 주십시오.";
     else
         return "";
 }
 
 function valid_mb_id($reg_mb_id)
 {
-    if (preg_match("/[^0-9a-z_]+/i", $reg_mb_id))
-        return "회원아이디는 영문자, 숫자, _ 만 입력하세요.";
+    if (!preg_match("/^[0-9]+$/", $reg_mb_id))
+        return "개인고유번호는 숫자만 입력하세요.";
     else
         return "";
 }
@@ -20,7 +20,7 @@ function valid_mb_id($reg_mb_id)
 function count_mb_id($reg_mb_id)
 {
     if (strlen($reg_mb_id) < 3)
-        return "회원아이디는 최소 3글자 이상 입력하세요.";
+        return "개인고유번호는 최소 3글자 이상 입력하세요.";
     else
         return "";
 }
@@ -35,7 +35,7 @@ function exist_mb_id($reg_mb_id)
     $sql = " select count(*) as cnt from `{$g5['member_table']}` where mb_id = '$reg_mb_id' ";
     $row = sql_fetch($sql);
     if ($row['cnt'])
-        return "이미 사용중인 회원아이디 입니다.";
+        return "이미 사용중인 개인고유번호 입니다.";
     else
         return "";
 }
@@ -44,7 +44,7 @@ function reserve_mb_id($reg_mb_id)
 {
     global $config;
     if (preg_match("/[\,]?{$reg_mb_id}/i", $config['cf_prohibit_id']))
-        return "이미 예약된 단어로 사용할 수 없는 회원아이디 입니다.";
+        return "이미 예약된 단어로 사용할 수 없는 개인고유번호 입니다.";
     else
         return "";
 }

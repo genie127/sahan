@@ -16,17 +16,17 @@ include_once(G5_THEME_PATH.'/head.php');
 ?>
 
 <div class="main_wrap">
-    <div class="bg"><img src="<?php echo G5_IMG_URL?>/sahan/bg.png" alt=""></div>
-    <div class="bg_comet delay2"><img src="<?php echo G5_IMG_URL?>/sahan/comet.png" alt=""></div>
-    <div class="bg_comet delay3 comet2"><img src="<?php echo G5_IMG_URL?>/sahan/comet02.png" alt=""></div>
-    <div class="star">
+    <div class="bg obj_cover"><img src="<?php echo G5_IMG_URL?>/sahan/bg.png" alt=""></div>
+    <div class="bg_comet delay2 "><img src="<?php echo G5_IMG_URL?>/sahan/comet.png" alt=""></div>
+    <div class="bg_comet delay3 comet2 "><img src="<?php echo G5_IMG_URL?>/sahan/comet02.png" alt=""></div>
+    <div class="star obj_cover">
         <img src="<?php echo G5_IMG_URL?>/sahan/star01.png" alt="" class="">
         <img src="<?php echo G5_IMG_URL?>/sahan/star02.png" alt="" class="delay3">
         <img src="<?php echo G5_IMG_URL?>/sahan/star03.png" alt="" class="delay2">
         <img src="<?php echo G5_IMG_URL?>/sahan/star04.png" alt="" class="delay1">
         <img src="<?php echo G5_IMG_URL?>/sahan/star05.png" alt="" class="delay4">
     </div>
-    <div class="dot_wrap">
+    <div class="dot_wrap obj_cover">
         <div class="dot03">
             <img src="<?php echo G5_IMG_URL?>/sahan/dot301.png" alt="" class="star_delay10">
             <img src="<?php echo G5_IMG_URL?>/sahan/dot302.png" alt="" class="star_delay11">
@@ -86,13 +86,7 @@ include_once(G5_THEME_PATH.'/head.php');
         </div>
     </div>
     <div class="container">
-         <h1 id="logo" class="logo">
-            <a href="<?php echo G5_URL?>">
-                <img src="<?php echo G5_IMG_URL?>/logo.svg" alt="SAHAN">
-            </a>
-        </h1>
-
-        <div class="latest_top_wr">
+        <div class="list_sentence">
             <?php
             // 이 함수가 바로 최신글을 추출하는 역할을 합니다.
             // 사용방법 : latest(스킨, 게시판아이디, 출력라인, 글자수);
@@ -106,4 +100,4 @@ include_once(G5_THEME_PATH.'/head.php');
 
 
 <?php
-include_once('./tail.sub.php');
+include_once('./tail.php');

@@ -8,6 +8,16 @@ if ($is_checkbox) $colspan++;
 if ($is_good) $colspan++;
 if ($is_nogood) $colspan++;
 
+
+$is_board_admin = (
+    $is_member &&
+    (
+        $is_admin == 'super' ||
+        $group['gr_admin'] == $member['mb_id'] ||
+        $board['bo_admin'] == $member['mb_id']
+    )
+);
+
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 ?>
@@ -24,6 +34,16 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         </ul>
     </nav>
     <?php } ?>
+
+    <nav id="bo_cate">
+        <ul id="bo_cate_ul">
+            <?if($member['mb_id']){?>
+            <li class="<? if(isset($_GET['type']) && ($_GET['type']=='mine')){?> on <?}?>"><a href="/bbs/board.php?bo_table=messages&type=mine">내게 온 메세지</a></li>
+            <?}?>
+            <li class="<?  if(isset($_GET['type']) && ($_GET['type']=='all')){?> on <?}?>"><a href="/bbs/board.php?bo_table=messages&type=all">전체</a></li>
+            <?if($is_board_admin){?><li class="<?  if(isset($_GET['type']) && ($_GET['type']=='all')){?> on <?}?>"><a href="/bbs/board.php?bo_table=messages&type=adm">관리자용</a></li><?}?>
+        </ul>
+    </nav>
     <!-- } 게시판 카테고리 끝 -->
     
     <form name="fboardlist" id="fboardlist" action="<?php echo G5_BBS_URL; ?>/board_list_update.php" onsubmit="return fboardlist_submit(this);" method="post">

@@ -6,7 +6,20 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 ?>
 
 <section id="bo_w">
-    <h2 class="sound_only"><?php echo $g5['title'] ?></h2>
+    <div class="sub_header">
+        <div class="container">
+            <button onclick="history.back()" class="arr_prev"></button>
+            <h3>
+                <?if($bo_table =='messages'){?>
+                    메세지 쓰기
+                <?}else{?>
+                    게시글 등록
+                <?}?>
+            </h3>
+        </div>
+    </div>
+
+    <h4 class="sub_tit">Write</h4>
 
     <!-- 게시물 작성/수정 시작 { -->
     <form name="fwrite" id="fwrite" action="<?php echo $action_url ?>" onsubmit="return fwrite_submit(this);" method="post" enctype="multipart/form-data" autocomplete="off" style="width:<?php echo $width; ?>">
@@ -83,6 +96,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 	    <?php } ?>
 	</div>
 	
+    <?/*
     <?php if ($option) { ?>
     <div class="write_div">
         <span class="sound_only">옵션</span>
@@ -91,24 +105,41 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         </ul>
     </div>
     <?php } ?>
+    */?>
+    <div class="select_open write_div checkbox_wrap">
+        <input type="checkbox" id="wr_1" name="wr_1" value="1" <?php echo $write['wr_1'] == '1' ? 'checked' : ''; ?>>
+        <label for="wr_1"><span class="checkbox"></span><p>전체공개</p></label>
+        <div class="about_this">
+            <span class="ico_info"><img src="<?=G5_IMG_URL?>/ico_info.png" alt=""></span>
+            <p>전체공개 설정 시 전체 목록 또는 검색 목록에서 노출되며 <br>전체공개 미 설정 시 수신인에게만 노출됩니다.</p></div>
+    </div>
+
+    <div class="wrap_send write_div">
+        <div class="send_info">
+            <label for="wr_2">수신인</label>
+            <input type="text" id="wr_2" name="wr_2" inputmode="numeric" placeholder="받는 사람의 코드를 입력해주세요" required value="<?=$wr_2?>">
+        </div>
+        <div class="for_me">
+            <button type="button" onclick="checkForMe(this)" class="checkbox_wrap"><span class="checkbox"></span><p>내게 쓰기</p></button>
+        </div>
+    </div>
 
     <div class="bo_w_tit write_div">
         <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
         
         <div id="autosave_wrapper" class="write_div">
-            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="제목">
+            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="제목을 입력해주세요">
             <?php if ($is_member) { // 임시 저장된 글 기능 ?>
             <script src="<?php echo G5_JS_URL; ?>/autosave.js"></script>
             <?php if($editor_content_js) echo $editor_content_js; ?>
-            <button type="button" id="btn_autosave" class="btn_frmline">임시 저장된 글 (<span id="autosave_count"><?php echo $autosave_count; ?></span>)</button>
+            <?/*<button type="button" id="btn_autosave" class="btn_frmline">임시 저장된 글 (<span id="autosave_count"><?php echo $autosave_count; ?></span>)</button>*/?>
             <div id="autosave_pop">
                 <strong>임시 저장된 글 목록</strong>
                 <ul></ul>
                 <div><button type="button" class="autosave_close">닫기</button></div>
             </div>
             <?php } ?>
-        </div>
-        
+        </div>        
     </div>
 
     <div class="write_div">
@@ -124,16 +155,21 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <div id="char_count_wrap"><span id="char_count"></span>글자</div>
             <?php } ?>
         </div>
-        
     </div>
 
+    <div class="write_div checkbox_wrap">
+        <input type="checkbox" id="wr_3" name="wr_3" value="1" <?php echo $write['wr_3'] == '1' ? 'checked' : ''; ?> required>
+        <label for="wr_3"><span class="checkbox"></span><p>이 메시지가 주파수 변환 과정에서 <br>타인에게 공개될 수 있음을 확인했습니다.</p></label>
+    </div>
+
+    <?/*
     <?php for ($i=1; $is_link && $i<=G5_LINK_COUNT; $i++) { ?>
     <div class="bo_w_link write_div">
         <label for="wr_link<?php echo $i ?>"><i class="fa fa-link" aria-hidden="true"></i><span class="sound_only"> 링크  #<?php echo $i ?></span></label>
         <input type="text" name="wr_link<?php echo $i ?>" value="<?php if($w=="u"){ echo $write['wr_link'.$i]; } ?>" id="wr_link<?php echo $i ?>" class="frm_input full_input" size="50">
     </div>
     <?php } ?>
-
+*/?>
     <?php for ($i=0; $is_file && $i<$file_count; $i++) { ?>
     <div class="bo_w_flie write_div">
         <div class="file_wr write_div">
@@ -161,8 +197,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?php } ?>
 
     <div class="btn_confirm write_div">
-        <a href="<?php echo get_pretty_url($bo_table); ?>" class="btn_cancel btn">취소</a>
-        <button type="submit" id="btn_submit" accesskey="s" class="btn_submit btn">작성완료</button>
+        <!-- <a href="<?php echo get_pretty_url($bo_table); ?>" class="btn_cancel btn">취소</a> -->
+        <button type="submit" id="btn_submit" accesskey="s" class="btn_submit btn">전송하기</button>
     </div>
     </form>
 
@@ -178,8 +214,17 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             check_byte("wr_content", "char_count");
         });
     });
-
     <?php } ?>
+    function checkForMe(e){
+        $(e).toggleClass('on')
+        if($(e).hasClass('on')){
+            $("#wr_2").val('<?=$member['mb_id']?>')
+            $("#wr_2").attr('disabled', true)
+        }else{
+            $("#wr_2").val('')
+            $("#wr_2").attr('disabled', false)
+        }
+    }
     function html_auto_br(obj)
     {
         if (obj.checked) {
@@ -250,6 +295,15 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
         return true;
     }
+
+    $(()=>{
+       $('.about_this').click(function(e) {
+            $(this).find('p').toggle();
+        });
+        $('#wr_2').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    })
     </script>
 </section>
 <!-- } 게시물 작성/수정 끝 -->

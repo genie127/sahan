@@ -89,6 +89,9 @@
 .register_form_inner input[type="text"]:focus,
 .register_form_inner input[type="text"]:active{border-color:#93A2CB}
 .register_form_inner input.required{background: none !important;}
+.register_form_inner .input_check{position: relative;}
+.register_form_inner #btn_id_check{position: absolute; top: 7px; right: 10px; background: #5268A5; color:#fff; border-radius:4px; font-weight:500; font-size:14px; height: 30px; line-height: 30px;}
+
 .register_form_inner .desc{margin-top: 16px; font-size:24px; color:#4A5362}
 
 #fregisterform .cert_desc {color:#5268A5;}

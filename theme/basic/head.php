@@ -21,18 +21,19 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
 ?>
 
 <!-- 상단 시작 { -->
-<div id="hd">
-    <h1 id="hd_h1"><?php echo $g5['title'] ?></h1>
+<div id="hd">    
     <div id="skip_to_container"><a href="#container">본문 바로가기</a></div>
-
+    <h1 id="logo" class="logo <?if(defined('_INDEX_')) {?>main_logo<?}?>">
+        <div class="container">
+            <img src="<?php echo G5_IMG_URL?>/logo.svg" alt="SAHAN">
+        </div>
+    </h1>
     <?php
     if(defined('_INDEX_')) { // index에서만 실행
         include G5_BBS_PATH.'/newwin.inc.php'; // 팝업레이어
-    }
     ?>
     <div class="hd_search">
         <fieldset id="hd_sch">
-            <legend>사이트 내 전체검색</legend>
             <form name="fsearchbox" method="get" action="<?php echo G5_BBS_URL ?>/search.php" onsubmit="return fsearchbox_submit(this);">
             <input type="hidden" name="sfl" value="wr_subject||wr_content">
             <input type="hidden" name="sop" value="and">
@@ -73,49 +74,7 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
 
         </fieldset>
     </div>
-
-    <nav id="gnb">
-        <h2>메인메뉴</h2>
-        <div class="gnb_wrap">
-            <ul id="gnb_1dul">
-                <?php
-				$menu_datas = get_menu_db(0, true);
-				$gnb_zindex = 999; // gnb_1dli z-index 값 설정용
-                $i = 0;
-                foreach( $menu_datas as $row ){
-                    if( empty($row) ) continue;
-                    $add_class = (isset($row['sub']) && $row['sub']) ? 'gnb_al_li_plus' : '';
-                ?>
-                <li class="gnb_1dli <?php echo $add_class; ?>" data-name="<?php echo $row['me_name'] ?>">
-                    <a href="<?php echo $row['me_link']; ?>" target="_<?php echo $row['me_target']; ?>" class="gnb_1da"><?php echo $row['me_name'] ?></a>
-                    <?php
-                    $k = 0;
-                    foreach( (array) $row['sub'] as $row2 ){
-
-                        if( empty($row2) ) continue; 
-
-                        if($k == 0)
-                            echo '<span class="bg">하위분류</span><div class="gnb_2dul"><ul class="gnb_2dul_box">'.PHP_EOL;
-                    ?>
-                        <li class="gnb_2dli"><a href="<?php echo $row2['me_link']; ?>" target="_<?php echo $row2['me_target']; ?>" class="gnb_2da"><?php echo $row2['me_name'] ?></a></li>
-                    <?php
-                    $k++;
-                    }   //end foreach $row2
-
-                    if($k > 0)
-                        echo '</ul></div>'.PHP_EOL;
-                    ?>
-                </li>
-                <?php
-                $i++;
-                }   //end foreach $row
-
-                if ($i == 0) {  ?>
-                    <li class="gnb_empty">메뉴 준비 중입니다.<?php if ($is_admin) { ?> <a href="<?php echo G5_ADMIN_URL; ?>/menu_list.php">관리자모드 &gt; 환경설정 &gt; 메뉴설정</a>에서 설정하실 수 있습니다.<?php } ?></li>
-                <?php } ?>
-            </ul>
-        </div>
-    </nav>
+    <?}?>
 </div>
 <!-- } 상단 끝 -->
 
@@ -127,4 +86,4 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
     <div id="container_wr">
    
     <div id="<?php if (!defined("_INDEX_")) { ?>container<?}?>">
-        <?php if (!defined("_INDEX_")) { ?><h2 id="container_title"><span title="<?php echo get_text($g5['title']); ?>"><?php echo get_head_title($g5['title']); ?></span></h2><?php }
+        <?php if (!defined("_INDEX_")) { ?><?php }
