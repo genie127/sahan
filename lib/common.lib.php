@@ -529,11 +529,7 @@ function get_list($write_row, $board, $skin_url, $subject_len=40)
 
     // 당일인 경우 시간으로 표시함
     $list['datetime'] = substr($list['wr_datetime'],0,10);
-    $list['datetime2'] = $list['wr_datetime'];
-    if ($list['datetime'] == G5_TIME_YMD)
-        $list['datetime2'] = substr($list['datetime2'],11,5);
-    else
-        $list['datetime2'] = substr($list['datetime2'],5,5);
+    $list['datetime2'] = date('Y.m.d', strtotime($list['wr_datetime']));
     // 4.1
     $list['last'] = substr($list['wr_last'],0,10);
     $list['last2'] = $list['wr_last'];

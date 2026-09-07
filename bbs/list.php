@@ -93,7 +93,7 @@ if ($sca || $stx || $stx === '0') {
 //      현재 로그인한 회원이 수신인인 메시지
 //      wr_2 = mb_id
 // ============================================================
-$message_type = isset($_GET['type']) ? $_GET['type'] : 'all';
+$messages_type = isset($_GET['type']) ? $_GET['type'] : 'all';
 
 $is_board_admin = (
     $is_member &&
@@ -104,28 +104,148 @@ $is_board_admin = (
     )
 );
 
-if ($message_type === 'adm') {
+$is_messages_board = ($bo_table === 'messages');
 
-    // 관리자만 모든 게시글 조회
-    if ($is_board_admin) {
-        $message_condition = "1=1";
+$messages_type = 'all';
+$messages_condition = '1=1';
+
+$is_board_admin = false;
+
+if ($is_messages_board) {
+
+    $messages_type = isset($_GET['type'])
+        ? $_GET['type']
+        : 'all';
+
+    $is_board_admin = (
+        $is_member &&
+        (
+            $is_admin == 'super' ||
+            $group['gr_admin'] == $member['mb_id'] ||
+            $board['bo_admin'] == $member['mb_id']
+        )
+    );
+
+    switch ($messages_type) {
+
+        // --------------------------------------------------------
+    // 내게 온 메세지
+    // wr_4 = 0
+    // wr_2 = 현재 로그인 회원 ID
+    // --------------------------------------------------------
+    case 'mine':
+
+        if ($is_member) {
+
+            $messages_condition = "
+                wr_4 != '1'
+                AND wr_2 = '".sql_escape_string($member['mb_id'])."'
+            ";
+
+        } else {
+
+            $messages_condition = "1=0";
+
+        }
+
+        break;
+
+
+    // --------------------------------------------------------
+    // 전체
+    // wr_4 = 0
+    // wr_1 = 1
+    // --------------------------------------------------------
+    case 'all':
+
+    // 일반 사용자: 전체공개 일반 메세지만
+    $messages_condition = "
+        (wr_4 = '0' OR wr_4 IS NULL OR wr_4 = '')
+        AND wr_1 = '1'
+    ";
+
+    break;
+
+
+    case 'adm_messages':
+
+    // 관리자: wr_1 상관없이 일반 메세지 전부
+     if ($is_board_admin) {
+        $messages_condition = "
+            (wr_4 = 0 OR wr_4 IS NULL OR wr_4 = '')
+            AND (wr_6 IS NULL OR wr_6 = '')
+        ";
     } else {
-        $message_condition = "1=0";
+        $messages_condition = "1=0";
     }
 
-} elseif ($message_type === 'mine') {
+    break;
 
-    // 내게 온 글
-    $message_condition = "
-        wr_2 = '".sql_escape_string($member['mb_id'])."'
-    ";
+    // --------------------------------------------------------
+    // 명대사 관리 - 날짜
+    // wr_4 = 1
+    // wr_2 공란
+    // --------------------------------------------------------
+    case 'adm_date':
+
+        if ($is_board_admin) {
+
+            $messages_condition = "
+                wr_4 = '1'
+                AND (wr_2 IS NULL OR wr_2 = '')
+            ";
+
+        } else {
+
+            $messages_condition = "1=0";
+
+        }
+
+        break;
+
+
+    // --------------------------------------------------------
+    // 명대사 관리 - 이벤트
+    // wr_4 = 1
+    // wr_2 값 있음
+    // --------------------------------------------------------
+    case 'adm_special':
+
+        if ($is_board_admin) {
+
+            $messages_condition = "
+                wr_4 = '1'
+                AND wr_2 != ''
+            ";
+
+        } else {
+
+            $messages_condition = "1=0";
+
+        }
+
+        break;
+
+
+    // --------------------------------------------------------
+    // 잘못된 type
+    // --------------------------------------------------------
+    default:
+
+        $messages_type = 'all';
+
+        $messages_condition = "
+            wr_4 != '1'
+            AND wr_1 = '1'
+        ";
+
+        break;
+    }
 
 } else {
 
-    // 전체공개 글
-    $message_condition = "
-        wr_1 = '1'
-    ";
+    // 일반 게시판
+    $messages_condition = "1=1";
 }
 
 
@@ -137,7 +257,7 @@ if ($is_search_bbs) {
     $sql = " SELECT COUNT(DISTINCT wr_parent) AS cnt
              FROM {$write_table}
              WHERE {$sql_search}
-             AND {$message_condition} ";
+             AND {$messages_condition} ";
 
     $row = sql_fetch($sql);
 
@@ -148,7 +268,7 @@ if ($is_search_bbs) {
     $sql = " SELECT COUNT(*) AS cnt
              FROM {$write_table}
              WHERE wr_is_comment = 0
-             AND {$message_condition} ";
+             AND {$messages_condition} ";
 
     $row = sql_fetch($sql);
 
@@ -226,7 +346,7 @@ if (!$is_search_bbs) {
         $sql = " select *
                  from {$write_table}
                  where wr_id in (".implode(',', $notice_ids_int).")
-                 and {$message_condition} ";
+                 and {$messages_condition} ";
 
         $result = sql_query($sql);
 
@@ -337,6 +457,15 @@ if (
 // ============================================================
 $qstr2 = 'bo_table='.$bo_table.'&amp;sop='.$sop;
 
+// ============================================================
+// 내게 온 메세지 정렬
+// 저장한 날짜(wr_datetime) 최신순
+// ============================================================
+if ($is_messages_board && $messages_type === 'mine') {
+    $sst = 'wr_datetime';
+    $sod = 'desc';
+}
+
 
 // ============================================================
 // 갤러리
@@ -425,13 +554,13 @@ if ($page_rows > 0) {
          * 만 있어서 wr_1 / wr_2 조건이
          * 실제 목록 조회에는 적용되지 않았음.
          *
-         * 반드시 message_condition을 같이 적용.
+         * 반드시 messages_condition을 같이 적용.
          */
 
         $sql = " select distinct wr_parent
                  from {$write_table}
                  where {$sql_search}
-                 and {$message_condition}
+                 and {$messages_condition}
                  {$sql_order}
                  limit {$from_record}, {$page_rows} ";
 
@@ -487,13 +616,13 @@ if ($page_rows > 0) {
     } else {
 
         /*
-         * 여기에도 message_condition을 반드시 적용.
+         * 여기에도 messages_condition을 반드시 적용.
          */
 
         $sql = " select *
                  from {$write_table}
                  where wr_is_comment = 0
-                 and {$message_condition} ";
+                 and {$messages_condition} ";
 
 
         // 공지는 일반 목록에서 제외

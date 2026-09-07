@@ -85,15 +85,31 @@ include_once(G5_THEME_PATH.'/head.php');
             <img src="<?php echo G5_IMG_URL?>/sahan/dot1414.png" alt="" class="star_delay13">
         </div>
     </div>
-    <div class="container">
+    <?php
+       $today_mmdd = date('md');
+
+        $sql = " select count(*) as cnt
+                from {$g5['write_prefix']}messages
+                where wr_is_comment = 0
+                and wr_4 = '1'
+                and (wr_2 IS NULL or wr_2 = '')
+                and wr_subject = '{$today_mmdd}' ";
+
+        $row = sql_fetch($sql);
+
+        if ($row['cnt'] > 0) {
+    ?>
         <div class="list_sentence">
             <?php
             // 이 함수가 바로 최신글을 추출하는 역할을 합니다.
             // 사용방법 : latest(스킨, 게시판아이디, 출력라인, 글자수);
             // 테마의 스킨을 사용하려면 theme/basic 과 같이 지정
-            echo latest('theme/basic', 'sentence', 4, 23);		// 최소설치시 자동생성되는 자유게시판
+            echo latest('theme/basic', 'messages', 8, 200);		// 최소설치시 자동생성되는 자유게시판
             ?>
         </div>
+        <?php
+        }
+    ?>
 
     </div>
 </div>

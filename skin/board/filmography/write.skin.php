@@ -127,6 +127,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         
     </div>
 
+    <label for="wr_1">링크 타이틀</label>
+    <input type="text" name="wr_1" value="<?php echo $wr_1 ?>" id="wr_1" class="frm_input " placeholder="바로가기 문구">
+
     <?php for ($i=1; $is_link && $i<=G5_LINK_COUNT; $i++) { ?>
     <div class="bo_w_link write_div">
         <label for="wr_link<?php echo $i ?>"><i class="fa fa-link" aria-hidden="true"></i><span class="sound_only"> 링크  #<?php echo $i ?></span></label>

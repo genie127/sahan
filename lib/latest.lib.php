@@ -55,8 +55,14 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
         $bo_subject = get_text($board['bo_subject']);
 
         $tmp_write_table = $g5['write_prefix'] . $bo_table; // 게시판 테이블 전체이름
-        $sql = " select * from {$tmp_write_table} where wr_is_comment = 0 order by wr_num limit 0, {$rows} ";
-        
+        $sql = " select * from {$tmp_write_table}
+         where wr_is_comment = 0
+         and wr_4 = '1'
+         and (wr_2 IS NULL or wr_2 = '')
+         and wr_subject = DATE_FORMAT(CURDATE(), '%m%d')
+         order by wr_num, wr_reply
+         limit 0, {$rows} ";
+         
         $result = sql_query($sql);
         for ($i=0; $row = sql_fetch_array($result); $i++) {
             try {

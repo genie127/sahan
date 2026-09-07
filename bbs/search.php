@@ -1,119 +1,107 @@
 <?php
 include_once('./_common.php');
 
-$g5['title'] = '전체검색 결과';
+$g5['title'] = '검색 결과';
+
 include_once('./_head.php');
 
-$search_table = Array();
+$search_table = array();
 $table_index = 0;
 $write_pages = "";
 $text_stx = "";
 $srows = 0;
 
+$stx = isset($_GET['stx']) ? $_GET['stx'] : '';
 $stx = strip_tags($stx);
-//$stx = preg_replace('/[[:punct:]]/u', '', $stx); // 특수문자 제거
-$stx = get_search_string($stx); // 특수문자 제거
+$stx = get_search_string($stx);
+$stx = trim($stx);
+
 if ($stx) {
-    $stx = preg_replace('/\//', '\/', trim($stx));
-    $sop = strtolower($sop);
-    if (!$sop || !($sop == 'and' || $sop == 'or')) $sop = 'and'; // 연산자 and , or
-    $srows = isset($_GET['srows']) ? (int)preg_replace('#[^0-9]#', '', $_GET['srows']) : 10;
-    if (!$srows) $srows = 10; // 한페이지에 출력하는 검색 행수
 
-    $g5_search['tables'] = Array();
-    $g5_search['read_level'] = Array();
-    $sql = " select gr_id, bo_table, bo_read_level from {$g5['board_table']} where bo_use_search = 1 and bo_list_level <= '{$member['mb_level']}' ";
-    if ($gr_id)
-        $sql .= " and gr_id = '{$gr_id}' ";
-    $onetable = isset($onetable) ? preg_replace('/[^a-z0-9_]/i', '', $onetable) : '';
-    if ($onetable) // 하나의 게시판만 검색한다면
-        $sql .= " and bo_table = '{$onetable}' ";
-    $sql .= " order by bo_order, gr_id, bo_table ";
-    $result = sql_query($sql);
-    for ($i=0; $row=sql_fetch_array($result); $i++)
-    {
-        if ($is_admin != 'super')
-        {
-            // 그룹접근 사용에 대한 검색 차단
-            $sql2 = " select gr_use_access, gr_admin from {$g5['group_table']} where gr_id = '{$row['gr_id']}' ";
-            $row2 = sql_fetch($sql2);
-            // 그룹접근을 사용한다면
-            if ($row2['gr_use_access']) {
-                // 그룹관리자가 있으며 현재 회원이 그룹관리자라면 통과
-                if ($row2['gr_admin'] && $row2['gr_admin'] == $member['mb_id']) {
-                    ;
-                } else {
-                    $sql3 = " select count(*) as cnt from {$g5['group_member_table']} where gr_id = '{$row['gr_id']}' and mb_id = '{$member['mb_id']}' and mb_id <> '' ";
-                    $row3 = sql_fetch($sql3);
-                    if (!$row3['cnt'])
-                        continue;
-                }
-            }
-        }
-        $g5_search['tables'][] = $row['bo_table'];
-        $g5_search['read_level'][] = $row['bo_read_level'];
+    // 한 페이지에 출력할 검색 결과 수
+    $srows = isset($_GET['srows'])
+        ? (int)preg_replace('#[^0-9]#', '', $_GET['srows'])
+        : 10;
+
+    if (!$srows) {
+        $srows = 10;
     }
 
-    $op1 = '';
-
-    // 검색어를 구분자로 나눈다. 여기서는 공백
-    $s = explode(' ', strip_tags($stx));
-    
-    if( count($s) > 1 ){
-        $s = array_slice($s, 0, 2);
-        $stx = implode(' ', $s);
-    }
+    /*
+     * --------------------------------------------------
+     * 검색 대상 게시판
+     * --------------------------------------------------
+     *
+     * messages 게시판 하나만 검색한다.
+     *
+     * 실제 메세지 게시판의 bo_table 값이
+     * messages가 아니라면 이 값을 실제 값으로 변경.
+     */
+    $g5_search['tables'] = array('messages');
+    $g5_search['read_level'] = array(1);
 
     $text_stx = get_text(stripslashes($stx));
-    
-    $search_query = 'sfl='.urlencode($sfl).'&amp;stx='.urlencode($stx).'&amp;sop='.$sop;
 
-    // 검색필드를 구분자로 나눈다. 여기서는 +
-    $field = explode('||', trim($sfl));
+    /*
+     * 검색 URL
+     *
+     * 기존 GnuBoard의 sfl, sop은 사용하지 않는다.
+     */
+    $search_query = 'stx=' . urlencode($stx);
 
-    $str = '(';
-    $s_cnt = count($s);
-    $field_cnt = count($field);
-    for ($i=0; $i<$s_cnt; $i++) {
-        if (trim($s[$i]) == '') continue;
 
-        $search_str = $s[$i];
+    /*
+     * --------------------------------------------------
+     * 검색 조건
+     * --------------------------------------------------
+     *
+     * 숫자만 입력
+     * → 작성자 ID(mb_id) 검색
+     * → 전체공개(wr_1 = 1)인 글만 검색
+     *
+     * 영문 + 숫자
+     * → 받는 사람(wr_2) 검색
+     *
+     * wr_4 = 1 이면서 wr_2가 비어 있는 글
+     * → 검색에서 제외
+     */
 
-        // 인기검색어
-        insert_popular($field, $search_str);
+    if (preg_match('/^[0-9]+$/', $stx)) {
 
-        $str .= $op1;
-        $str .= "(";
+        // 숫자 검색
+        $sql_search = "
+            mb_id = '" . sql_escape_string($stx) . "'
+            AND wr_1 = '1'
+            AND NOT (
+                wr_4 = '1'
+                AND (wr_2 IS NULL OR wr_2 = '')
+            )
+        ";
 
-        $op2 = '';
-        // 필드의 수만큼 다중 필드 검색 가능 (필드1+필드2...)
-        for ($k=0; $k<$field_cnt; $k++) {
-            $str .= $op2;
-            switch ($field[$k]) {
-                case 'mb_id' :
-                case 'wr_name' :
-                    $str .= "$field[$k] = '$s[$i]'";
-                    break;
-                case 'wr_subject' :
-                case 'wr_content' :
-                    if (preg_match("/[a-zA-Z]/", $search_str))
-                        $str .= "INSTR(LOWER({$field[$k]}), LOWER('{$search_str}'))";
-                    else
-                        $str .= "INSTR({$field[$k]}, '{$search_str}')";
-                    break;
-                default :
-                    $str .= "1=0"; // 항상 거짓
-                    break;
-            }
-            $op2 = " or ";
-        }
-        $str .= ")";
+    } elseif (preg_match('/^[a-zA-Z0-9]+$/', $stx)) {
 
-        $op1 = " {$sop} ";
+        // 영문 + 숫자 검색
+        $sql_search = "
+            wr_2 = '" . sql_escape_string($stx) . "'
+            AND NOT (
+                wr_4 = '1'
+                AND (wr_2 IS NULL OR wr_2 = '')
+            )
+        ";
+
+    } else {
+
+        // 한글 / 특수문자 등은 검색하지 않음
+        $sql_search = "1 = 0";
+
     }
-    $str .= ")";
 
-    $sql_search = $str;
+
+    /*
+     * --------------------------------------------------
+     * 검색 게시판 결과 계산
+     * --------------------------------------------------
+     */
 
     $str_board_list = "";
     $board_count = 0;
@@ -122,122 +110,356 @@ if ($stx) {
 
     $total_count = 0;
     $tables_cnt = count($g5_search['tables']);
-    for ($i=0; $i<$tables_cnt; $i++) {
-        $tmp_write_table   = $g5['write_prefix'] . $g5_search['tables'][$i];
 
-        $sql = " select wr_id from {$tmp_write_table} where {$sql_search} ";
+    for ($i = 0; $i < $tables_cnt; $i++) {
+
+        $tmp_write_table = $g5['write_prefix'] . $g5_search['tables'][$i];
+
+        $sql = "
+            SELECT wr_id
+            FROM {$tmp_write_table}
+            WHERE {$sql_search}
+        ";
+
         $result = sql_query($sql, false);
+
+        if (!$result) {
+            continue;
+        }
+
         $row['cnt'] = @sql_num_rows($result);
 
         $total_count += $row['cnt'];
+
         if ($row['cnt']) {
+
             $board_count++;
+
             $search_table[] = $g5_search['tables'][$i];
-            $read_level[]   = $g5_search['read_level'][$i];
+            $read_level[] = $g5_search['read_level'][$i];
             $search_table_count[] = $total_count;
 
-            $sql2 = " select bo_subject, bo_mobile_subject from {$g5['board_table']} where bo_table = '{$g5_search['tables'][$i]}' ";
+            $sql2 = "
+                SELECT bo_subject, bo_mobile_subject
+                FROM {$g5['board_table']}
+                WHERE bo_table = '{$g5_search['tables'][$i]}'
+            ";
+
             $row2 = sql_fetch($sql2);
+
             $sch_class = "";
-            $sch_all = "";
-            if ($onetable == $g5_search['tables'][$i]) $sch_class = "class=sch_on";
-            else $sch_all = "class=sch_on";
-            $str_board_list .= '<li><a href="'.$_SERVER['SCRIPT_NAME'].'?'.$search_query.'&amp;gr_id='.$gr_id.'&amp;onetable='.$g5_search['tables'][$i].'" '.$sch_class.'><strong>'.((G5_IS_MOBILE && $row2['bo_mobile_subject']) ? $row2['bo_mobile_subject'] : $row2['bo_subject']).'</strong><span class="cnt_cmt">'.$row['cnt'].'</span></a></li>';
+
+            if (
+                isset($onetable) &&
+                $onetable == $g5_search['tables'][$i]
+            ) {
+                $sch_class = "class=sch_on";
+            }
+
+            $board_subject = G5_IS_MOBILE && $row2['bo_mobile_subject']
+                ? $row2['bo_mobile_subject']
+                : $row2['bo_subject'];
+
+            $str_board_list .= '
+                <li>
+                    <a href="' . $_SERVER['SCRIPT_NAME'] . '?' . $search_query . '&amp;onetable=' . $g5_search['tables'][$i] . '" ' . $sch_class . '>
+                        <strong>' . get_text($board_subject) . '</strong>
+                        <span class="cnt_cmt">' . $row['cnt'] . '</span>
+                    </a>
+                </li>
+            ';
         }
+
+        sql_free_result($result);
     }
 
+
+    /*
+     * --------------------------------------------------
+     * 페이징
+     * --------------------------------------------------
+     */
+
     $rows = $srows;
-    $total_page = ceil($total_count / $rows);  // 전체 페이지 계산
-    if ($page < 1) { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
-    $from_record = ($page - 1) * $rows; // 시작 열을 구함
+
+    $total_page = $rows > 0
+        ? ceil($total_count / $rows)
+        : 0;
+
+    $page = isset($_GET['page'])
+        ? (int)$_GET['page']
+        : 1;
+
+    if ($page < 1) {
+        $page = 1;
+    }
+
+    $from_record = ($page - 1) * $rows;
+
+
+    /*
+     * --------------------------------------------------
+     * 검색 결과 목록
+     * --------------------------------------------------
+     */
 
     $search_table_cnt = count($search_table);
-    for ($i=0; $i<$search_table_cnt; $i++) {
+
+    for ($i = 0; $i < $search_table_cnt; $i++) {
+
         if ($from_record < $search_table_count[$i]) {
+
             $table_index = $i;
-            $from_record = $from_record - ($i > 0 ? $search_table_count[$i-1] : 0);
+
+            $from_record =
+                $from_record -
+                ($i > 0 ? $search_table_count[$i - 1] : 0);
+
             break;
         }
     }
+
 
     $bo_subject = array();
     $list = array();
 
-    $k=0;
-    for ($idx=$table_index; $idx<count($search_table); $idx++) {
-        $sql = " select bo_subject, bo_mobile_subject from {$g5['board_table']} where bo_table = '{$search_table[$idx]}' ";
+    $k = 0;
+
+
+    /*
+     * 현재는 messages 게시판 하나만 검색하지만
+     * GnuBoard 검색 결과 구조를 유지한다.
+     */
+
+    for (
+        $idx = $table_index;
+        $idx < count($search_table);
+        $idx++
+    ) {
+
+        $sql = "
+            SELECT bo_subject, bo_mobile_subject
+            FROM {$g5['board_table']}
+            WHERE bo_table = '{$search_table[$idx]}'
+        ";
+
         $row = sql_fetch($sql);
-        $bo_subject[$idx] = ((G5_IS_MOBILE && $row['bo_mobile_subject']) ? $row['bo_mobile_subject'] : $row['bo_subject']);
 
-        $tmp_write_table = $g5['write_prefix'] . $search_table[$idx];
+        $bo_subject[$idx] =
+            G5_IS_MOBILE && $row['bo_mobile_subject']
+                ? $row['bo_mobile_subject']
+                : $row['bo_subject'];
 
-        $sql = " select * from {$tmp_write_table} where {$sql_search} order by wr_id desc limit {$from_record}, {$rows} ";
+
+        $tmp_write_table =
+            $g5['write_prefix'] . $search_table[$idx];
+
+
+        /*
+         * 검색 결과
+         */
+        $sql = "
+            SELECT *
+            FROM {$tmp_write_table}
+            WHERE {$sql_search}
+            ORDER BY wr_id DESC
+            LIMIT {$from_record}, {$rows}
+        ";
+
         $result = sql_query($sql);
-        for ($i=0; $row=sql_fetch_array($result); $i++) {
-            // 검색어까지 링크되면 게시판 부하가 일어남
+
+
+        for ($i = 0; $row = sql_fetch_array($result); $i++) {
+
+            /*
+             * 검색 결과 기본 정보
+             */
             $list[$idx][$i] = $row;
-            $list[$idx][$i]['href'] = get_pretty_url($search_table[$idx], $row['wr_parent']);
 
-            if ($row['wr_is_comment'])
-            {
-                $sql2 = " select wr_subject, wr_option from {$tmp_write_table} where wr_id = '{$row['wr_parent']}' ";
+            $list[$idx][$i]['href'] =
+                get_pretty_url(
+                    $search_table[$idx],
+                    $row['wr_parent']
+                );
+
+
+            /*
+             * 댓글인 경우 부모글 정보 사용
+             */
+            if ($row['wr_is_comment']) {
+
+                $sql2 = "
+                    SELECT wr_subject, wr_option
+                    FROM {$tmp_write_table}
+                    WHERE wr_id = '{$row['wr_parent']}'
+                ";
+
                 $row2 = sql_fetch($sql2);
-                //$row['wr_subject'] = $row2['wr_subject'];
-                $row['wr_subject'] = get_text($row2['wr_subject']);
+
+                $row['wr_subject'] =
+                    get_text($row2['wr_subject']);
             }
 
-            // 비밀글은 검색 불가
-            if (strpos($row['wr_option'].(isset($row2['wr_option']) ? $row2['wr_option'] : ''), 'secret') !== false)
-                $row['wr_content'] = '[비밀글 입니다.]';
 
-            $subject = get_text($row['wr_subject']);
-            if (strpos($sfl, 'wr_subject') !== false)
-                $subject = search_font($stx, $subject);
+            /*
+             * 비밀글 처리
+             */
+            if (
+                strpos(
+                    $row['wr_option'] .
+                    (
+                        isset($row2['wr_option'])
+                        ? $row2['wr_option']
+                        : ''
+                    ),
+                    'secret'
+                ) !== false
+            ) {
 
-            if ($read_level[$idx] <= $member['mb_level'])
-            {
-                //$content = cut_str(get_text(strip_tags($row['wr_content'])), 300, "…");
-                $content = strip_tags($row['wr_content']);
-                $content = get_text($content, 1);
-                $content = strip_tags($content);
-                $content = str_replace('&nbsp;', '', $content);
-                $content = cut_str($content, 300, "…");
-
-                if (strpos($sfl, 'wr_content') !== false)
-                    $content = search_font($stx, $content);
+                $row['wr_content'] =
+                    '[비밀글 입니다.]';
             }
-            else
+
+
+            /*
+             * 제목
+             */
+            $subject =
+                get_text($row['wr_subject']);
+
+            $subject =
+                search_font(
+                    $stx,
+                    $subject
+                );
+
+
+            /*
+             * 내용
+             */
+            if (
+                $read_level[$idx] <=
+                $member['mb_level']
+            ) {
+
+                $content =
+                    strip_tags($row['wr_content']);
+
+                $content =
+                    get_text($content, 1);
+
+                $content =
+                    strip_tags($content);
+
+                $content =
+                    str_replace(
+                        '&nbsp;',
+                        '',
+                        $content
+                    );
+
+                $content =
+                    cut_str(
+                        $content,
+                        300,
+                        "…"
+                    );
+
+                $content =
+                    search_font(
+                        $stx,
+                        $content
+                    );
+
+            } else {
+
                 $content = '';
+            }
 
-            $list[$idx][$i]['subject'] = $subject;
-            $list[$idx][$i]['content'] = $content;
-            $list[$idx][$i]['name'] = get_sideview($row['mb_id'], get_text(cut_str($row['wr_name'], $config['cf_cut_name'])), $row['wr_email'], $row['wr_homepage']);
+
+            /*
+             * 결과 데이터 저장
+             */
+            $list[$idx][$i]['subject'] =
+                $subject;
+
+            $list[$idx][$i]['content'] =
+                $content;
+
+            $list[$idx][$i]['name'] =
+                get_sideview(
+                    $row['mb_id'],
+                    get_text(
+                        cut_str(
+                            $row['wr_name'],
+                            $config['cf_cut_name']
+                        )
+                    ),
+                    $row['wr_email'],
+                    $row['wr_homepage']
+                );
+
 
             $k++;
-            if ($k >= $rows)
+
+            if ($k >= $rows) {
                 break;
+            }
         }
+
         sql_free_result($result);
 
-        if ($k >= $rows)
+
+        if ($k >= $rows) {
             break;
+        }
 
         $from_record = 0;
     }
 
-    $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$search_query.'&amp;gr_id='.$gr_id.'&amp;srows='.$srows.'&amp;onetable='.$onetable.'&amp;page=');
+
+    /*
+     * --------------------------------------------------
+     * 페이지 네비게이션
+     * --------------------------------------------------
+     */
+
+    $write_pages = get_paging(
+        G5_IS_MOBILE
+            ? $config['cf_mobile_pages']
+            : $config['cf_write_pages'],
+        $page,
+        $total_page,
+        $_SERVER['SCRIPT_NAME'] .
+        '?' .
+        $search_query .
+        '&amp;srows=' .
+        $srows .
+        '&amp;page='
+    );
 }
 
-$group_select = '<label for="gr_id" class="sound_only">게시판 그룹선택</label><select name="gr_id" id="gr_id" class="select"><option value="">전체 분류';
-$sql = " select gr_id, gr_subject from {$g5['group_table']} order by gr_id ";
-$result = sql_query($sql);
-for ($i=0; $row=sql_fetch_array($result); $i++)
-    $group_select .= "<option value=\"".$row['gr_id']."\"".get_selected($gr_id, $row['gr_id']).">".$row['gr_subject']."</option>";
-$group_select .= '</select>';
 
-if (!$sfl) $sfl = 'wr_subject';
-if (!$sop) $sop = 'or';
+/*
+ * --------------------------------------------------
+ * 기존 GnuBoard 검색 스킨에서 사용하는 변수
+ * --------------------------------------------------
+ */
 
-include_once($search_skin_path.'/search.skin.php');
+$group_select = '';
+
+if (!$sfl) {
+    $sfl = 'wr_subject';
+}
+
+if (!$sop) {
+    $sop = 'or';
+}
+
+
+include_once(
+    $search_skin_path . '/search.skin.php'
+);
+
 
 include_once('./_tail.php');

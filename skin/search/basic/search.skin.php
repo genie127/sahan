@@ -6,81 +6,58 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 ?>
 
 <!-- 전체검색 시작 { -->
-<form name="fsearch" onsubmit="return fsearch_submit(this);" method="get">
-<input type="hidden" name="srows" value="<?php echo $srows ?>">
-<fieldset id="sch_res_detail">
-    <legend>상세검색</legend>
-    <?php echo $group_select ?>
-    <script>document.getElementById("gr_id").value = "<?php echo $gr_id ?>";</script>
-
-    <label for="sfl" class="sound_only">검색조건</label>
-    <select name="sfl" id="sfl">
-        <option value="wr_subject||wr_content"<?php echo get_selected($sfl, "wr_subject||wr_content") ?>>제목+내용</option>
-        <option value="wr_subject"<?php echo get_selected($sfl, "wr_subject") ?>>제목</option>
-        <option value="wr_content"<?php echo get_selected($sfl, "wr_content") ?>>내용</option>
-        <option value="mb_id"<?php echo get_selected($sfl, "mb_id") ?>>회원아이디</option>
-        <option value="wr_name"<?php echo get_selected($sfl, "wr_name") ?>>이름</option>
-    </select>
-
-    <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
-    <span class="sch_wr">
-        <input type="text" name="stx" value="<?php echo $text_stx ?>" id="stx" required class="frm_input" size="40">
-        <button type="submit" class="btn_submit"><i class="fa fa-search" aria-hidden="true"></i> 검색</button>
-    </span>
-
-    <script>
-    function fsearch_submit(f)
-    {
-        var stx = f.stx.value.trim();
-        if (stx.length < 2) {
-            alert("검색어는 두글자 이상 입력하십시오.");
-            f.stx.select();
-            f.stx.focus();
-            return false;
-        }
-
-        // 검색에 많은 부하가 걸리는 경우 이 주석을 제거하세요.
-        var cnt = 0;
-        for (var i = 0; i < stx.length; i++) {
-            if (stx.charAt(i) == ' ')
-                cnt++;
-        }
-
-        if (cnt > 1) {
-            alert("빠른 검색을 위하여 검색어에 공백은 한개만 입력할 수 있습니다.");
-            f.stx.select();
-            f.stx.focus();
-            return false;
-        }
-        f.stx.value = stx;
-
-        f.action = "";
-        return true;
-    }
-    </script>
-
-	<div class="switch_field">
-		<input type="radio" value="and" <?php echo ($sop == "and") ? "checked" : ""; ?> id="sop_and" name="sop">
-    	<label for="sop_and">AND</label>
-		<input type="radio" value="or" <?php echo ($sop == "or") ? "checked" : ""; ?> id="sop_or" name="sop" >
-		<label for="sop_or">OR</label>
-	</div>
-</fieldset>
-</form>
+ <div class="hd_search board_search">
+     <fieldset id="hd_sch">
+     <form name="fsearch" onsubmit="return fsearch_submit(this);" method="get">
+     <input type="hidden" name="srows" value="<?php echo $srows ?>">
+         <legend>상세검색</legend>
+         <?php echo $group_select ?>
+         <script>document.getElementById("gr_id").value = "<?php echo $gr_id ?>";</script>
+     
+         <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
+             <input type="text" name="stx" value="<?php echo $text_stx ?>" id="stx" required  placeholder="발신인 코드를 검색해보세요">
+             <button type="submit" id="sch_submit" class="btn_search" value="검색">
+                <span class="ico_search"></span>
+            </button>     
+         <script>
+         function fsearch_submit(f)
+         {
+             var stx = f.stx.value.trim();
+             if (stx.length < 2) {
+                 alert("검색어는 두글자 이상 입력하십시오.");
+                 f.stx.select();
+                 f.stx.focus();
+                 return false;
+             }
+     
+             // 검색에 많은 부하가 걸리는 경우 이 주석을 제거하세요.
+             var cnt = 0;
+             for (var i = 0; i < stx.length; i++) {
+                 if (stx.charAt(i) == ' ')
+                     cnt++;
+             }
+     
+             if (cnt > 1) {
+                 alert("빠른 검색을 위하여 검색어에 공백은 한개만 입력할 수 있습니다.");
+                 f.stx.select();
+                 f.stx.focus();
+                 return false;
+             }
+             f.stx.value = stx;
+     
+             f.action = "";
+             return true;
+         }
+         </script>
+     </form>
+     </fieldset>
+ </div>
 
 <div id="sch_result">
     <?php
     if ($stx) {
         if ($board_count) {
     ?>
-    <section id="sch_res_ov">
-        <h2><strong><?php echo $stx ?></strong> 전체검색 결과</h2>
-        <ul>
-            <li>게시판 <?php echo $board_count ?>개</li>
-            <li>게시물 <?php echo number_format($total_count) ?>개</li>
-        	<li><?php echo number_format($page) ?>/<?php echo number_format($total_page) ?> 페이지 열람 중</li>
-        </ul>
-    </section>
     <?php
         }
     }
@@ -90,14 +67,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
     if ($stx) {
         if ($board_count) {
      ?>
-    <ul id="sch_res_board">
-        <li><a href="?<?php echo $search_query ?>&amp;gr_id=<?php echo $gr_id ?>" <?php echo $sch_all ?>>전체게시판</a></li>
-        <?php echo $str_board_list; ?>
-    </ul>
     <?php
         } else {
      ?>
-    <div class="empty_list">검색된 자료가 하나도 없습니다.</div>
+    <div class="emtpy_list">
+        <img src="<?=G5_IMG_URL?>/ico_emptyMessage.webp">
+        <p class="txt">검색된 메세지가 없습니다</p>
+        <p class="desc">먼저 메세지를 보내보세요</p>
+    </div>
     <?php } }  ?>
 
     <hr>
@@ -108,35 +85,100 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
     for ($idx=$table_index, $k=0; $idx<count($search_table) && $k<$rows; $idx++) {
      ?>
 		<div class="search_board_result">
-        <h2><a href="<?php echo get_pretty_url($search_table[$idx], '', $search_query); ?>"><?php echo $bo_subject[$idx] ?> 게시판 내 결과</a></h2>
-		<a href="<?php echo get_pretty_url($search_table[$idx], '', $search_query); ?>" class="sch_more">더보기</a>
-        <ul>
-        <?php
-        for ($i=0; $i<count($list[$idx]) && $k<$rows; $i++, $k++) {
-            if ($list[$idx][$i]['wr_is_comment'])
-            {
-                $comment_def = '<span class="cmt_def"><i class="fa fa-commenting-o" aria-hidden="true"></i><span class="sound_only">댓글</span></span> ';
-                $comment_href = '#c_'.$list[$idx][$i]['wr_id'];
-            }
-            else
-            {
-                $comment_def = '';
-                $comment_href = '';
-            }
-         ?>
+        
+        <ul class="msg_wrap">
+         <?php
+            for ($i=0; $i<count($list); $i++) {
+            ?>
+           <li class="<?php echo $lt_class ?> msg_item">
 
-            <li>
-                <div class="sch_tit">
-                    <a href="<?php echo $list[$idx][$i]['href'] ?><?php echo $comment_href ?>" class="sch_res_title"><?php echo $comment_def ?><?php echo $list[$idx][$i]['subject'] ?></a>
-                    <a href="<?php echo $list[$idx][$i]['href'] ?><?php echo $comment_href ?>" target="_blank" class="pop_a"><i class="fa fa-window-restore" aria-hidden="true"></i><span class="sound_only">새창</span></a>
-                </div>
-                <p><?php echo $list[$idx][$i]['content'] ?></p>
-                <div class="sch_info">
-                    <?php echo $list[$idx][$i]['name'] ?>
-                    <span class="sch_datetime"><i class="fa fa-clock-o" aria-hidden="true"></i> <?php echo $list[$idx][$i]['wr_datetime'] ?></span>
-                </div>
-            </li>
-        <?php }  ?>
+           <?php
+                $is_bookmarked = false;
+
+                $member_id = isset($member['mb_id'])
+                    ? trim($member['mb_id'])
+                    : '';
+
+                $original_wr_id = (int)$list[$idx][$i]['wr_id'];
+
+                if (
+                    $is_member &&
+                    $member_id !== '' &&
+                    (string)$list[$idx][$i]['wr_4'] === '1'
+                ) {
+                    $bookmark = sql_fetch("
+                        SELECT wr_id
+                        FROM {$g5['write_prefix']}messages
+                        WHERE wr_6 = '{$original_wr_id}'
+                        AND wr_2 = '".sql_escape_string($member_id)."'
+                        AND wr_4 = '0'
+                        LIMIT 1
+                    ");
+
+                    $is_bookmarked = !empty($bookmark['wr_id']);
+                }
+                ?>
+
+            <?php if ($is_checkbox) { ?>
+            <div class="td_chk chk_box">
+				<input type="checkbox" name="chk_wr_id[]" value="<?php echo $list[$idx][$i]['wr_id'] ?>" id="chk_wr_id_<?php echo $i ?>" class="selec_chk">
+            	<label for="chk_wr_id_<?php echo $i ?>">
+            		<span></span>
+            		<b class="sound_only"><?php echo $list[$idx][$i]['subject'] ?></b>
+            	</label>
+            </div>
+            <?php } ?>
+            <?if($is_admin){?>
+            <div class="td_num2">
+            <?php
+                echo $list[$idx][$i]['num'];
+            ?>
+            </div>
+            <?}?>
+
+            <div class="bo_tit">
+                
+                <?php if ($list[$idx][$i]['wr_5']) { ?>
+                    <?php echo $list[$idx][$i]['wr_5']; ?>
+                <?php } else { ?>
+                     <?php echo date('Y.m.d', strtotime($list[$idx][$i]['wr_datetime'])); ?>
+                <?php } ?>
+                
+                <?php if (!empty($member['mb_id']) && $list[$idx][$i]['wr_4'] == '1') { ?>
+
+                    <button
+                        type="button"
+                        class="btn_bookmark <?php echo $is_bookmarked ? 'is_bookmarked' : ''; ?>"
+                        data-wr-id="<?php echo (int)$list[$idx][$i]['wr_id']; ?>"
+                        <?php echo $is_bookmarked ? 'disabled' : ''; ?>
+                    >
+                        <img src="<?=G5_IMG_URL?>/ico_bookmark.webp" alt="북마크"/>
+                    </button>
+
+                <?php } ?>
+            </div>
+            <div class="cont"><?php echo $list[$idx][$i]['wr_content'] ?></d>
+            <div class="send">
+                <p class="from">from. 
+                    <?if($list[$idx][$i]['wr_4'] == 1){?>
+                        <?php echo $list[$idx][$i]['wr_2']?>
+                    <?}else{?>
+                        <?php echo $list[$idx][$i]['name'] ?>
+                    <?}?>
+                </p>
+                <div class="arr"></div>
+                <p class="to">to. 
+                    <?if($list[$idx][$i]['wr_4'] == 1){?>
+                        <?php echo $member['mb_id']?>
+                    <?}else{?>
+                        <?php echo $list[$idx][$i]['wr_2'] ?>
+                    <?}?>
+                </p>
+            </div>
+            
+
+        </li>
+        <?php } ?>
         </ul>
 		</div>
     <?php }		//end for?>
@@ -145,4 +187,77 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
     <?php echo $write_pages ?>
 
 </div>
+
+
+<script>
+     $(()=>{
+         $('.btn_bookmark').on('click', function() {
+
+            var $btn = $(this);
+            var wr_id = $btn.data('wr-id');
+
+            $.ajax({
+                url: '<?php echo G5_THEME_URL; ?>/act/bookmark_message.php',
+                type: 'POST',
+                dataType: 'json',
+
+                data: {
+                    wr_id: wr_id
+                },
+
+                success: function(data) {
+
+                    console.log('북마크 응답:', data);
+
+                    if (data.result === 'success') {
+
+                        alert('내게 온 메세지에 저장되었습니다.');
+
+                        $btn
+                            .text('저장됨')
+                            .addClass('is_bookmarked')
+                            .prop('disabled', true);
+
+                    }
+
+                    else if (data.result === 'duplicate') {
+
+                        alert('이미 저장한 메세지입니다.');
+
+                        $btn
+                            .text('저장됨')
+                            .addClass('is_bookmarked')
+                            .prop('disabled', true);
+
+                    }
+
+                    else if (data.result === 'login') {
+
+                        alert('로그인이 필요합니다.');
+
+                    }
+
+                    else {
+
+                        console.log(data);
+
+                        alert('저장하지 못했습니다.');
+                    }
+                },
+
+                error: function(xhr) {
+
+                    console.log('북마크 AJAX 오류');
+                    console.log(xhr.responseText);
+
+                    alert('서버 오류가 발생했습니다.');
+
+                }
+
+            });
+
+        });
+
+    })
+</script>
 <!-- } 전체검색 끝 -->

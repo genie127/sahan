@@ -135,12 +135,12 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                             <h4><?php echo $list[$i]['subject'] ?></h4>                    
                          <?if($is_admin){?></a><?}?>                      
                          <span class="bo_cnt"><?php echo utf8_strcut(strip_tags($list[$i]['wr_content']), 68, '..'); ?></span>
+                         <?if($list[$i]['wr_link1']){?>
+                         <div class="gall_info">
+                             <a href="<?php echo $list[$i]['wr_link1']?>" target="_blank"><?=$list[$i]['wr_1']?> 바로가기</a>
+                         </div>
+                         <?}?>
                     </div>
-                    <?if($list[$i]['wr_link1']){?>
-                    <div class="gall_info">
-                        <a href="<?php echo $list[$i]['wr_link1']?>" target="_blank">바로가기</a>
-                    </div>
-                    <?}?>
                 </div>
             </div>
         </li>

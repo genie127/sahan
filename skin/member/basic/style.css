@@ -20,6 +20,7 @@
 @media(max-width:780px){
   .mbskin{padding: 15.385vw 10.256vw 0;}
   .register {margin:0 auto; padding: 0 5.128vw 15.385vw;}
+.mbskin .btn_submit{display: block; width: 100%; padding: 3.333vw 0; font-size:4.103vw; font-weight:600; border-radius:2.051vw; margin-top: 6.154vw; height: auto;}
 
 }
 /* 회원가입 약관 */

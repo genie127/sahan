@@ -6,27 +6,16 @@ add_stylesheet('<link rel="stylesheet" href="'.$content_skin_url.'/style.css">',
 ?>
 <?if ($co_id == 'sahan'){?>
 
-
-<div id="ctt_con">
-    sahan
-</div>
+    <?php
+        include_once(__DIR__ . '/sahan.php');
+    ?>
 
 <?}else if($co_id == 'settings'){?>
-<div id="ctt_con">
-    settingsddd
-</div>
+    
+    <?php
+        include_once(__DIR__ . '/settings.php');
+    ?>
 
-<?}else{?>
-
-<article id="ctt" class="ctt_<?php echo $co_id; ?>">
-    <header>
-        <h1><?php echo $g5['title']; ?></h1>
-    </header>
-
-    <div id="ctt_con">
-        <?php echo $str; ?>
-    </div>
-
-</article>
-
+<?}else {?>
+    404
 <?}?>

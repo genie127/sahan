@@ -106,7 +106,8 @@ if (
     basename($_SERVER['PHP_SELF']) === 'login.php' ||
     basename($_SERVER['PHP_SELF']) === 'register.php' ||
     basename($_SERVER['PHP_SELF']) === 'register_form.php' ||
-    basename($_SERVER['PHP_SELF']) === 'register_result.php'
+    basename($_SERVER['PHP_SELF']) === 'register_result.php' ||
+    $_SERVER['REQUEST_URI'] === '/bbs/content.php?co_id=settings'
 ) {
     $body_class .= ' has_subhd';
 }
