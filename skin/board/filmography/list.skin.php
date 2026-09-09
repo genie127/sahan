@@ -29,6 +29,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <input type="hidden" name="page" value="<?php echo $page ?>">
     <input type="hidden" name="sw" value="">
 
+    <?/*
     <!-- 게시판 페이지 정보 및 버튼 시작 { -->
     <div id="bo_btn_top">
         <div id="bo_list_total">
@@ -58,6 +59,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         </ul>
     </div>
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
+
+    */ ?>
 
     <?php if ($is_checkbox) { ?>
     <div id="gall_allchk" class="all_chk chk_box">
