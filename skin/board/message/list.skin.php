@@ -170,14 +170,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 if (
                     $is_member &&
                     $member_id !== '' &&
-                    (string)$list[$i]['wr_4'] === '1'
+                    (string)$list[$i]['wr_2'] === '1'
                 ) {
                     $bookmark = sql_fetch("
                         SELECT wr_id
                         FROM {$g5['write_prefix']}messages
-                        WHERE wr_6 = '{$original_wr_id}'
-                        AND wr_2 = '".sql_escape_string($member_id)."'
-                        AND wr_4 = '0'
+                        WHERE wr_7 = '{$original_wr_id}'
+                        AND wr_5 = '".sql_escape_string($member_id)."'
+                        AND wr_2 = '0'
                         LIMIT 1
                     ");
 
@@ -185,7 +185,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 }
                 ?>
 
-            <?php if (!empty($member['mb_id']) && $list[$i]['wr_4'] == '1') { ?>
+            <?php if (!empty($member['mb_id']) && $list[$i]['wr_2'] == '1') { ?>
 
                 <button
                     type="button"
@@ -219,8 +219,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 <?if($is_admin){?>
                 <a href="<?php echo $list[$i]['href'] ?>">
                 <?}?>
-                    <?if($list[$i]['wr_5']){?>
-                        <?php echo $list[$i]['wr_5']?>
+                    <?if($list[$i]['wr_6']){?>
+                        <?php echo $list[$i]['wr_6']?>
                     <?}else{?>
                         <?php echo $list[$i]['datetime2'] ?>
                     <?}?>
@@ -228,28 +228,39 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 </a>
                 <?}?>
             </div>
-            <div class="cont"><?php echo $list[$i]['wr_content'] ?></d>
+            <div class="cont">
+                <?if(strlen($list[$i]['wr_content']) < 400){?>
+                    <p>
+                        <?php echo $list[$i]['wr_content'] ?>
+                    </p>
+                <?}else{?>
+                    <p class="short">
+                        <?php echo $list[$i]['wr_content'] ?>
+                    </p>
+                    <button type="button" class="btn_more">더보기</button>
+                <?}?>
+            </div>
             <div class="send">
                 <p class="from">from. 
                     <?if($list[$i]['name'] == '<span class="sv_member">최고관리자</span>'){?>
-                        <?if($list[$i]['wr_7']){?>
-                            <?php echo $list[$i]['wr_7'] ?>
+                        <?if($list[$i]['wr_4']){?>
+                            <?php echo $list[$i]['wr_4'] ?>
                         <?}else{?>
                             SAHAN
                         <?}?>
                     <?}else{?>
-                        <?php echo $list[$i]['name'] ?>aa
+                        <?php echo $list[$i]['name'] ?>
                     <?}?>
                 </p>
                 <div class="arr"></div>
-                <p class="to">to. <?php echo $list[$i]['wr_2'] ?></p>
+                <p class="to">to. <?php echo htmlspecialchars($member['mb_id'] ? $member['mb_id'] : $list[$i]['wr_5']) ?></p>
             </div>
             
 
         </li>
         <?php } ?>
         <?php if (count($list) == 0) { echo '
-            <div class="emtpy_list">
+            <div class="empty_list">
                 <img src="'.G5_IMG_URL.'/ico_emptyMessage.webp">
                 <p class="txt">수신된 메세지가 없습니다</p>
                 <p class="desc">먼저 메세지를 보내보세요</p>
@@ -406,6 +417,17 @@ jQuery(function($){
 
 <script>
      $(()=>{
+        $('.msg_item .btn_more').click(function(){
+            const box = $(this).closest('.cont');
+            if(box.hasClass('open')){
+                box.removeClass('open')
+                box.find('.btn_more').text('더보기')
+            }else{
+                box.addClass('open')
+                box.find('.btn_more').text('닫기')
+            }
+            
+        })
          $('.btn_bookmark').on('click', function() {
 
             var $btn = $(this);

@@ -87,11 +87,11 @@ if ($sca || $stx || $stx === '0') {
 // 메시지 목록 구분
 //
 // type=all
-//      wr_1 = 1 인 전체공개 메시지
+//      wr_1 = 1 인 전체공개 메시지 (날짜명대사·이벤트명대사 제외)
 //
 // type=mine
 //      현재 로그인한 회원이 수신인인 메시지
-//      wr_2 = mb_id
+//      wr_5 = mb_id  (날짜명대사/이벤트명대사는 수신인 무관하게 포함)
 // ============================================================
 $messages_type = isset($_GET['type']) ? $_GET['type'] : 'all';
 
@@ -129,115 +129,127 @@ if ($is_messages_board) {
     switch ($messages_type) {
 
         // --------------------------------------------------------
-    // 내게 온 메세지
-    // wr_4 = 0
-    // wr_2 = 현재 로그인 회원 ID
-    // --------------------------------------------------------
-    case 'mine':
+        // 내게 온 메세지
+        // wr_2 = 0, wr_3 = 0 (명대사 아님)
+        // wr_5 = 현재 로그인 회원 ID
+        // 단, 날짜명대사(wr_2=1) / 이벤트명대사(wr_3=1) 는 수신인 무관 노출
+        // --------------------------------------------------------
+        case 'mine':
 
-        if ($is_member) {
+            if ($is_member) {
 
-            $messages_condition = "
-                wr_4 != '1'
-                AND wr_2 = '".sql_escape_string($member['mb_id'])."'
-            ";
+                $mb_id_esc = sql_escape_string($member['mb_id']);
 
-        } else {
+                $messages_condition = "
+                    (
+                        (
+                            (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                            AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                            AND wr_5 = '{$mb_id_esc}'
+                        )
+                        OR wr_2 = '1'
+                        OR wr_3 = '1'
+                    )
+                ";
 
-            $messages_condition = "1=0";
+            } else {
 
-        }
+                $messages_condition = "1=0";
 
-        break;
+            }
 
-
-    // --------------------------------------------------------
-    // 전체
-    // wr_4 = 0
-    // wr_1 = 1
-    // --------------------------------------------------------
-    case 'all':
-
-    // 일반 사용자: 전체공개 일반 메세지만
-    $messages_condition = "
-        (wr_4 = '0' OR wr_4 IS NULL OR wr_4 = '')
-        AND wr_1 = '1'
-    ";
-
-    break;
+            break;
 
 
-    case 'adm_messages':
-
-    // 관리자: wr_1 상관없이 일반 메세지 전부
-     if ($is_board_admin) {
-        $messages_condition = "
-            (wr_4 = 0 OR wr_4 IS NULL OR wr_4 = '')
-            AND (wr_6 IS NULL OR wr_6 = '')
-        ";
-    } else {
-        $messages_condition = "1=0";
-    }
-
-    break;
-
-    // --------------------------------------------------------
-    // 명대사 관리 - 날짜
-    // wr_4 = 1
-    // wr_2 공란
-    // --------------------------------------------------------
-    case 'adm_date':
-
-        if ($is_board_admin) {
+        // --------------------------------------------------------
+        // 전체공개
+        // wr_2=0, wr_3=0 (명대사 아님)
+        // wr_1 = 1
+        // --------------------------------------------------------
+        case 'all':
 
             $messages_condition = "
-                wr_4 = '1'
-                AND (wr_2 IS NULL OR wr_2 = '')
+                (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                AND wr_1 = '1'
             ";
 
-        } else {
-
-            $messages_condition = "1=0";
-
-        }
-
-        break;
+            break;
 
 
-    // --------------------------------------------------------
-    // 명대사 관리 - 이벤트
-    // wr_4 = 1
-    // wr_2 값 있음
-    // --------------------------------------------------------
-    case 'adm_special':
+        // --------------------------------------------------------
+        // 관리자 전체메세지
+        // 명대사 아닌 일반 메세지 전부 (북마크 사본 제외)
+        // wr_7 IS NULL (wr_7에 원본wr_id 없음 = 북마크 사본 아님)
+        // --------------------------------------------------------
+        case 'adm_messages':
 
-        if ($is_board_admin) {
+            if ($is_board_admin) {
+                $messages_condition = "
+                    (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                    AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                    AND (wr_7 IS NULL OR wr_7 = '')
+                ";
+            } else {
+                $messages_condition = "1=0";
+            }
+
+            break;
+
+        // --------------------------------------------------------
+        // 명대사 관리 - 날짜
+        // wr_2 = 1 (날짜명대사 체크)
+        // --------------------------------------------------------
+        case 'adm_date':
+
+            if ($is_board_admin) {
+
+                $messages_condition = "
+                    wr_2 = '1'
+                ";
+
+            } else {
+
+                $messages_condition = "1=0";
+
+            }
+
+            break;
+
+
+        // --------------------------------------------------------
+        // 명대사 관리 - 이벤트
+        // wr_3 = 1 (이벤트명대사 체크)
+        // --------------------------------------------------------
+        case 'adm_special':
+
+            if ($is_board_admin) {
+
+                $messages_condition = "
+                    wr_3 = '1'
+                ";
+
+            } else {
+
+                $messages_condition = "1=0";
+
+            }
+
+            break;
+
+
+        // --------------------------------------------------------
+        // 잘못된 type
+        // --------------------------------------------------------
+        default:
+
+            $messages_type = 'all';
 
             $messages_condition = "
-                wr_4 = '1'
-                AND wr_2 != ''
+                (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                AND wr_1 = '1'
             ";
-
-        } else {
-
-            $messages_condition = "1=0";
-
-        }
-
-        break;
-
-
-    // --------------------------------------------------------
-    // 잘못된 type
-    // --------------------------------------------------------
-    default:
-
-        $messages_type = 'all';
-
-        $messages_condition = "
-            wr_4 != '1'
-            AND wr_1 = '1'
-        ";
 
         break;
     }

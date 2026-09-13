@@ -35,8 +35,26 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
 
     $caches = false;
 
+    // 테스트 날짜 파라미터 반영: ?test=YmdHis 형식이면 해당 날짜 기준으로 캐시 키 및 쿼리에 사용
+    $test_param = isset($_GET['test']) ? preg_replace('/[^0-9]/', '', $_GET['test']) : '';
+    if ($test_param && strlen($test_param) >= 8) {
+        $test_timestamp = mktime(
+            (int)substr($test_param, 8, 2),
+            (int)substr($test_param, 10, 2),
+            (int)substr($test_param, 12, 2),
+            (int)substr($test_param, 4, 2),
+            (int)substr($test_param, 6, 2),
+            (int)substr($test_param, 0, 4)
+        );
+        $base_time = ($test_timestamp !== false && $test_timestamp > 0) ? $test_timestamp : G5_SERVER_TIME;
+    } else {
+        $base_time = G5_SERVER_TIME;
+    }
+    $today_mmdd = date('md', $base_time);
+    $today_date_sql = date('Y-m-d', $base_time);
+
     if(G5_USE_CACHE) {
-        $cache_file_name = "latest-{$bo_table}-{$skin_dir}-{$rows}-{$subject_len}-".g5_cache_secret_key();
+        $cache_file_name = "latest-{$bo_table}-{$skin_dir}-{$rows}-{$subject_len}-{$today_mmdd}-".g5_cache_secret_key();
         $caches = g5_get_cache($cache_file_name, (int) $time_unit * (int) $cache_time);
         $cache_list = isset($caches['list']) ? $caches['list'] : array();
         g5_latest_cache_data($bo_table, $cache_list);
@@ -57,12 +75,11 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
         $tmp_write_table = $g5['write_prefix'] . $bo_table; // 게시판 테이블 전체이름
         $sql = " select * from {$tmp_write_table}
          where wr_is_comment = 0
-         and wr_4 = '1'
-         and (wr_2 IS NULL or wr_2 = '')
-         and wr_subject = DATE_FORMAT(CURDATE(), '%m%d')
+         and wr_2 = '1'
+         and wr_subject = '{$today_mmdd}'
          order by wr_num, wr_reply
          limit 0, {$rows} ";
-         
+
         $result = sql_query($sql);
         for ($i=0; $row = sql_fetch_array($result); $i++) {
             try {

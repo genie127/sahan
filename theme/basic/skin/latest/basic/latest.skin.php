@@ -13,7 +13,7 @@ add_stylesheet(
     0
 );
 if (!defined('_GNUBOARD_')) exit;
-
+ 
 
 $list_count = (is_array($list) && $list) ? count($list) : 0;
 ?>
@@ -37,10 +37,9 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
 
             $sql = " select wr_id
                      from {$g5['write_prefix']}messages
-                     where wr_6 = '".(int)$list[$i]['wr_id']."'
-                     and wr_2 = '".sql_escape_string($member['mb_id'])."'
-                     and wr_5 = '".sql_escape_string($list[$i]['wr_5'])."'
-                     and wr_4 = '0'
+                     where wr_7 = '".(int)$list[$i]['wr_id']."'
+                     and wr_5 = '".sql_escape_string($member['mb_id'])."'
+                     and wr_2 = '0'
                      ";
 
             $bookmark = sql_fetch($sql);
@@ -54,8 +53,8 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
         <li class="basic_li swiper-slide">
 
             <p class="lt_date">
-                <?if($list[$i]['wr_5']){?>
-                    <?php echo $list[$i]['wr_5']; ?>
+                <?if($list[$i]['wr_6']){?>
+                    <?php echo $list[$i]['wr_6']; ?>
                 <?}else{?>
                     <?php echo $title; ?>
                 <?}?>
@@ -76,6 +75,15 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
 
             <div class="lt_cont">
                 <p><?php echo $list[$i]['wr_content']; ?></p>
+                 <div class="send">
+                    <p class="from">from. 
+                        <?if($list[$i]['wr_2'] == 1){?>
+                            <?php echo $list[$i]['wr_4']?>
+                        <?}else{?>
+                            <?php echo $list[$i]['name'] ?>
+                        <?}?>
+                    </p>
+                </div>
             </div>
 
         </li>
@@ -92,6 +100,12 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
     <?php } ?>
 
     </ul>
+    <?if($list_count > 1){?>
+        <div class="btn_wrap">
+            <div class="btn prev">이전</div>
+            <div class="btn next">다음</div>
+        </div>
+    <?}?>
 </div>
 
 
@@ -102,6 +116,11 @@ $(function() {
     if($('.swiper-slide').length > 1){
         const sl_bookmark = new Swiper('.sl_list',{
             slidesPerView:1,
+            spaceBetween:20,
+            navigation:{
+                nextEl:'.btn_wrap .next',
+                prevEl:'.btn_wrap .prev'
+            }
         })
     }
 

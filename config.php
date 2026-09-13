@@ -153,7 +153,23 @@ define('G5_USE_CACHE',  true); // 최신글등에 cache 기능 사용 여부
 // 하루는 86400 초입니다. 1시간은 3600초
 // 6시간이 빠른 경우 time() + (3600 * 6);
 // 6시간이 느린 경우 time() - (3600 * 6);
-define('G5_SERVER_TIME',    time());
+// 테스트용 날짜 파라미터: ?test=20250913000000 (YmdHis 형식)
+// 운영 서버에서는 반드시 아래 $g5_allow_test_time 을 false 로 설정할 것
+$g5_allow_test_time = true;
+if ($g5_allow_test_time && isset($_GET['test']) && preg_match('/^\d{14}$/', $_GET['test'])) {
+    $_test_time = strtotime(
+        substr($_GET['test'], 0, 4).'-'.
+        substr($_GET['test'], 4, 2).'-'.
+        substr($_GET['test'], 6, 2).' '.
+        substr($_GET['test'], 8, 2).':'.
+        substr($_GET['test'], 10, 2).':'.
+        substr($_GET['test'], 12, 2)
+    );
+    define('G5_SERVER_TIME', $_test_time !== false ? $_test_time : time());
+    unset($_test_time);
+} else {
+    define('G5_SERVER_TIME',    time());
+}
 define('G5_TIME_YMDHIS',    date('Y-m-d H:i:s', G5_SERVER_TIME));
 define('G5_TIME_YMD',       substr(G5_TIME_YMDHIS, 0, 10));
 define('G5_TIME_HIS',       substr(G5_TIME_YMDHIS, 11, 8));

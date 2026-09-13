@@ -690,7 +690,7 @@ box-shadow:0 1px 4px #cbd1df;}
 
 /* 자료 없는 목록 */
 .empty_table {padding:50px 0 !important;text-align:center !important;color:#666 !important}
-.empty_list {padding:50px 0 !important;text-align:center !important;color:#666 !important}
+.empty_list {padding:50px 0 ;text-align:center !important;color:#666 !important}
 
 /* 필수입력 */
 .required, textarea.required {background-image:url('../img/require.png')  !important;background-repeat:no-repeat   !important;background-position:right top  !important}

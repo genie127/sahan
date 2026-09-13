@@ -110,8 +110,12 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
     <?if($is_admin){?>
     <div class="write_div checkbox_wrap sentence">
-        <input type="checkbox" id="wr_4" name="wr_4" value="1" <?php echo $wr_4 == '1' ? 'checked' : ''; ?>>
-        <label for="wr_4"><span class="checkbox"></span><p>명대사 게시글이면 체크해주세요</p></label>
+        <input type="checkbox" id="wr_2" name="wr_2" value="1" <?php echo $wr_2 == '1' ? 'checked' : ''; ?>>
+        <label for="wr_2"><span class="checkbox"></span><p>날짜 명대사 (오늘 월/일 4자리 제목, latest 노출)</p></label>
+    </div>
+    <div class="write_div checkbox_wrap sentence">
+        <input type="checkbox" id="wr_3" name="wr_3" value="1" <?php echo $wr_3 == '1' ? 'checked' : ''; ?>>
+        <label for="wr_3"><span class="checkbox"></span><p>이벤트 명대사 (발신자 검색으로만 노출)</p></label>
     </div>
     <?}?>
 
@@ -123,38 +127,44 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <p>전체공개 설정 시 전체 목록 또는 검색 목록에서 노출되며 <br>전체공개 미 설정 시 수신인에게만 노출됩니다.</p></div>
     </div>
 
+    <?if($is_admin){?>
     <div class="wrap_send write_div">
         <div class="send_info">
-            <label for="wr_2">수신인</label>
-            <input type="text" id="wr_2" name="wr_2" placeholder="받는 사람의 코드를 입력해주세요" required value="<?php echo $wr_2?>">
+            <label for="wr_4">발신인 코드</label>
+            <input type="text" id="wr_4" name="wr_4" placeholder="발신자로 표기될 코드를 써주세요." value="<?php echo $wr_4?>">
+        </div>
+        <span class="noti">검색할 때 쓰이는 코드입니다.<br>알파벳을 섞어야 해당 코드로의 회원가입을 막을 수 있습니다.</span>
+    </div>
+    <?}?>
+
+    <div class="wrap_send write_div">
+        <div class="send_info">
+            <label for="wr_5">수신인</label>
+            <input type="text" id="wr_5" name="wr_5" placeholder="받는 사람의 코드를 입력해주세요" required value="<?php echo $wr_5?>">
         </div>
         <div class="for_me">
         <button type="button" onclick="checkForMe(this)" class="checkbox_wrap"><span class="checkbox"></span><p>내게 쓰기</p></button>
         </div>
-        <?if($is_admin){?><span class="noti">검색할 때 쓰이는 코드입니다.<br>알파벳을 섞어야 해당 코드로의 회원가입을 막을 수 있습니다.</span><?}?>
     </div>
     
     <?if($is_admin){?>
     <div class="wrap_send write_div">
         <div class="date">
-            <label for="wr_5">날짜</label>
-            <input type="text" id="wr_5" name="wr_5" inputmode="numeric" placeholder="YYYY.MM.DD (미기입시 작성날짜 노출)" value="<?php echo $wr_5?>" style="width:85%">
+            <label for="wr_6">임의 날짜</label>
+            <input type="text" id="wr_6" name="wr_6" inputmode="numeric" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>" style="width:85%">
         </div>
     </div>
     <?}?>
 
     <div class="wrap_send write_div is-hidden">
-        <div class="date">
-            <label for="wr_6">wr_id</label>
-            <input type="text" id="wr_6" name="wr_6" value="<?php echo $wr_id ?>" hidden>
-        </div>
+        <input type="text" id="wr_7" name="wr_7" value="<?php echo $wr_id ?>" hidden>
     </div>
 
     <div class="bo_w_tit write_div">
         <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
         
         <div id="autosave_wrapper" class="write_div">
-            <input type="text" name="wr_subject" value="<?if($subject){?><?php echo $subject?><?}else{?><?php echo $member['mb_id']?><?}?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="제목을 입력해주세요" hidden>
+            <input type="text" name="wr_subject" value="<?if($subject){?><?php echo $subject?><?}?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="오늘 날짜 4자리 (예: 0921)" hidden>
             <?php if ($is_member) { // 임시 저장된 글 기능 ?>
             <script src="<?php echo G5_JS_URL; ?>/autosave.js"></script>
             <?php if($editor_content_js) echo $editor_content_js; ?>
@@ -184,8 +194,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     </div>
 
     <div class="write_div checkbox_wrap confirm_privacy">
-        <input type="checkbox" id="wr_3" name="wr_3" value="1" <?php echo $wr_3 == '1' ? 'checked' : ''; ?> required>
-        <label for="wr_3"><span class="checkbox"></span><p>이 메시지가 주파수 변환 과정에서 <br>타인에게 공개될 수 있음을 확인했습니다.</p></label>
+        <input type="checkbox" id="wr_8" name="wr_8" value="1" <?php echo $wr_8 == '1' ? 'checked' : ''; ?> required>
+        <label for="wr_8"><span class="checkbox"></span><p>이 메시지가 주파수 변환 과정에서 <br>타인에게 공개될 수 있음을 확인했습니다.</p></label>
     </div>
 
     <?/*
@@ -244,11 +254,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     function checkForMe(e){
         $(e).toggleClass('on')
         if($(e).hasClass('on')){
-            $("#wr_2").val('<?=$member['mb_id']?>')
-            $("#wr_2").attr('readonly', true)
+            $("#wr_5").val('<?=$member['mb_id']?>')
+            $("#wr_5").attr('readonly', true)
         }else{
-            $("#wr_2").val('')
-            $("#wr_2").attr('readonly', false)
+            $("#wr_5").val('')
+            $("#wr_5").attr('readonly', false)
         }
     }
     function html_auto_br(obj)
@@ -324,64 +334,90 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
     $(() => {
 
-    function updateWr4() {
-        if (!$('#wr_4').is(':checked')) {
+    // wr_2(날짜명대사), wr_3(이벤트명대사) 상태에 따라 UI 갱신
+    function updateSentenceMode() {
+        const isDateSentence  = $('#wr_2').is(':checked');
+        const isEventSentence = $('#wr_3').is(':checked');
+        const isSentence = isDateSentence || isEventSentence;
 
+        if (!isSentence) {
+            // 일반 메세지
             $(".select_open").show();
             $(".for_me").show();
-            $('.wrap_send .noti').hide();
 
-            $("#wr_2").attr('placeholder', '받는 사람의 코드를 입력해주세요');
-            $("label[for='wr_2']").text('수신인');
-            $("#wr_2").attr('inputmode', 'numeric');
+            // wr_5 = 수신인 → 숫자 입력
+            $("#wr_5").attr('placeholder', '받는 사람의 코드를 입력해주세요');
+            $("label[for='wr_5']").text('수신인');
+            $("#wr_5").attr('inputmode', 'numeric');
+            $("#wr_5").prop('required', true);
+            $("#wr_5").prop('disabled', false);
+
+            // subject 숨기고 값 자동 처리 (서버에서 wr_5로 덮어씀)
             $('#wr_subject').attr('hidden', true);
-            $('#wr_subject').addClass('sound_only');
-            $('#wr_subject').val('<?php echo $member['mb_id']?>');
-            $('#wr_7').val('');
+            $('#wr_subject').prop('required', false);
+            $('#wr_subject').val('');
+
+            $(".confirm_privacy").show();
+            $("#wr_8").prop('checked', false);
 
         } else {
+            // 명대사 모드 (날짜 또는 이벤트)
+            $("#wr_5").prop('required', false);
+            $("#wr_5").prop('disabled', false);
 
-            $("#wr_2").attr('disabled', false);
-            $("#wr_2").attr('required', false);
-            $("#wr_2").attr('placeholder', '발신자로 표기될 코드를 써주세요.');
-            $("label[for='wr_2']").text('발신인');
-
-            $("#wr_3").prop('checked', true);
-            $('.wrap_send .noti').show();
+            $("#wr_8").prop('checked', true);
             $(".confirm_privacy").hide();
             $(".select_open").hide();
             $(".for_me").hide();
 
-            $('#wr_subject').attr('hidden', false);
-            $('#wr_subject').removeClass('sound_only');
-            $('#wr_subject').val('<?php echo $subject ?>');
-
-            $("#wr_2").attr('inputmode', '');
-
+            if (isDateSentence) {
+                // 날짜명대사: subject 표시, 빈값으로 직접 입력 (오늘 월/일 4자리)
+                $('#wr_subject').attr('hidden', false);
+                $('#wr_subject').prop('required', true);
+                // 수정(w=u)일 때는 기존 값 유지, 신규 작성 시 빈값
+                <?php if ($w == 'u'): ?>
+                $('#wr_subject').val('<?php echo $subject ?>');
+                <?php else: ?>
+                $('#wr_subject').val('');
+                <?php endif; ?>
+                $("#wr_5").attr('inputmode', '');
+            } else {
+                // 이벤트명대사: subject 숨김, 빈값 (서버에서 자동처리)
+                $('#wr_subject').attr('hidden', true);
+                $('#wr_subject').prop('required', false);
+                $('#wr_subject').val('');
+                $("#wr_5").attr('inputmode', '');
+            }
         }
+
+        // 날짜명대사/이벤트명대사 동시 체크 방지
+        if (isDateSentence) $('#wr_3').prop('disabled', true);
+        else $('#wr_3').prop('disabled', false);
+
+        if (isEventSentence) $('#wr_2').prop('disabled', true);
+        else $('#wr_2').prop('disabled', false);
     }
 
     // 체크 변경 시
-    $('#wr_4').change(updateWr4);
+    $('#wr_2, #wr_3').change(updateSentenceMode);
 
     // 페이지 로딩 시 현재 체크 상태 적용
-    updateWr4();
+    updateSentenceMode();
 
 
-    // wr_4 상태에 따라 wr_2 입력 제한
-    $('#wr_2').on('input', function() {
-        const isSentence = $('#wr_4').prop('checked');
+    // wr_5(수신인/발신인) 입력 제한
+    $('#wr_5').on('input', function() {
+        const isDateSentence  = $('#wr_2').prop('checked');
+        const isEventSentence = $('#wr_3').prop('checked');
+        const isSentence = isDateSentence || isEventSentence;
 
         if (isSentence) {
             // 명대사 → 영문 + 숫자
             this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
-
         } else {
             // 일반 메시지 → 숫자
             this.value = this.value.replace(/[^0-9]/g, '');
-
         }
-
     });
 
     $('.about_this').click(function() {

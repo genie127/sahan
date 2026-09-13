@@ -22,9 +22,9 @@ $mb_id = sql_escape_string($member['mb_id']);
  */
 $sql = " select wr_id
          from {$g5['write_prefix']}messages
-         where wr_6 = '{$wr_id}'
-         and wr_2 = '{$mb_id}'
-         and wr_4 = '0'
+         where wr_7 = '{$wr_id}'
+         and wr_5 = '{$mb_id}'
+         and wr_2 = '0'
          limit 1 ";
 
 $row = sql_fetch($sql);
@@ -42,7 +42,7 @@ $sql = " select *
          from {$g5['write_prefix']}messages
          where wr_id = '{$wr_id}'
          and wr_is_comment = 0
-         and wr_4 = '1'
+         and wr_2 = '1'
          limit 1 ";
 
 $original = sql_fetch($sql);
@@ -57,12 +57,13 @@ if (!$original['wr_id']) {
  * 북마크 메시지 저장
  *
  * wr_1 : 공개 여부
- * wr_2 : 받는 사람
- * wr_3 : 동의체크
- * wr_4 : 명대사/오늘의문장 구분
- * wr_5 : 임의날짜
- * wr_6 : 원본 게시글 wr_id
- * wr_7 : 기존 발신인
+ * wr_2 : 날짜명대사 체크 (0 = 아님)
+ * wr_3 : 이벤트명대사 체크 (0 = 아님)
+ * wr_4 : 발신인 코드
+ * wr_5 : 수신인 (북마크 저장한 회원 mb_id)
+ * wr_6 : 임의날짜
+ * wr_7 : 원본 게시글 wr_id
+ * wr_8 : 동의체크
  */
 $sql = " insert into {$g5['write_prefix']}messages
          set
@@ -84,12 +85,13 @@ $sql = " insert into {$g5['write_prefix']}messages
             wr_last = '".G5_TIME_YMDHIS."',
             wr_ip = '".sql_escape_string($_SERVER['REMOTE_ADDR'])."',
             wr_1 = '0',
-            wr_2 = '{$mb_id}',
-            wr_3 = '1',
-            wr_4 = '0',
-            wr_5 = '".sql_escape_string($original['wr_5'])."',
-            wr_6 = '{$wr_id}',
-            wr_7 = '".sql_escape_string($original['wr_2'])."'
+            wr_2 = '0',
+            wr_3 = '0',
+            wr_4 = '".sql_escape_string($original['wr_4'])."',
+            wr_5 = '{$mb_id}',
+            wr_6 = '".sql_escape_string($original['wr_6'])."',
+            wr_7 = '{$wr_id}',
+            wr_8 = '1'
          ";
 
 sql_query($sql);

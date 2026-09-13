@@ -58,35 +58,30 @@ if ($stx) {
      * 숫자만 입력
      * → 작성자 ID(mb_id) 검색
      * → 전체공개(wr_1 = 1)인 글만 검색
+     * → 날짜명대사(wr_2=1), 이벤트명대사(wr_3=1) 제외
      *
      * 영문 + 숫자
-     * → 받는 사람(wr_2) 검색
-     *
-     * wr_4 = 1 이면서 wr_2가 비어 있는 글
-     * → 검색에서 제외
+     * → 발신인 코드(wr_4) 검색
+     * → 이벤트명대사(wr_3=1)인 글만 노출
+     *   (날짜명대사 wr_2=1 는 발신자 검색에서 제외)
      */
 
     if (preg_match('/^[0-9]+$/', $stx)) {
 
-        // 숫자 검색
+        // 숫자 검색 → mb_id 기반, 전체공개 일반 메세지만
         $sql_search = "
             mb_id = '" . sql_escape_string($stx) . "'
             AND wr_1 = '1'
-            AND NOT (
-                wr_4 = '1'
-                AND (wr_2 IS NULL OR wr_2 = '')
-            )
+            AND (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+            AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
         ";
 
     } elseif (preg_match('/^[a-zA-Z0-9]+$/', $stx)) {
 
-        // 영문 + 숫자 검색
+        // 영문+숫자 검색 → 발신인 코드(wr_4) 기반, 이벤트명대사(wr_3=1)만
         $sql_search = "
-            wr_2 = '" . sql_escape_string($stx) . "'
-            AND NOT (
-                wr_4 = '1'
-                AND (wr_2 IS NULL OR wr_2 = '')
-            )
+            wr_4 = '" . sql_escape_string($stx) . "'
+            AND wr_3 = '1'
         ";
 
     } else {

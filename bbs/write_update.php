@@ -35,9 +35,7 @@ if (isset($_POST['wr_subject'])) {
         $wr_subject = normalize_utf8_string($wr_subject);
     }
 }
-if ($wr_subject == '') {
-    $msg[] = '<strong>제목</strong>을 입력하세요.';
-}
+// wr_subject 빈값 체크는 messages 커스텀 처리 이후에 수행 (아래 참조)
 
 $wr_content = '';
 if (isset($_POST['wr_content'])) {
@@ -137,6 +135,40 @@ for ($i=1; $i<=10; $i++) {
     }
 }
 
+// ============================================================
+// messages 게시판 커스텀 처리
+// ============================================================
+if ($bo_table === 'messages') {
+
+    // wr_2 / wr_3 는 관리자만 체크 가능 (비관리자면 강제 0)
+    if (!$is_admin) {
+        $wr_2 = '0';
+        $wr_3 = '0';
+        $wr_4 = '';
+        $wr_6 = '';
+    }
+
+    // 날짜명대사/이벤트명대사가 아닌 일반 메세지이면
+    // wr_subject = wr_5 (수신인 코드) 로 자동 세팅
+    if ($wr_2 !== '1' && $wr_3 !== '1') {
+        $wr_subject = addslashes(clean_xss_tags($wr_5));
+        if (function_exists('normalize_utf8_string')) {
+            $wr_subject = normalize_utf8_string($wr_subject);
+        }
+    }
+    // 이벤트명대사(wr_3=1): wr_subject 빈값 허용 (북마크 시에만 수신인 세팅됨)
+    // 날짜명대사(wr_2=1): wr_subject = 관리자가 직접 입력한 4자리 숫자
+}
+
+// wr_subject 빈값 체크 (messages 커스텀 처리 후)
+// 이벤트명대사이면 빈값 허용
+if ($wr_subject == '') {
+    $is_event_sentence = ($bo_table === 'messages' && $is_admin && $wr_3 === '1');
+    if (!$is_event_sentence) {
+        $msg[] = '<strong>제목</strong>을 입력하세요.';
+    }
+}
+
 @include_once($board_skin_path.'/write_update.head.skin.php');
 
 run_event('write_update_before', $board, $wr_id, $w, $qstr);
@@ -222,8 +254,14 @@ if ($w == '' || $w == 'r') {
     set_session("ss_datetime", G5_SERVER_TIME);
 }
 
-if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject']))
-    alert('제목을 입력하여 주십시오.');
+if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject'])) {
+    // messages 게시판: 일반 메세지이면 wr_subject가 wr_5로 이미 세팅됨
+    // 날짜명대사(wr_2=1)이면 직접 입력한 4자리 숫자
+    // 이 시점까지 비어 있으면 실제 오류
+    if (!($bo_table === 'messages' && $is_admin)) {
+        alert('제목을 입력하여 주십시오.');
+    }
+}
 
 $wr_seo_title = exist_seo_title_recursive('bbs', generate_seo_title($wr_subject), $write_table, $wr_id);
 

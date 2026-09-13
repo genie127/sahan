@@ -70,7 +70,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
     <?php
         } else {
      ?>
-    <div class="emtpy_list">
+    <div class="empty_list">
         <img src="<?=G5_IMG_URL?>/ico_emptyMessage.webp">
         <p class="txt">검색된 메세지가 없습니다</p>
         <p class="desc">먼저 메세지를 보내보세요</p>

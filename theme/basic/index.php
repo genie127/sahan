@@ -86,13 +86,12 @@ include_once(G5_THEME_PATH.'/head.php');
         </div>
     </div>
     <?php
-       $today_mmdd = date('md');
+       $today_mmdd = date('md', G5_SERVER_TIME);
 
         $sql = " select count(*) as cnt
                 from {$g5['write_prefix']}messages
                 where wr_is_comment = 0
-                and wr_4 = '1'
-                and (wr_2 IS NULL or wr_2 = '')
+                and wr_2 = '1'
                 and wr_subject = '{$today_mmdd}' ";
 
         $row = sql_fetch($sql);
