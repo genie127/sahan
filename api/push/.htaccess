@@ -1,0 +1,12 @@
+# send_push.php 는 외부 직접 접근 차단 (CLI 크론잡으로만 실행)
+# 필요 시 아래 Deny 줄만 제거하면 웹 호출도 가능 (secret 파라미터 필요)
+<Files "send_push.php">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# create_table.sql 은 항상 차단
+<Files "create_table.sql">
+    Order Deny,Allow
+    Deny from all
+</Files>

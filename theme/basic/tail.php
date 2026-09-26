@@ -20,6 +20,8 @@ if(G5_COMMUNITY_USE === false) {
 <hr>
 
 <!-- 하단 시작 { -->
+<?php $is_app = strpos($_SERVER['HTTP_USER_AGENT'], 'SahanApp') !== false; ?>
+<?php if (!$is_app) { ?>
 <nav id="gnb" class="<?if(!defined("_INDEX_")){?>sub<?}?> ">
     <div class="gnb_wrap">
         <ul id="gnb_1dul">
@@ -97,6 +99,7 @@ if(G5_COMMUNITY_USE === false) {
         </ul>
     </div>
 </nav>
+<?php } // end if (!$is_app) ?>
 
 <?php
 if(G5_DEVICE_BUTTON_DISPLAY && !G5_IS_MOBILE) { ?>

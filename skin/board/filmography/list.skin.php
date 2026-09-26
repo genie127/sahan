@@ -111,8 +111,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                     </span>
                 </div>
                 <div class="gall_con">
+                    <h4 class="date"><?php echo $list[$i]['wr_5'] ?></h4>
                     <div class="gall_img" style="<?php if ($board['bo_gallery_height'] > 0) echo 'height:'.$board['bo_gallery_height'].'px;max-height:'.$board['bo_gallery_height'].'px'; ?>">
-                        <a href="<?php echo $list[$i]['href'] ?>">
+                      
                         <?php
                         if ($list[$i]['is_notice']) { // 공지사항  ?>
                             <span class="is_notice" style="<?php echo $line_height_style; ?>">공지</span>
@@ -128,20 +129,26 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                             echo run_replace('thumb_image_tag', $img_content, $thumb);
                         }
                          ?>
-                        </a>
                     </div>
                     <div class="gall_text_href">
                         <?php if ($is_category && $list[$i]['ca_name']) { ?>
                         <a href="<?php echo $list[$i]['ca_name_href'] ?>" class="bo_cate_link"><?php echo $list[$i]['ca_name'] ?></a>
                         <?php } ?>
-                        <?if($is_admin){?><a href="<?php echo $list[$i]['href'] ?>" class="bo_tit"> <?}?>                      
-                            <h4><?php echo $list[$i]['subject'] ?></h4>                    
-                         <?if($is_admin){?></a><?}?>                      
-                         <span class="bo_cnt"><?php echo utf8_strcut(strip_tags($list[$i]['wr_content']), 68, '..'); ?></span>
-                         <?if($list[$i]['wr_link1']){?>
-                         <div class="gall_info">
-                             <a href="<?php echo $list[$i]['wr_link1']?>" target="_blank"><?=$list[$i]['wr_1']?> 바로가기</a>
+
+                         <div class="info">                            
+                            <?if($is_admin){?><a href="<?php echo $list[$i]['href'] ?>" class="bo_tit"> <?}?>                      
+                                <h4><?php echo $list[$i]['subject'] ?></h4>                    
+                            <?if($is_admin){?></a><?}?>                      
+                            <span class="bo_cnt">
+                                <?if($list[$i]['wr_content'] != '없음'){?>
+                                <?php echo $list[$i]['wr_content']; ?>
+                                <?}?>
+                            </span>
                          </div>
+                         <?if($list[$i]['wr_link1']){?>
+                         <ul class="link_li">
+                             <li><a href="<?php echo $list[$i]['wr_link1']?>" target="_blank"><?=$list[$i]['wr_1']?> 바로가기</a></li>
+                         </ul>
                          <?}?>
                     </div>
                 </div>

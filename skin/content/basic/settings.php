@@ -70,17 +70,19 @@
             <?}?>
         </ul>
     </div>
+    <?php if (defined('G5_IS_APP') && G5_IS_APP) { ?>
     <div class="wrap_setli">
         <p>푸시 알림 설정</p>
         <ul>
             <li><button><p>사한절 알림 수신 동의</p> <span class="toggle"><span class="toggle_btn"></span></span></button></li>
         </ul>
     </div>
+    <?php } ?>
     <div class="wrap_setli">
         <p>이용약관</p>
         <ul>
-            <li><a href="<?php echo G5_BBS_URL; ?>/privacy.php"><p>이용약관</p> <span class="arr"></span></a></li>
-            <li><a href="<?php echo G5_BBS_URL; ?>/privacy.php"><p>개인정보처리방침</p><span class="arr"></span></a></li>
+            <li><a href="<?php echo G5_BBS_URL; ?>/bbs/content.php?co_id=provision"><p>이용약관</p> <span class="arr"></span></a></li>
+            <li><a href="<?php echo G5_BBS_URL; ?>/bbs/content.php?co_id=privacy"><p>개인정보처리방침</p><span class="arr"></span></a></li>
         </ul>
     </div>
     <div class="wrap_setli app">

@@ -94,6 +94,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?php } ?>
 
     <div class="bo_w_tit write_div">
+        
+        <label for="wr_5">날짜</label>
+        <input type="text" name="wr_5" value="<?php echo $wr_5 ?>" id="wr_1" class="frm_input " placeholder="날짜">
         <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
         
         <div id="autosave_wrapper" class="write_div">

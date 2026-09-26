@@ -165,8 +165,13 @@ if ($bo_table === 'messages') {
 if ($wr_subject == '') {
     $is_event_sentence = ($bo_table === 'messages' && $is_admin && $wr_3 === '1');
     if (!$is_event_sentence) {
-        $msg[] = '<strong>제목</strong>을 입력하세요.';
+        alert('<strong>제목</strong>을 입력하세요.');
     }
+}
+
+$msg = implode('<br>', $msg);
+if ($msg) {
+    alert($msg);
 }
 
 @include_once($board_skin_path.'/write_update.head.skin.php');

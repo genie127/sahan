@@ -1,5 +1,12 @@
+
+<?
+add_stylesheet(
+    '<link rel="stylesheet" href="'.G5_URL.'/js/swiper/swiper.min.css">',
+    0
+);
+?>
 <style>
-    @font-face {
+      @font-face {
         font-family: 'GMarketSans';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
         font-weight: 300;
@@ -90,333 +97,92 @@
        첫 번째 전체 영역
     ========================== */
 
-    .sec_bk {position: relative;width: 100%;background: #111 url('<?=G5_IMG_URL?>/about/section_bg.png') no-repeat center top/100% auto; }
+    .sec_bk {position: relative;width: 100%;background: #081521 url('<?=G5_IMG_URL?>/about/section_bg.png') no-repeat center top/100% auto; }
 
 
     /* =========================
        Sec 01
     ========================== */
 
-    .sec_moon {
-        position: relative;
-        width: 100%;
-    }
-
-    .sec_moon:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1140.998px;
-        background: url('<?=G5_IMG_URL?>/about/sec01_star.png') no-repeat center top / 100% auto;
-        mix-blend-mode: soft-light;
-    }
-
-    .sec_moon .moon {
-        animation: fadein_top 2s forwards linear;
-    }
-
-    .sec_moon .since {
-        margin-top: 72px;
-        font-size: 30.002px;
-        line-height: 48.002px;
-        color: #fff;
-        text-align: center;
-        animation-delay: 2s;
-    }
-
-    .sec_moon .total {
-        margin-top: 283.997px;
-        background: linear-gradient(256.01deg, #FFFFFF 10.49%, #566774 91.28%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        font-size: 36px;
-        line-height: 59.998px;
-        text-align: center;
-    }
+    .sec_moon {position: relative; width: 100%;}
+    .sec_moon:after {content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1140.998px; background: url('<?=G5_IMG_URL?>/about/sec01_star.png') no-repeat center top / 100% auto; mix-blend-mode: soft-light;}
+    .sec_moon .moon {animation: fadein_top 2s forwards linear;}
+    .sec_moon .since {margin-top: -49px; font-size: 30.002px; line-height: 48.002px; color: #fff; text-align: center; animation-delay: 2s;}
+    .sec_moon .total {margin-top: 260px; background: linear-gradient(256.01deg, #FFFFFF 10.49%, #566774 91.28%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; font-size: 36px; line-height: 59.998px; text-align: center;}
 
 
     /* =========================
        Sec 02
     ========================== */
 
-    .sec_stars {
-        margin-top: 243px;
-        padding: 47px 0 72px;
-        position: relative;
-        height: 1156px;
-        background: url('<?=G5_IMG_URL?>/about/sec02_bg.png');
-    }
-
-    .sec_stars .star {
-        position: absolute;
-        opacity: .2;
-    }
-
-    .sec_stars .star1 {
-        top: 47px;
-        right: 151.999px;
-        width: 85.003px;
-    }
-
-    .sec_stars .star2 {
-        top: 170.998px;
-        left: 111.002px;
-        width: 139.997px;
-    }
-
-    .sec_stars .star3 {
-        top: 348.997px;
-        right: 110.002px;
-        width: 85.003px;
-    }
-
-    .sec_stars .star4 {
-        top: 519.003px;
-        right: 300.002px;
-        width: 115.999px;
-        opacity: 0;
-    }
-
-    .sec_stars .star5 {
-        bottom: 254.002px;
-        left: 210.002px;
-        width: 85.003px;
-    }
-
-    .sec_stars .star6 {
-        bottom: 72px;
-        right: 249.998px;
-        width: 85.003px;
-    }
-
-    .sec_stars[data-effect="show"] .star {
-        animation: twinkle_fadeout 2s forwards ease-in-out;
-    }
-
-    .sec_stars[data-effect="show"] .star2 {
-        animation-delay: .4s;
-    }
-
-    .sec_stars[data-effect="show"] .star3 {
-        animation-delay: 1.2s;
-    }
-
-    .sec_stars[data-effect="show"] .star4 {
-        animation: blink 3s .4s infinite ease-in-out;
-    }
-
-    .sec_stars[data-effect="show"] .star5 {
-        animation-delay: .8s;
-    }
-
-    .sec_stars[data-effect="show"] .star6 {
-        animation-delay: 1.6s;
-    }
+    .sec_stars {margin-top: 243px; padding: 47px 0 72px; position: relative; height: 1156px; background: url('<?=G5_IMG_URL?>/about/sec02_bg.png') no-repeat center top/100% auto;}
+    .sec_stars .star {position: absolute; opacity: .2;}
+    .sec_stars .star1 {top: 47px; right: 151.999px; width: 85.003px;}
+    .sec_stars .star2 {top: 170.998px; left: 111.002px; width: 139.997px;}
+    .sec_stars .star3 {top: 348.997px; right: 110.002px; width: 85.003px;}
+    .sec_stars .star4 {top: 519.003px; right: 300.002px; width: 115.999px; opacity: 0;}
+    .sec_stars .star5 {bottom: 254.002px; left: 210.002px; width: 85.003px;}
+    .sec_stars .star6 {bottom: 72px; right: 249.998px; width: 85.003px;}
+    .sec_stars[data-effect="show"] .star {animation: twinkle_fadeout 2s forwards ease-in-out;}
+    .sec_stars[data-effect="show"] .star2 {animation-delay: .4s;}
+    .sec_stars[data-effect="show"] .star3 {animation-delay: 1.2s;}
+    .sec_stars[data-effect="show"] .star4 {animation: blink 3s .4s infinite ease-in-out;}
+    .sec_stars[data-effect="show"] .star5 {animation-delay: .8s;}
+    .sec_stars[data-effect="show"] .star6 {animation-delay: 1.6s;}
 
 
     /* =========================
        Sec 03
     ========================== */
 
-    .sec_korean {
-        position: relative;
-        padding-top: 191px;
-        background: url('<?=G5_IMG_URL?>/about/sec03_bg.png') no-repeat center top / 100% auto;
-    }
-
-    .sec_korean .people {
-        font-family: 'GMarketSansMedium', sans-serif;
-        font-size: 28px;
-        line-height: 39px;
-        color: #fff;
-        opacity: .13;
-        text-align: center;
-    }
-
-    .sec_korean .wrap_num {
-        position: relative;
-        margin-top: 72px;
-        padding: 10px 0 267px;
-    }
-
-    .sec_korean .wrap_num:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 540px;
-        background: url('<?=G5_IMG_URL?>/about/sec03_planet.png') no-repeat center bottom / 100% auto;
-        z-index: 1;
-        filter: light;
-    }
-    .sec_korean .wrap_num:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 540px;
-        background: url('<?=G5_IMG_URL?>/about/sec03_planet.png') no-repeat center bottom / 100% auto;
-        z-index: 1;
-        filter: light;
-    }
-
-    .sec_korean .num {
-        font-family: 'GMarketSans', sans-serif;
-        font-size: 261px;
-        text-align: center;
-        background: linear-gradient(180deg, #FFFFFF 7.79%, #4E6FDC 53.86%, #02001F 91.56%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        line-height: 263px;
-    }
-
-    .sec_korean .desc {
-        margin-top: 59px;
-        font-size: 30px;
-        line-height: 72px;
-        color: #fff;
-        text-align: center;
-    }
-
-    .sec_korean .desc em {
-        font-weight: 500;
-        font-size: 55px;
-        color: #fff;
-    }
+    .sec_korean {position: relative; padding-top: 182px; }
+    .sec_korean .people {position: relative; font-family: 'GMarketSansMedium', sans-serif; font-size: 28px; line-height: 39px; color: #fff; text-align: center; z-index: 5; opacity:.5}
+    .sec_korean .wrap_num {position: relative; margin-top: 72px; padding: 10px 0 267px;}
+    .sec_korean .wrap_num:before {content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 540px; background: url('<?=G5_IMG_URL?>/about/sec03_planet.png') no-repeat center bottom / 100% auto; z-index: 1; }
+    .sec_korean .wrap_num:after {content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 540px; background: url('<?=G5_IMG_URL?>/about/sec03_planet_aura.png') no-repeat center top / 100% auto; z-index: 1; mix-blend-mode:soft-light}
+    .sec_korean .num {font-family: 'GMarketSans', sans-serif; font-size: 261px; text-align: center; background: linear-gradient(180deg, #FFFFFF 7.79%, #4E6FDC 53.86%, #02001F 91.56%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 263px;}
+    .sec_korean .desc {margin-top: 40px; font-size: 30px; line-height: 72px; color: #fff; text-align: center;}
+    .sec_korean .desc em {font-weight: 500; font-size: 55px; color: #fff; line-height: 1;}
 
 
     /* =========================
        Sec 04
     ========================== */
 
-    .sec_bubble {
-        margin-top: 320px;
-    }
+    .sec_bubble {margin:300px auto 0 150px}
+    .sec_bubble img{width: 429px;}
 
 
     /* =========================
        Sec 05
     ========================== */
 
-    .sec_sky {
-        margin-top: 72px;
-        background: url('<?=G5_IMG_URL?>/about/sec05_bg.png') no-repeat center top / 100% auto;
-        display: flex;
-        flex-direction: column;
-        padding-top: 541px;
-    }
-
-    .sec_sky p {
-        font-size: 30px;
-        line-height: 48px;
-        background: linear-gradient(256.01deg, #FFFFFF 10.49%, #566774 91.28%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.5);
-    }
-
-    .sec_sky .txt01 {
-        padding-left: 150px;
-        text-align: center;
-        align-self: flex-start;
-    }
-
-    .sec_sky .txt02 {
-        margin-top: 402px;
-        padding-right: 111px;
-        text-align: center;
-        align-self: flex-end;
-    }
-
-    .sec_sky .txt03 {
-        margin-top: 463px;
-        padding-left: 106px;
-        text-align: center;
-        align-self: flex-start;
-    }
-
-    .sec_sky .txt04 {
-        margin-top: 412px;
-        text-align: center;
-        width: 100%;
-        font-size: 36px;
-        line-height: 60px;
-        font-weight: 600;
-        background: linear-gradient(183deg, #FFFFFF 10.49%, #94cfff 95.28%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.5);
-    }
-
-    .sec_sky p[data-effect="show"] {
-        animation-name: fadein_left;
-    }
-
-    .sec_sky .txt02[data-effect="show"] {
-        animation-name: fadein_right;
-    }
-
-    .sec_sky .txt04[data-effect="show"] {
-        animation-name: fadein_bottom;
-    }
+    .sec_sky {margin-top: 72px; background: url('<?=G5_IMG_URL?>/about/sec05_bg.png') no-repeat center top / 100% auto; display: flex; flex-direction: column; padding-top: 532px;}
+    .sec_sky p {font-size: 30px; line-height: 48px; background: linear-gradient(256.01deg, #FFFFFF 10.49%, #566774 91.28%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.5);}
+    .sec_sky .txt01 {padding-left: 150px; text-align: center; align-self: flex-start;}
+    .sec_sky .txt02 {margin-top: 385px; padding-right: 111px; text-align: center; align-self: flex-end;}
+    .sec_sky .txt03 {margin-top: 442px; padding-left: 106px; text-align: center; align-self: flex-start;}
+    .sec_sky .txt04 {margin-top: 540px; text-align: center; width: 100%; font-size: 36px; line-height: 60px; font-weight: 600; background: linear-gradient(183deg, #FFFFFF 10.49%, #94cfff 95.28%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.5);}
+    .sec_sky p[data-effect="show"] {animation-name: fadein_left;}
+    .sec_sky .txt02[data-effect="show"] {animation-name: fadein_right;}
+    .sec_sky .txt04[data-effect="show"] {animation-name: fadein_bottom;}
 
 
     /* =========================
        Sec 06
     ========================== */
 
-    .sec_comet {
-        margin: 327px auto 0;
-        width: 155px;
-    }
-
-    .sec_comet[data-effect="show"] {
-        animation-name: fadeout, blink;
-        animation-duration: 3s, 3s;
-        animation-delay: .3s, 3s;
-        animation-iteration-count: 1, infinite;
-        animation-timing-function: ease-out;
-    }
-
-    .bottle {
-        margin-top: 296px;
-        font-size: 30px;
-        line-height: 48px;
-        color: #fff;
-        text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.63);
-        text-align: center;
-    }
+    .sec_comet {margin: 314px auto 0; width: 155px;}
+    .sec_comet[data-effect="show"] {animation-name: fadeout, blink; animation-duration: 3s, 3s; animation-delay: .3s, 3s; animation-iteration-count: 1, infinite; animation-timing-function: ease-out;}
+    .bottle {margin-top: 286px; font-size: 30px; line-height: 48px; color: #fff; text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.63); text-align: center;}
 
 
     /* =========================
        Sec 07 ~ Rescue
     ========================== */
 
-    .sec_rescue {
-        margin-top: 397px;
-        padding: 285px 0 263px;
-        background: url('<?=G5_IMG_URL?>/about/sec08_bg.png') no-repeat center top / 100% auto;
-    }
-
-    .sec_rescue p {
-        font-size: 30px;
-        line-height: 48px;
-        color: #fff;
-        text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.63);
-        text-align: center;
-    }
+    .sec_rescue {margin-top: 375px; padding: 285px 0 263px; background: url('<?=G5_IMG_URL?>/about/sec07_bg.png') no-repeat center top / 100% auto;}
+    .sec_rescue p {font-size: 30px; line-height: 48px; color: #fff; text-shadow: 0px 0px 30px rgba(48, 101, 209, 0.63); text-align: center;}
 
 
     /* =========================
@@ -426,51 +192,10 @@
        sec_wh가 겹쳐서 사용
     ========================== */
 
-    .sec_wave {
-        position: relative;
-
-        width: 100%;
-        height: 100vh;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: url('<?=G5_IMG_URL?>/about/sec08_bg.png') no-repeat center bottom / 100% auto;
-    }
-
-    .sec_wave .btn_next {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 79px;
-
-        background: none;
-        border: none;
-
-        cursor: pointer;
-    }
-
-    .sec_wave .btn_next img {
-        animation: pulp 2.5s infinite ease-in-out;
-    }
-
-    .sec_wave .btn_next span {
-        width: 164px;
-        height: 73px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 37px;
-        border: 1px solid rgba(101, 121, 170, .8);
-
-        color: #a4e2ff;
-        font-size: 31.35px;
-        line-height: 1;
-    }
+    .sec_wave {position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;}
+    .sec_wave .btn_next {display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 79px; background: none; border: none; cursor: pointer;}
+    .sec_wave .btn_next img {width: 223px; animation: pulp 2.5s infinite ease-in-out;}
+    .sec_wave .btn_next span {width: 164px; height: 73px; display: flex; align-items: center; justify-content: center; border-radius: 37px; border: 1px solid rgba(101, 121, 170, .8); color: #a4e2ff; font-size: 31.35px; line-height: 1;}
 
 
     /* =========================
@@ -479,69 +204,160 @@
        sec_bk의 마지막 100vh와 겹침
     ========================== */
 
-    .sec_wh {
-        position: relative;
-        padding-top: 384px;
-        margin-top: -100vh;
-        min-height: 100vh;
-        background: #fff url('<?=G5_IMG_URL?>/about/sec09_bg.png') no-repeat center top / 100% auto;
-
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-
-        transition:
-            opacity 1.5s ease,
-            visibility 0s linear 1.5s;
-
-        z-index: 2;
-    }
-    .sec_wh *{
-        display: none;
-    }
-
-    .sec_wh.is-active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transition:
-            opacity 1.5s ease,
-            visibility 0s;
-        height: auto;
-    }
-    .sec_wh.is-active *{
-        display: block;
-    }
-
+    .sec_wh {position: relative; padding-top: 338px; margin-top: -100vh; min-height: 100vh; background: #fff url('<?=G5_IMG_URL?>/about/section2_bg.png') no-repeat center top / 100% auto; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 1.5s ease, visibility 0s linear 1.5s; z-index: 2;}
+    .sec_wh *{display: none;}
+    .sec_wh.is-active {opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 1.5s ease, visibility 0s; height: auto;}
+    .sec_wh.is-active *{display: block;}
     .sec_wh .think {font-size: 30px; color: #414d48; text-align: center;}
-
 
     /* =========================
        Sec Net
     ========================== */
 
-    .sec_net{ margin-top: 685px;}
+    .sec_net{ margin-top: 669px;}
     .sec_net p{font-size: 30px; line-height: 48px; color: #222b41; text-align: center;}
 
-    .sec_sl{margin-top: 633px; padding-bottom: 419px;}
+    .sec_sl{margin-top: 608px; padding-bottom: 419px; overflow:hidden}
+    .sec_sl .sl_phone{width: 422px; overflow:visible; margin: 180px auto 0;}
+    .sec_sl .sl_phone .swiper-wrapper{display: flex !important;}
+    .sec_sl .sl_phone .swiper-slide{transform:scale(.7); transition:.3s}
+    .sec_sl .sl_phone .swiper-slide img{width: 100%;}
+    .sec_sl .sl_phone .swiper-slide-duplicate-active,
+    .sec_sl .sl_phone .swiper-slide-active{transform:scale(1); z-index: 2;}
     .sec_sl .simple{background: linear-gradient(16.72deg, #6E7C9B 8.02%, #3C4757 85.14%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 0px 0px 20px rgba(198, 226, 255, 0.5); font-size:48px; text-align: center; font-weight:600}
-    .sec_sl .install{margin-top:207px;  font-size:26px; line-height: 40px; color:#414d48; text-align: center;}
+    .sec_sl .install{margin-top:160px;  font-size:26px; line-height: 40px; color:#414d48; text-align: center;}
     .sec_sl .install em{font-size:30px; font-weight:600;}
     
-    .sec_introduce{padding: 487px 0 1400px; background: url('<?=G5_IMG_URL?>/about/section2_bg.png') no-repeat center bottom /100% auto;}
+    .sec_introduce{padding: 465px 0 1590px;}
     .sec_introduce .desc{background: linear-gradient(266.55deg, #485F62 18.68%, #253431 85.3%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; text-shadow: 0px 0px 20px rgba(220, 251, 255, 0.3); font-size: 30px; line-height: 48px; text-align: center;}
-    .sec_introduce .desc + .desc{margin-top: 266px;}
-    .sec_introduce p.for{margin-top: 308px; color: #D1DEFF; text-shadow: 0px 0px 15px rgba(45, 70, 87, 0.8); text-align: center; font-size:30px;}
-    .sec_introduce .logo{margin: 809px auto 0; width: 417px;}
-    .sec_introduce .logo + p{margin-top: 208px;}
+    .sec_introduce .desc + .desc{margin-top: 247px;}
+    .sec_introduce p.for{margin-top: 292px; color: #D1DEFF; text-shadow: 0px 0px 15px rgba(45, 70, 87, 0.8); text-align: center; font-size:30px;}
+    .sec_introduce .logo{margin: 889px auto 0; width: 417px;}
+    .sec_introduce .logo + p{margin-top: 80px;}
+
+    @media(max-width:720px){
+        
+
+    /* =========================
+       Sec 01
+    ========================== */
+
+    .sec_moon:after {height: 158.472vw;}
+    .sec_moon .since {margin-top: -6.806vw; font-size: 4.167vw; line-height: 6.667vw;}
+    .sec_moon .total {margin-top: 36.111vw; font-size: 5vw; line-height: 8.333vw;}
+
+
+    /* =========================
+       Sec 02
+    ========================== */
+
+    .sec_stars {margin-top: 33.75vw; padding: 6.528vw 0 10vw; height: 160.556vw;}
+    .sec_stars .star1 {top: 6.528vw; right: 21.111vw; width: 11.806vw;}
+    .sec_stars .star2 {top: 23.75vw; left: 15.417vw; width: 19.444vw;}
+    .sec_stars .star3 {top: 48.472vw; right: 15.278vw; width: 11.806vw;}
+    .sec_stars .star4 {top: 72.084vw; right: 41.667vw; width: 16.111vw;}
+    .sec_stars .star5 {bottom: 35.278vw; left: 29.167vw; width: 11.806vw;}
+    .sec_stars .star6 {bottom: 10vw; right: 34.722vw; width: 11.806vw;}
+
+
+    /* =========================
+       Sec 03
+    ========================== */
+
+    .sec_korean {padding-top: 25.278vw;}
+    .sec_korean .people {font-size: 3.889vw; line-height: 5.417vw;}
+    .sec_korean .wrap_num {margin-top: 10vw; padding: 1.389vw 0 37.083vw;}
+    .sec_korean .wrap_num:before {height: 75vw;}
+    .sec_korean .wrap_num:after {height: 75vw;}
+    .sec_korean .num {font-size: 36.25vw; line-height: 36.528vw;}
+    .sec_korean .desc {margin-top: 5.556vw; font-size: 4.167vw; line-height: 10vw;}
+    .sec_korean .desc em {font-size: 7.639vw;}
+
+
+    /* =========================
+       Sec 04
+    ========================== */
+
+    .sec_bubble {margin: 41.667vw auto 0 20.833vw;}
+    .sec_bubble img{width: 59.583vw;}
+
+
+    /* =========================
+       Sec 05
+    ========================== */
+
+    .sec_sky {margin-top: 10vw; padding-top: 73.889vw;}
+    .sec_sky p {font-size: 4.167vw; line-height: 6.667vw; text-shadow: 0vw 0vw 4.167vw rgba(48, 101, 209, 0.5);}
+    .sec_sky .txt01 {padding-left: 20.833vw;}
+    .sec_sky .txt02 {margin-top: 53.472vw; padding-right: 15.417vw;}
+    .sec_sky .txt03 {margin-top: 61.389vw; padding-left: 14.722vw;}
+    .sec_sky .txt04 {margin-top: 75vw; font-size: 5vw; line-height: 8.333vw; text-shadow: 0vw 0vw 4.167vw rgba(48, 101, 209, 0.5);}
+
+
+    /* =========================
+       Sec 06
+    ========================== */
+
+    .sec_comet {margin: 43.611vw auto 0; width: 21.528vw;}
+    .bottle {margin-top: 39.722vw; font-size: 4.167vw; line-height: 6.667vw; text-shadow: 0vw 0vw 4.167vw rgba(48, 101, 209, 0.63);}
+
+
+    /* =========================
+       Sec 07 ~ Rescue
+    ========================== */
+
+    .sec_rescue {margin-top: 52.083vw; padding: 39.583vw 0 36.528vw;}
+    .sec_rescue p {font-size: 4.167vw; line-height: 6.667vw; text-shadow: 0vw 0vw 4.167vw rgba(48, 101, 209, 0.63);}
+
+
+    /* =========================
+       Click 화면
+       
+       sec_bk의 마지막 100vh를
+       sec_wh가 겹쳐서 사용
+    ========================== */
+
+    .sec_wave .btn_next {gap: 10.972vw;}
+    .sec_wave .btn_next img {width: 30.972vw;}
+    .sec_wave .btn_next span {width: 22.778vw; height: 10.139vw; border-radius: 5.139vw; font-size: 4.354vw;}
+
+
+    /* =========================
+       두 번째 전체 영역
+       
+       sec_bk의 마지막 100vh와 겹침
+    ========================== */
+
+    .sec_wh {padding-top: 46.944vw;}
+    .sec_wh .think {font-size: 4.167vw;}
+
+    /* =========================
+       Sec Net
+    ========================== */
+
+    .sec_net{margin-top: 92.917vw;}
+    .sec_net p{font-size: 4.167vw; line-height: 6.667vw;}
+
+    .sec_sl{margin-top: 84.444vw; padding-bottom: 58.194vw;}
+    .sec_sl .sl_phone{width: 58.611vw; margin: 25vw auto 0;}
+    .sec_sl .simple{text-shadow: 0vw 0vw 2.778vw rgba(198, 226, 255, 0.5); font-size: 6.667vw;}
+    .sec_sl .install{margin-top: 22.222vw; font-size: 3.611vw; line-height: 5.556vw;}
+    .sec_sl .install em{font-size: 4.167vw;}
+    
+    .sec_introduce{padding: 64.583vw 0 218.833vw;}
+    .sec_introduce .desc{text-shadow: 0vw 0vw 2.778vw rgba(220, 251, 255, 0.3); font-size: 4.167vw; line-height: 6.667vw;}
+    .sec_introduce .desc + .desc{margin-top: 34.306vw;}
+    .sec_introduce p.for{margin-top: 40.556vw; text-shadow: 0vw 0vw 2.083vw rgba(45, 70, 87, 0.8); font-size: 4.167vw;}
+    .sec_introduce .logo{margin: 123.472vw auto 0; width: 57.917vw;}
+    .sec_introduce .logo + p{margin-top: 11.111vw;}
+    }
 
 </style>
-
 
 <script src="https://code.jquery.com/jquery-4.0.0.min.js"
     integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
     crossorigin="anonymous"></script>
-
+<script src="<?=G5_URL?>/js/swiper/swiper.min.js"></script>
 
 <script>
     let lastScrollTop = 0;
@@ -549,27 +365,6 @@
     $(window).on('scroll', function () {
 
         const currentScrollTop = $(this).scrollTop();
-
-
-        /* =========================
-           data-effect
-        ========================== */
-
-       $('[data-effect]:not([data-effect="show"])').each(function () {
-            const $this = $(this);
-
-            if ($this.closest('.sec_wh').length && !$this.closest('.sec_wh').hasClass('is-active')) return;
-
-            const elementTop = $this.offset().top * .9;
-
-            if (currentScrollTop >= elementTop) {
-                $this.attr('data-effect', 'show');
-            }
-            if (currentScrollTop < secWaveTop) {
-                $('.sec_wh').removeClass('is-active');
-                $('.sec_wh [data-effect="show"]').attr('data-effect', '');
-            }
-        });
 
 
         /* =========================
@@ -613,6 +408,29 @@
 
         }
 
+        
+
+        /* =========================
+           data-effect
+        ========================== */
+
+       $('[data-effect]:not([data-effect="show"])').each(function () {
+            const $this = $(this);
+
+            if ($this.closest('.sec_wh').length && !$this.closest('.sec_wh').hasClass('is-active')) return;
+
+            const elementTop = $this.offset().top * .75;
+
+            if (currentScrollTop >= elementTop) {
+                $this.attr('data-effect', 'show');
+            }
+            if (currentScrollTop < secWaveTop) {
+                $('.sec_wh').removeClass('is-active');
+                $('.sec_wh [data-effect="show"]').attr('data-effect', '');
+            }
+        });
+
+
 
         lastScrollTop = currentScrollTop;
 
@@ -627,13 +445,36 @@
            sec_bk → sec_wh
         ========================== */
 
+        let sl_phone = null;
+
         $('.btn_next').on('click', function () {
 
-            $('.sec_wh').addClass('is-active');
-            $('.think').attr('data-effect','show');
+            // 먼저 sec_wave가 window top에 딱 붙도록 스크롤한 뒤 is-active 발동
+            $('html, body').animate({
+                scrollTop: $('.sec_wave').offset().top
+            }, 400, function () {
+                $('.sec_wh').addClass('is-active');
+                $('.think').attr('data-effect','show');
+            });
+
+            // sec_wh가 display:none 상태에서 초기화하면 Swiper가 크기 계산을 못 하므로
+            // is-active 된 이후에 초기화 (또는 재초기화)
+            if (sl_phone) {
+                sl_phone.destroy(true, true);
+            }
+            sl_phone = new Swiper('.sl_phone', {
+                slidesPerView: 1,
+                spaceBetween:-72,
+                centeredSlides: true,
+                speed: 300,
+                loop: true,
+                loopAdditionalSlides:8,
+                autoplay: {
+                    delay: 3000,
+                }
+            });
 
         });
-
     });
 </script>
 
@@ -782,15 +623,19 @@
             </p>
             <div class="swiper sl_phone">
                 <ul class="swiper-wrapper">
-                    <li class="swiper-slide"></li>
-                    <li class="swiper-slide"></li>
-                    <li class="swiper-slide"></li>
-                    <li class="swiper-slide"></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone01.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone02.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone03.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone01.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone02.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone03.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone01.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone02.png" alt=""></li>
+                    <li class="swiper-slide"><img src="<?=G5_IMG_URL?>/about/sl_phone03.png" alt=""></li>
                 </ul>
             </div>
             <p class="install" data-effect>
                 <em>앱 하나만 설치하시면, </em>
-                <br>
                 <br>보고 싶은 이들에게 적은 메시지가 
                 <br>저희 KKO 통신의 위성에 저장되어
                 <br>매일 저녁 우주 곳곳으로 쏘아 보낼 수 있는 

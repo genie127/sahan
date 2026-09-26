@@ -140,6 +140,10 @@ if ($is_messages_board) {
 
                 $mb_id_esc = sql_escape_string($member['mb_id']);
 
+                // 내게 온 메시지 조건:
+                // 1) 일반 메시지 중 수신인(wr_5)이 나인 것
+                // 2) 날짜명대사/이벤트명대사를 북마크한 사본 (wr_7 != '' = 원본wr_id 있음, wr_5 = 내 mb_id)
+                // → 명대사 원본(wr_2=1, wr_3=1)은 직접 mine에 노출되지 않음
                 $messages_condition = "
                     (
                         (
@@ -147,8 +151,13 @@ if ($is_messages_board) {
                             AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
                             AND wr_5 = '{$mb_id_esc}'
                         )
-                        OR wr_2 = '1'
-                        OR wr_3 = '1'
+                        OR
+                        (
+                            wr_7 IS NOT NULL AND wr_7 != ''
+                            AND wr_5 = '{$mb_id_esc}'
+                            AND (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                            AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                        )
                     )
                 ";
 

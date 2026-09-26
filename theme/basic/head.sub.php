@@ -45,6 +45,9 @@ if($config['cf_add_meta'])
     echo $config['cf_add_meta'].PHP_EOL;
 ?>
 <title><?php echo $g5_head_title; ?></title>
+<?php if (defined('_INDEX_')) { ?>
+<link rel="preload" as="image" href="<?php echo G5_IMG_URL ?>/sahan/bg.png">
+<?php } ?>
 <?php
 $shop_css = '';
 if (defined('_SHOP_')) $shop_css = '_shop';

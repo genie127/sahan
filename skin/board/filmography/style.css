@@ -28,13 +28,23 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 
 /* 갤러리 목록 */
 #bo_gall h2 {margin:0;padding:0;width:1px;height:1px;font-size:0;line-height:0;overflow:hidden}
-#bo_gall #gall_ul {margin:10px -10px 0;padding:0;list-style:none;zoom:1}
+#bo_gall #gall_ul {padding:0;list-style:none;zoom:1;}
 #bo_gall #gall_ul:after {display:block;visibility:hidden;clear:both;content:""}
-#bo_gall .gall_li {}
+#bo_gall .gall_li {position: relative; padding-left: 40px; border-left:2px solid #9AA3B2; }
+#bo_gall .gall_li:last-child {border-left:none}
+#bo_gall .gall_li:before{content:''; position: absolute; left: 0; top: 0; transform:translateX(-50%); width: 19.2px; height: 19.2px; background: #5268A5; border-radius:50%;}
+.chk_box input[type="checkbox"] + label span{top: 44px; left: 0;}
 #bo_gall .gall_li .gall_chk {position:absolute;top:0;left:0;padding:5px;z-index:1}
-#bo_gall .gall_box {position:relative; padding: 40px 0; border-radius:0 0 2px 2px}
-#bo_gall .gall_box + .gall_box {border-top:1px solid #E3E7EF;}
+#bo_gall .gall_box {position:relative; padding-bottom: 44.8px; border-radius:0 0 2px 2px}
 #bo_gall .gall_con {position:relative; display: flex; flex-wrap:wrap;}
+#bo_gall .gall_con .date {width: 100%; margin-bottom: 38.4px;}
+
+@media(max-width:780px){
+    #bo_gall .gall_li {padding-left: 5.556vw;}
+    #bo_gall .gall_li:before{width: 2.667vw; height: 2.667vw;}
+    #bo_gall .gall_box {position:relative; padding-bottom: 6.222vw; border-radius:0 0 0.222vw 0.222vw}
+    #bo_gall .gall_con {position:relative; display: flex; flex-wrap:wrap;}
+}
 
 .gall_row .col-gn-0,.gall_row .col-gn-1,.gall_row .col-gn-2,.gall_row .col-gn-3,.gall_row .col-gn-4,.gall_row .col-gn-5,.gall_row .col-gn-6,.gall_row .col-gn-7,.gall_row .col-gn-8,.gall_row .col-gn-9,.gall_row .col-gn-10 {position:relative;min-height:1px;padding-left:10px;*padding-left:0;padding-right:10px;*padding-right:0;float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin-left:0}
 .gall_row .col-gn-0,.gall_row .col-gn-1 {width:100%}
@@ -58,13 +68,20 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 #bo_gall .gall_img img, #bo_gall .gall_img video {max-width:100%;height:100% !important;  object-fit: cover;}
 #bo_gall .gall_img span {display:inline-block;background:#eaeaea;text-align:center;text-transform:uppercase;font-weight:bold;font-size:1.25em;color:#777}
 
-#bo_gall .gall_text_href {width: calc(100% - 103px); padding-left: 40px;}
+#bo_gall .gall_text_href {width: calc(100% - 103px); padding-left: 32px;}
 #bo_gall .gall_text_href a {font-weight:bold}
 #bo_gall .gall_text_href img {margin:0 0 0 4px}
 #bo_gall .bo_tit {display:block;line-height:30px;font-weight:bold;color:#000;font-size:1.2em}
 #bo_gall .bo_tit .cnt_cmt {background:#e9eff5;color:#5268A5;font-size:11px;height:16px;line-height:16px;padding:0 5px;border-radius:3px;vertical-align:middle}
 
-#bo_gall .bo_cnt {color:#acacac;line-height:18px}
+
+#bo_gall .gall_con .date {width: 100%; margin-bottom: 38.402px; font-size: 25.6px; line-height: 1; color:#5268A5}
+#bo_gall .gall_text_href{display: flex; flex-direction: column; justify-content: space-between;}
+#bo_gall .gall_text_href h4{font-size:28.8px; color:#4A5362; font-weight:700;}
+#bo_gall .gall_text_href .link_li{display: flex; flex-wrap:wrap;}
+#bo_gall .gall_text_href .link_li li{}
+#bo_gall .gall_text_href .link_li li a{width: 272px; height: 56px; display: flex; align-items: center; justify-content: center; font-size:22.4px; line-height: 1.5; border:1px solid #5268A5; color:#5268A5; border-radius:9.6px; font-weight:400}
+#bo_gall .bo_cnt {display: block; margin-top: 19.2px; font-size:22.4px; line-height: 1.5; color:#4A5362}
 #bo_gall .profile_img img {border-radius:50%}
 #bo_gall .bo_tit .fa-download {width:16px;height:16px;line-height:16px;background:#e89f31;color:#fff;text-align:center;font-size:10px;border-radius:2px;margin-right:2px;vertical-align:middle}
 #bo_gall .bo_tit .fa-link {width:16px;height:16px;line-height:16px;background:#ad68d8;color:#fff;text-align:center;font-size:10px;border-radius:2px;margin-right:2px;vertical-align:middle;font-weight:normal}
@@ -73,7 +90,14 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 #bo_gall .bo_tit .hot_icon {display:inline-block;width:16px;line-height:16px;font-size:0.833em;color:#fff;background:#e52955;text-align:center;border-radius:2px;vertical-align:middle;margin-right:2px}
 #bo_gall .bo_tit .fa-lock {display:inline-block;line-height:16px;color:#999;text-align:center;vertical-align:middle}
 
-#bo_gall .gall_info {width: 100%; margin-top: 48px;}
+@media(max-width:780px){
+    #bo_gall .gall_con .date {width: 100%; margin-bottom: 5.333vw; font-size: 3.556vw;}
+    #bo_gall .gall_text_href { padding-left: 4.444vw;}
+    #bo_gall .gall_text_href h4{font-size:4vw; color:#4A5362; font-weight:700;}
+    #bo_gall .bo_cnt {margin-top: 2.667vw; font-size:3.111vw; line-height: 1.5; color:#4A5362}
+    #bo_gall .gall_text_href .link_li li a{width: 37.778vw; height: 7.778vw; display: flex; align-items: center; justify-content: center; font-size:3.111vw; border-radius:1.333vw}
+}
+#bo_gall .gall_info {width: 100%; margin-top: 38.4px;}
 #bo_gall .gall_info strong {display:inline-block;margin:0}
 #bo_gall .gall_info i {font-size:12px}
 #bo_gall .gall_info .gall_date,

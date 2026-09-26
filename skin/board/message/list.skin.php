@@ -153,6 +153,15 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         	
     <div class="tbl_head01 tbl_wrap">
         <ul class="msg_wrap">
+            <?php if ($is_checkbox) { ?>
+        <th scope="col" class="all_chk chk_box">
+            <input type="checkbox" id="chkall" onclick="if (this.checked) all_checked(true); else all_checked(false);" class="selec_chk">
+            <label for="chkall">
+                <span></span>
+                <b class="sound_only">현재 페이지 게시물  전체선택</b>
+            </label>
+        </th>
+        <?php } ?>
         <?php
             for ($i=0; $i<count($list); $i++) {
             ?>
