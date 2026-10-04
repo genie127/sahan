@@ -17,7 +17,7 @@
 
 // ── 웹 직접 호출 방어 ────────────────────────────────────────────────
 // CLI 실행이 아닌 경우 시크릿 키 검사
-define('PUSH_SECRET_KEY', 'push_secret_키를_여기에_변경하세요_!@#');  // ← 반드시 변경
+define('PUSH_SECRET_KEY', 'sahan_push_2026!@#$');  // ← cron-job.org URL에 이 값 사용
 
 $is_cli = (php_sapi_name() === 'cli');
 
@@ -47,8 +47,8 @@ include_once($dbconfig_file);
 
 // ── 발송 메시지 설정 ─────────────────────────────────────────────────
 // CLI 인자로 제목/내용 오버라이드 가능: --title="제목" --body="내용"
-$push_title = '사한이의 날';                             // ← 원하는 제목으로 수정
-$push_body  = '오늘은 특별한 날입니다. 앱을 열어보세요!'; // ← 원하는 내용으로 수정
+$push_title = '사한절';                             // ← 원하는 제목으로 수정
+$push_body  = 'Happy Birthday To 희건,사한'; // ← 원하는 내용으로 수정
 $push_data  = [];                                        // 앱에 추가로 전달할 데이터 (선택)
 
 if ($is_cli) {
@@ -151,7 +151,7 @@ exit(0);
 /**
  * Expo Push API HTTP 요청 (curl 또는 file_get_contents 폴백)
  */
-function expo_push_send(string $url, array $messages): string|false
+function expo_push_send($url, $messages)
 {
     $payload = json_encode($messages, JSON_UNESCAPED_UNICODE);
     $headers = [
@@ -199,7 +199,7 @@ function expo_push_send(string $url, array $messages): string|false
 /**
  * 로그 출력 (CLI: stdout, 웹: echo)
  */
-function log_msg(string $msg): void
+function log_msg($msg)
 {
     $line = '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n";
     echo $line;

@@ -104,14 +104,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
                 if (
                     $is_member &&
                     $member_id !== '' &&
-                    (string)$list[$idx][$i]['wr_4'] === '1'
+                    ((string)$list[$idx][$i]['wr_2'] === '1' || (string)$list[$idx][$i]['wr_3'] === '1')
                 ) {
                     $bookmark = sql_fetch("
                         SELECT wr_id
                         FROM {$g5['write_prefix']}messages
-                        WHERE wr_6 = '{$original_wr_id}'
-                        AND wr_2 = '".sql_escape_string($member_id)."'
-                        AND wr_4 = '0'
+                        WHERE wr_7 = '{$original_wr_id}'
+                        AND wr_5 = '".sql_escape_string($member_id)."'
+                        AND wr_2 = '0'
                         LIMIT 1
                     ");
 
@@ -137,14 +137,26 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
             <?}?>
 
             <div class="bo_tit">
+                <?php
+                // 제목 날짜 우선순위 (list.skin.php와 동일)
+                // 1. wr_6 있으면 그대로
+                // 2. 날짜명대사(wr_2=1) + wr_subject가 MMDD 4자리면 올해연도.MM.DD
+                // 3. 없으면 글 작성일
+                $bo_tit_date = '';
+                if (!empty($list[$idx][$i]['wr_6'])) {
+                    $bo_tit_date = $list[$idx][$i]['wr_6'];
+                } elseif (
+                    ($list[$idx][$i]['wr_2'] == '1' || $list[$idx][$i]['wr_3'] == '1') &&
+                    preg_match('/^(\d{2})(\d{2})$/', $list[$idx][$i]['wr_subject'], $_dm)
+                ) {
+                    $bo_tit_date = date('Y', G5_SERVER_TIME) . '.' . $_dm[1] . '.' . $_dm[2];
+                } else {
+                    $bo_tit_date = date('Y.m.d', strtotime($list[$idx][$i]['wr_datetime']));
+                }
+                echo $bo_tit_date;
+                ?>
                 
-                <?php if ($list[$idx][$i]['wr_5']) { ?>
-                    <?php echo $list[$idx][$i]['wr_5']; ?>
-                <?php } else { ?>
-                     <?php echo date('Y.m.d', strtotime($list[$idx][$i]['wr_datetime'])); ?>
-                <?php } ?>
-                
-                <?php if (!empty($member['mb_id']) && $list[$idx][$i]['wr_4'] == '1') { ?>
+                <?php if (!empty($member['mb_id']) && ($list[$idx][$i]['wr_2'] == '1' || $list[$idx][$i]['wr_3'] == '1')) { ?>
 
                     <button
                         type="button"
@@ -157,23 +169,25 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 
                 <?php } ?>
             </div>
-            <div class="cont"><?php echo $list[$idx][$i]['wr_content'] ?></d>
+            <div class="cont"><?php echo $list[$idx][$i]['wr_content'] ?></div>
             <div class="send">
                 <p class="from">from. 
-                    <?if($list[$idx][$i]['wr_4'] == 1){?>
-                        <?php echo $list[$idx][$i]['wr_2']?>
+                    <?if($list[$idx][$i]['wr_4']){?>
+                        <?php echo $list[$idx][$i]['wr_4'] ?>
                     <?}else{?>
-                        <?php echo $list[$idx][$i]['name'] ?>
+                        <?if($list[$idx][$i]['name'] == '<span class="sv_member">최고관리자</span>'){?>
+                                SAHAN
+                        <?}else{?>
+                            <?php echo $list[$idx][$i]['name'] ?>
+                        <?}?>
                     <?}?>
                 </p>
-                <div class="arr"></div>
-                <p class="to">to. 
-                    <?if($list[$idx][$i]['wr_4'] == 1){?>
-                        <?php echo $member['mb_id']?>
-                    <?}else{?>
-                        <?php echo $list[$idx][$i]['wr_2'] ?>
-                    <?}?>
-                </p>
+                <?if($list[$idx][$i]['wr_5']){?>
+                    <div class="arr"></div>
+                    <p class="to">to. 
+                        <?=$list[$idx][$i]['wr_5']?>
+                    </p>
+                <?} ?>
             </div>
             
 
@@ -196,6 +210,16 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
             var $btn = $(this);
             var wr_id = $btn.data('wr-id');
 
+            // 저장 여부 확인
+                var confirmed = confirm(
+                    '내게 온 메세지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
+                );
+
+                // 취소한 경우 저장 요청하지 않음
+                if (!confirmed) {
+                    return;
+                }
+
             $.ajax({
                 url: '<?php echo G5_THEME_URL; ?>/act/bookmark_message.php',
                 type: 'POST',
@@ -214,7 +238,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
                         alert('내게 온 메세지에 저장되었습니다.');
 
                         $btn
-                            .text('저장됨')
                             .addClass('is_bookmarked')
                             .prop('disabled', true);
 
@@ -225,7 +248,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
                         alert('이미 저장한 메세지입니다.');
 
                         $btn
-                            .text('저장됨')
                             .addClass('is_bookmarked')
                             .prop('disabled', true);
 

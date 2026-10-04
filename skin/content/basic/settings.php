@@ -4,6 +4,8 @@
 ?>
 
 <style>
+    body.has_subhd{padding-top: 60px;}
+.subtit {margin-bottom: 80px; font-size:80px; line-height: 1.3; color:#5268A5;}
     .wrap_setli{margin-top: 60px;}
     .wrap_setli p{font-size:24px; line-height: 1.5; color:#9AA3B2}
     .wrap_setli p + ul{margin-top: 40px;}
@@ -25,7 +27,10 @@
     .wrap_setli ul li.right a{display: inline-block; color:#9AA3B2; font-size: 24px; font-weight:500; text-decoration: underline;}
     .wrap_setli.app ul{border-bottom:none}
 
-    @media(max-width:780px){
+
+@media(max-width:780px){
+    body.has_subhd{padding-top: 10.256vw;}
+    .subtit {margin-bottom: 10.256vw; font-size:10.256vw; line-height: 1.3; color:#5268A5;}
         .wrap_setli{margin-top: 7.692vw;}
         .wrap_setli p{font-size:3.077vw;}
         .wrap_setli p + ul{margin-top: 5.128vw;}
@@ -43,12 +48,10 @@
 
 </style>
 
-<div class="sub_header">
-    <div class="container">
-        <button onclick="history.back()" class="arr_prev"></button>
-        <h3>설정</h3>
-    </div>
-</div>
+
+<h2 class="subtit">
+    <?=$g5['title']?>
+</h2>
 
 <div class="wrap_content">
     <div class="wrap_setli">
@@ -81,8 +84,8 @@
     <div class="wrap_setli">
         <p>이용약관</p>
         <ul>
-            <li><a href="<?php echo G5_BBS_URL; ?>/bbs/content.php?co_id=provision"><p>이용약관</p> <span class="arr"></span></a></li>
-            <li><a href="<?php echo G5_BBS_URL; ?>/bbs/content.php?co_id=privacy"><p>개인정보처리방침</p><span class="arr"></span></a></li>
+            <li><a href="<?php echo G5_BBS_URL; ?>/content.php?co_id=provision"><p>이용약관</p> <span class="arr"></span></a></li>
+            <li><a href="<?php echo G5_BBS_URL; ?>/content.php?co_id=privacy"><p>개인정보처리방침</p><span class="arr"></span></a></li>
         </ul>
     </div>
     <div class="wrap_setli app">

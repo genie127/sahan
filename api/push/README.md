@@ -44,40 +44,34 @@ Content-Type: application/json
 
 ---
 
-## 3단계: 크론잡 등록 (매년 10월 21일 00:00 KST 자동 발송)
+## 3단계: cron-job.org 등록 (dothome은 crontab 미지원)
 
-실서버 터미널에서 `crontab -e` 실행 후 아래 한 줄 추가:
+> dothome 공유 호스팅은 crontab을 지원하지 않으므로 외부 크론 서비스를 사용합니다.
 
-```cron
-0 0 21 10 * /usr/bin/php /var/www/html/api/push/send_push.php >> /var/log/push_send.log 2>&1
-```
+1. [cron-job.org](https://cron-job.org) 무료 회원가입
+2. **Create cronjob** 클릭
+3. 설정:
+   - **URL**: `https://sahan.dothome.co.kr/push_sahan.php?secret=sahan_push_2026!@#$`
+   - **Schedule**: Custom → Month: `10`, Day: `21`, Hour: `0`, Minute: `0`
+4. 저장
 
-> **PHP 경로 확인:** `which php` 명령으로 실제 경로 확인 후 수정
-> **서버 경로 확인:** 실제 document root 경로로 수정
-
-### 타임존 주의
-서버가 UTC라면 KST(+9) 기준 10월 21일 00:00 = UTC 10월 20일 15:00이므로:
-```cron
-0 15 20 10 * /usr/bin/php /var/www/html/api/push/send_push.php >> /var/log/push_send.log 2>&1
-```
-
-서버 타임존은 `date` 명령으로 확인.
+> **주의:** 발송 스크립트는 `api/push/send_push.php` 가 아닌  
+> 루트의 **`push_sahan.php`** 를 사용합니다. (api/push/ 경로는 dothome에서 접근 차단됨)
 
 ---
 
-## 수동 발송 (테스트용)
+## 수동 테스트 (브라우저에서 바로 확인)
 
-```bash
-php /var/www/html/api/push/send_push.php
-php /var/www/html/api/push/send_push.php --title="테스트" --body="내용입니다"
+```
+https://sahan.dothome.co.kr/push_sahan.php?secret=sahan_push_2026!@#$
 ```
 
 ---
 
-## send_push.php 주요 설정 (파일 상단 수정)
+## push_sahan.php 주요 설정 (파일 상단 수정)
 
 ```php
-define('PUSH_SECRET_KEY', 'push_secret_키를_여기에_변경하세요_!@#'); // 웹 호출 시 사용할 시크릿
-$push_title = '사한이의 날';                             // 푸시 제목
-$push_body  = '오늘은 특별한 날입니다. 앱을 열어보세요!'; // 푸시 내용
+define('PUSH_SECRET_KEY', 'sahan_push_2026!@#$'); // cron-job.org URL의 secret 값과 동일하게
+$push_title = '사한절';                            // 푸시 제목
+$push_body  = 'Happy Birthday To 희건, 사한';      // 푸시 내용
 ```

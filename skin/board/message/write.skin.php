@@ -73,6 +73,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     </div>
     <?php } ?>
 
+    <?/*
     <div class="bo_w_info write_div">
 	    <?php if ($is_name) { ?>
 	        <label for="wr_name" class="sound_only">이름<strong>필수</strong></label>
@@ -95,7 +96,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 	        <input type="text" name="wr_homepage" value="<?php echo $homepage ?>" id="wr_homepage" class="frm_input half_input" size="50" placeholder="홈페이지">
 	    <?php } ?>
 	</div>
-	
+	*/?>
     <?/*
     <?php if ($option) { ?>
     <div class="write_div">
@@ -111,7 +112,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?if($is_admin){?>
     <div class="write_div checkbox_wrap sentence">
         <input type="checkbox" id="wr_2" name="wr_2" value="1" <?php echo $wr_2 == '1' ? 'checked' : ''; ?>>
-        <label for="wr_2"><span class="checkbox"></span><p>날짜 명대사 (오늘 월/일 4자리 제목, latest 노출)</p></label>
+        <label for="wr_2"><span class="checkbox"></span><p>날짜 명대사 (노출 지정 날짜에 메인 노출)</p></label>
     </div>
     <div class="write_div checkbox_wrap sentence">
         <input type="checkbox" id="wr_3" name="wr_3" value="1" <?php echo $wr_3 == '1' ? 'checked' : ''; ?>>
@@ -130,8 +131,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?if($is_admin){?>
     <div class="wrap_send write_div">
         <div class="send_info">
-            <label for="wr_4">발신인 코드</label>
-            <input type="text" id="wr_4" name="wr_4" placeholder="발신자로 표기될 코드를 써주세요." value="<?php echo $wr_4?>">
+            <label for="wr_4">발신인</label>
+            <input type="text" id="wr_4" name="wr_4" placeholder="보내는 사람으로 표기될 코드를 써주세요." value="<?php echo $wr_4?>">
         </div>
         <span class="noti">검색할 때 쓰이는 코드입니다.<br>알파벳을 섞어야 해당 코드로의 회원가입을 막을 수 있습니다.</span>
     </div>
@@ -150,7 +151,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?if($is_admin){?>
     <div class="wrap_send write_div">
         <div class="date">
-            <label for="wr_6">임의 날짜</label>
+            <label for="wr_6">표기날짜</label>
             <input type="text" id="wr_6" name="wr_6" inputmode="numeric" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>" style="width:85%">
         </div>
     </div>
@@ -164,7 +165,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
         
         <div id="autosave_wrapper" class="write_div">
-            <input type="text" name="wr_subject" value="<?if($subject){?><?php echo $subject?><?}?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="오늘 날짜 4자리 (예: 0921)" hidden>
+            <input type="text" name="wr_subject" value="<?if($subject){?><?php echo $subject?><?}?>" id="wr_subject" class="frm_input full_input" size="50" maxlength="255" placeholder="노출될 날짜 4자리 (예: 0921)" hidden>
             <?php if ($is_member) { // 임시 저장된 글 기능 ?>
             <script src="<?php echo G5_JS_URL; ?>/autosave.js"></script>
             <?php if($editor_content_js) echo $editor_content_js; ?>
@@ -206,6 +207,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     </div>
     <?php } ?>
 */?>
+<?/*
     <?php for ($i=0; $is_file && $i<$file_count; $i++) { ?>
     <div class="bo_w_flie write_div">
         <div class="file_wr write_div">
@@ -224,7 +226,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         
     </div>
     <?php } ?>
-
+*/?>
 
     <?php if ($is_use_captcha) { //자동등록방지  ?>
     <div class="write_div">
@@ -353,8 +355,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             $("#wr_5").prop('disabled', false);
 
             // subject 숨기고 값 자동 처리 (서버에서 wr_5로 덮어씀)
-            $('#wr_subject').attr('hidden', true);
+            $('#wr_subject').prop('hidden', true);
             $('#wr_subject').prop('required', false);
+            $('#wr_subject').removeAttr('required');
             $('#wr_subject').val('');
 
             $(".confirm_privacy").show();
@@ -382,9 +385,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 <?php endif; ?>
                 $("#wr_5").attr('inputmode', '');
             } else {
-                // 이벤트명대사: subject 숨김, 빈값 (서버에서 자동처리)
-                $('#wr_subject').attr('hidden', true);
+                // 이벤트명대사: subject 완전히 숨기고 required 제거
+                $('#wr_subject').prop('hidden', true);
                 $('#wr_subject').prop('required', false);
+                $('#wr_subject').removeAttr('required');
                 $('#wr_subject').val('');
                 $("#wr_5").attr('inputmode', '');
             }

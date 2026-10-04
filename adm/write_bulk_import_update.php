@@ -138,20 +138,31 @@ foreach ($data_rows as $idx => $row) {
         continue;
     }
 
-    // 날짜명대사인데 임의날짜 없으면 경고
-    if ($wr_2 === '1' && $wr_6 === '') {
-        $fail++;
-        $errs[] = "{$row_no}행: 날짜명대사(E열=1)일 때 임의날짜(H열)가 필요합니다. 예: 2024.03.16";
-        continue;
-    }
-
     // 정수형 변환
     $wr_8 = '1'; // 항상 1
 
-    // 날짜
-    if ($wr_datetime === '' || !preg_match('/^\d{4}-\d{2}-\d{2}/', $wr_datetime)) {
+    // ── 날짜 처리 ────────────────────────────────────────────────────
+    // wr_6(H열)은 사용자가 명시적으로 입력한 경우에만 저장
+    // wr_datetime 우선순위: ① H열(wr_6)에서 파싱 ② K열(wr_datetime) ③ 오늘 날짜
+    // ※ wr_6을 비워도 목록/latest에서 wr_subject(MMDD)로 날짜 표시되므로 자동 채우지 않음
+
+    $wr_6_raw = $wr_6; // H열 원본
+
+    if ($wr_6_raw !== '' && preg_match('/^(\d{4})\.(\d{2})\.(\d{2})$/', $wr_6_raw, $dm6)) {
+        // H열에 YYYY.MM.DD 형식 있음 → wr_datetime을 이 날짜로, wr_6도 저장
+        $wr_datetime = "{$dm6[1]}-{$dm6[2]}-{$dm6[3]} 00:00:00";
+        $wr_6 = $wr_6_raw;
+    } elseif ($wr_datetime !== '' && preg_match('/^\d{4}-\d{2}-\d{2}/', $wr_datetime)) {
+        // K열에 유효한 날짜 있음 → 그대로 사용, wr_6은 건드리지 않음
+        $wr_6 = ''; // H열 비어있으면 wr_6도 비움
+    } else {
+        // 둘 다 없으면 오늘 날짜, wr_6은 비움
         $wr_datetime = $now;
+        $wr_6 = '';
     }
+
+    // wr_date: DATE 타입 컬럼 (YYYY-MM-DD)
+    // ※ g5_write_messages에 wr_date 컬럼 없음 → 사용 안 함
 
     // wr_subject 처리
     // - 날짜명대사(wr_2=1): G열에서 직접 입력한 월일 4자리 사용 (예: 0316)

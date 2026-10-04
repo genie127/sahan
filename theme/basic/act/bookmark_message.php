@@ -36,13 +36,13 @@ if ($row['wr_id']) {
 
 
 /*
- * 원본 게시글 확인
+ * 원본 게시글 확인 (날짜명대사 wr_2=1 또는 이벤트명대사 wr_3=1)
  */
 $sql = " select *
          from {$g5['write_prefix']}messages
          where wr_id = '{$wr_id}'
          and wr_is_comment = 0
-         and wr_2 = '1'
+         and (wr_2 = '1' or wr_3 = '1')
          limit 1 ";
 
 $original = sql_fetch($sql);

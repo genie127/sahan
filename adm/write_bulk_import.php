@@ -84,7 +84,7 @@ code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: m
         <ul>
             <li><span class="type-badge type-normal">일반 메시지</span> 수신인코드(B열) <strong>필수</strong>, 전체공개=0</li>
             <li><span class="type-badge type-open">전체공개 메시지</span> 전체공개(C열)=1, 수신인코드 없어도 됨</li>
-            <li><span class="type-badge type-sentence">날짜 명대사</span> 날짜명대사(E열)=1, 임의날짜(G열) 필수 <code>2024.03.16</code> 형식</li>
+            <li><span class="type-badge type-sentence">날짜 명대사</span> 날짜명대사(E열)=1, 임의날짜(H열) 미입력 시 K열(작성일시)에서 자동 생성 <code>2024.03.16</code> 형식</li>
             <li><span class="type-badge type-sentence">이벤트 명대사</span> 이벤트명대사(F열)=1</li>
             <li>날짜명대사/이벤트명대사는 동시에 1로 설정할 수 없습니다.</li>
         </ul>
@@ -146,8 +146,8 @@ code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-family: m
         <tr>
             <td><strong>H열</strong></td>
             <td>임의날짜 <code>wr_6</code></td>
-            <td>조건부 필수</td>
-            <td>날짜명대사(E열=1)일 때 목록에 표시될 날짜. 일반 메시지는 비워도 됨.<br>예: <code>2024.03.16</code></td>
+            <td>조건부</td>
+            <td>날짜명대사(E열=1)일 때 목록에 표시될 날짜. 비워두면 K열(작성일시)에서 자동 생성됨.<br>예: <code>2024.03.16</code></td>
         </tr>
         <tr>
             <td><strong>I열</strong></td>

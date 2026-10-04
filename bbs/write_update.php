@@ -161,12 +161,14 @@ if ($bo_table === 'messages') {
 }
 
 // wr_subject 빈값 체크 (messages 커스텀 처리 후)
-// 이벤트명대사이면 빈값 허용
-if ($wr_subject == '') {
-    $is_event_sentence = ($bo_table === 'messages' && $is_admin && $wr_3 === '1');
-    if (!$is_event_sentence) {
-        alert('<strong>제목</strong>을 입력하세요.');
+// messages 게시판 이벤트명대사(wr_3=1)는 wr_subject 불필요 → 자동 세팅
+if ($bo_table === 'messages' && $is_admin && $wr_3 === '1') {
+    // wr_6(임의날짜)이 있으면 그걸 제목으로, 없으면 작성일시로 자동 세팅
+    if ($wr_subject == '') {
+        $wr_subject = ($wr_6 !== '') ? $wr_6 : date('Y-m-d H:i:s');
     }
+} elseif ($wr_subject == '') {
+    alert('<strong>제목</strong>을 입력하세요.');
 }
 
 $msg = implode('<br>', $msg);
@@ -260,9 +262,8 @@ if ($w == '' || $w == 'r') {
 }
 
 if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject'])) {
-    // messages 게시판: 일반 메세지이면 wr_subject가 wr_5로 이미 세팅됨
-    // 날짜명대사(wr_2=1)이면 직접 입력한 4자리 숫자
-    // 이 시점까지 비어 있으면 실제 오류
+    // messages 게시판 이벤트명대사(wr_3=1)는 위에서 wr_subject 자동 세팅됨 → 통과
+    // 일반 게시판이거나 messages 비관리자인 경우에만 체크
     if (!($bo_table === 'messages' && $is_admin)) {
         alert('제목을 입력하여 주십시오.');
     }

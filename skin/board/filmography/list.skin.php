@@ -9,7 +9,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
 <!-- 게시판 목록 시작 { -->
 <div id="bo_gall" style="width:<?php echo $width; ?>">
-
     <?php if ($is_category) { ?>
     <nav id="bo_cate">
         <h2><?php echo $board['bo_subject'] ?> 카테고리</h2>
@@ -28,7 +27,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <input type="hidden" name="sod" value="<?php echo $sod ?>">
     <input type="hidden" name="page" value="<?php echo $page ?>">
     <input type="hidden" name="sw" value="">
-
     <?/*
     <!-- 게시판 페이지 정보 및 버튼 시작 { -->
     <div id="bo_btn_top">
@@ -61,6 +59,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
 
     */ ?>
+
+    <h2 class="subtit">
+        <?php echo $board['bo_subject']?>
+    </h2>
 
     <?php if ($is_checkbox) { ?>
     <div id="gall_allchk" class="all_chk chk_box">

@@ -733,6 +733,14 @@ g5_latest_cache_data(
 // ============================================================
 // 페이지네이션
 // ============================================================
+
+// messages 게시판은 type 파라미터를 페이지 URL에 포함시켜야
+// 페이지 이동 시 필터 조건(mine/all/adm_*)이 유지됨
+$paging_qstr = $qstr;
+if ($is_messages_board && $messages_type) {
+    $paging_qstr .= '&amp;type=' . urlencode($messages_type);
+}
+
 $write_pages = get_paging(
     G5_IS_MOBILE
         ? $config['cf_mobile_pages']
@@ -742,7 +750,7 @@ $write_pages = get_paging(
     get_pretty_url(
         $bo_table,
         '',
-        $qstr.'&amp;page='
+        $paging_qstr.'&amp;page='
     )
 );
 

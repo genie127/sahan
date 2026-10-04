@@ -23,9 +23,21 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
 
     <?php for ($i = 0; $i < $list_count; $i++) {
 
+        // 이벤트명대사(wr_3=1)는 latest에서 노출 안 함
+        if ($list[$i]['wr_3'] == '1') continue;
+
         $title = substr($list[$i]['subject'], 0, 2)
                . '.'
                . substr($list[$i]['subject'], 2, 4);
+
+        // wr_6 없을 때 쓸 날짜: wr_2=1(날짜명대사)이고 subject가 MMDD 4자리면 올해연도.MM.DD
+        if (
+            empty($list[$i]['wr_6']) &&
+            $list[$i]['wr_2'] == '1' &&
+            preg_match('/^(\d{2})(\d{2})$/', $list[$i]['wr_subject'], $_dm)
+        ) {
+            $title = date('Y', G5_SERVER_TIME) . '.' . $_dm[1] . '.' . $_dm[2];
+        }
 
 
         // ====================================================
@@ -77,10 +89,14 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
                 <p><?php echo $list[$i]['wr_content']; ?></p>
                  <div class="send">
                     <p class="from">from. 
-                        <?if($list[$i]['wr_2'] == 1){?>
+                        <?if($list[$i]['wr_4']){?>
                             <?php echo $list[$i]['wr_4']?>
                         <?}else{?>
-                            <?php echo $list[$i]['name'] ?>
+                            <?if($list[$i]['name'] == '<span class="sv_member">최고관리자</span>'){?>
+                                SAHAN
+                            <?}else{?>
+                                    <?php echo $list[$i]['name'] ?>
+                            <?}?>
                         <?}?>
                     </p>
                 </div>
@@ -128,6 +144,17 @@ $(function() {
 
         var $btn = $(this);
         var wr_id = $btn.data('wr-id');
+
+
+        // 저장 여부 확인
+        var confirmed = confirm(
+            '내게 온 메세지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
+        );
+
+        // 취소한 경우 저장 요청하지 않음
+        if (!confirmed) {
+            return;
+        }
 
         $.ajax({
             url: '<?php echo G5_THEME_URL; ?>/act/bookmark_message.php',

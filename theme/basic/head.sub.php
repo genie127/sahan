@@ -61,6 +61,7 @@ echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_UR
 var g5_url       = "<?php echo G5_URL ?>";
 var g5_bbs_url   = "<?php echo G5_BBS_URL ?>";
 var g5_is_member = "<?php echo isset($is_member)?$is_member:''; ?>";
+var g5_member_id = "<?php echo isset($member['mb_id'])?$member['mb_id']:''; ?>";
 var g5_is_admin  = "<?php echo isset($is_admin)?$is_admin:''; ?>";
 var g5_is_mobile = "<?php echo G5_IS_MOBILE ?>";
 var g5_bo_table  = "<?php echo isset($bo_table)?$bo_table:''; ?>";

@@ -77,7 +77,12 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
          where wr_is_comment = 0
          and wr_2 = '1'
          and wr_subject = '{$today_mmdd}'
-         order by wr_num, wr_reply
+         order by
+             COALESCE(
+                 STR_TO_DATE(NULLIF(wr_6,''), '%Y.%m.%d'),
+                 wr_datetime
+             ) asc,
+             wr_datetime asc
          limit 0, {$rows} ";
 
         $result = sql_query($sql);

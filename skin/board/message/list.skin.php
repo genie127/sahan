@@ -24,7 +24,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 <!-- 게시판 목록 시작 { -->
 <div id="bo_list" style="width:<?php echo $width; ?>">
     <h2 class="subtit">
-        Message
+        <?php echo $board['bo_subject']?>
     </h2>
      <div class="hd_search board_search">
         <fieldset id="hd_sch">
@@ -152,16 +152,17 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
         	
     <div class="tbl_head01 tbl_wrap">
-        <ul class="msg_wrap">
-            <?php if ($is_checkbox) { ?>
-        <th scope="col" class="all_chk chk_box">
-            <input type="checkbox" id="chkall" onclick="if (this.checked) all_checked(true); else all_checked(false);" class="selec_chk">
-            <label for="chkall">
-                <span></span>
-                <b class="sound_only">현재 페이지 게시물  전체선택</b>
-            </label>
-        </th>
+        
+        <?php if ($is_checkbox) { ?>
+            <div scope="col" class="all_chk chk_box">
+                <input type="checkbox" id="chkall" onclick="if (this.checked) all_checked(true); else all_checked(false);" class="selec_chk">
+                <label for="chkall">
+                    <span></span>
+                    <b>현재 페이지 게시물  전체선택</b>
+                </label>
+        </div>
         <?php } ?>
+        <ul class="msg_wrap">
         <?php
             for ($i=0; $i<count($list); $i++) {
             ?>
@@ -179,7 +180,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 if (
                     $is_member &&
                     $member_id !== '' &&
-                    (string)$list[$i]['wr_2'] === '1'
+                    ((string)$list[$i]['wr_2'] === '1' || (string)$list[$i]['wr_3'] === '1')
                 ) {
                     $bookmark = sql_fetch("
                         SELECT wr_id
@@ -194,7 +195,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 }
                 ?>
 
-            <?php if (!empty($member['mb_id']) && $list[$i]['wr_2'] == '1') { ?>
+            <?php if (!empty($member['mb_id']) && ($list[$i]['wr_2'] == '1' || $list[$i]['wr_3'] == '1')) { ?>
 
                 <button
                     type="button"
@@ -228,11 +229,24 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                 <?if($is_admin){?>
                 <a href="<?php echo $list[$i]['href'] ?>">
                 <?}?>
-                    <?if($list[$i]['wr_6']){?>
-                        <?php echo $list[$i]['wr_6']?>
-                    <?}else{?>
-                        <?php echo $list[$i]['datetime2'] ?>
-                    <?}?>
+                    <?php
+                    // 제목 날짜 우선순위:
+                    // 1. wr_6 있으면 그대로
+                    // 2. wr_subject에 월일 4자리(0101~1231) 있으면 올해연도.MM.DD
+                    // 3. 없으면 글 작성일(datetime2)
+                    $bo_tit_date = '';
+                    if (!empty($list[$i]['wr_6'])) {
+                        $bo_tit_date = $list[$i]['wr_6'];
+                    } elseif (
+                        ($list[$i]['wr_2'] == '1' || $list[$i]['wr_3'] == '1') &&
+                        preg_match('/^(\d{2})(\d{2})$/', $list[$i]['wr_subject'], $_dm)
+                    ) {
+                        $bo_tit_date = date('Y', G5_SERVER_TIME) . '.' . $_dm[1] . '.' . $_dm[2];
+                    } else {
+                        $bo_tit_date = $list[$i]['datetime2'];
+                    }
+                    echo $bo_tit_date;
+                    ?>
                 <?if($is_admin){?>
                 </a>
                 <?}?>
@@ -261,8 +275,13 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                         <?php echo $list[$i]['name'] ?>
                     <?}?>
                 </p>
-                <div class="arr"></div>
-                <p class="to">to. <?php echo htmlspecialchars($member['mb_id'] ? $member['mb_id'] : $list[$i]['wr_5']) ?></p>
+                
+                <?if($list[$i]['wr_5']){?>
+                    <div class="arr"></div>
+                    <p class="to">to. 
+                        <?=$list[$i]['wr_5']?>
+                    </p>
+                <?} ?>
             </div>
             
 
@@ -442,6 +461,17 @@ jQuery(function($){
             var $btn = $(this);
             var wr_id = $btn.data('wr-id');
 
+            // 저장 여부 확인
+            var confirmed = confirm(
+                '내게 온 메세지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
+            );
+
+            // 취소한 경우 저장 요청하지 않음
+            if (!confirmed) {
+                return;
+            }
+
+
             $.ajax({
                 url: '<?php echo G5_THEME_URL; ?>/act/bookmark_message.php',
                 type: 'POST',
@@ -460,7 +490,6 @@ jQuery(function($){
                         alert('내게 온 메세지에 저장되었습니다.');
 
                         $btn
-                            .text('저장됨')
                             .addClass('is_bookmarked')
                             .prop('disabled', true);
 
@@ -471,7 +500,6 @@ jQuery(function($){
                         alert('이미 저장한 메세지입니다.');
 
                         $btn
-                            .text('저장됨')
                             .addClass('is_bookmarked')
                             .prop('disabled', true);
 
