@@ -17,7 +17,7 @@
 
 // ── 웹 직접 호출 방어 ────────────────────────────────────────────────
 // CLI 실행이 아닌 경우 시크릿 키 검사
-define('PUSH_SECRET_KEY', 'sahan_push_2026!@#$');  // ← cron-job.org URL에 이 값 사용
+define('PUSH_SECRET_KEY', 'sahan_push_1021');  // ← cron-job.org URL에 이 값 사용
 
 $is_cli = (php_sapi_name() === 'cli');
 
@@ -49,7 +49,7 @@ include_once($dbconfig_file);
 // CLI 인자로 제목/내용 오버라이드 가능: --title="제목" --body="내용"
 $push_title = '사한절';                             // ← 원하는 제목으로 수정
 $push_body  = 'Happy Birthday To 희건,사한'; // ← 원하는 내용으로 수정
-$push_data  = [];                                        // 앱에 추가로 전달할 데이터 (선택)
+$push_data  = new stdClass();                            // 앱에 추가로 전달할 데이터 (선택) — 반드시 object여야 함
 
 if ($is_cli) {
     foreach ($argv as $arg) {
@@ -81,6 +81,9 @@ while ($row = $result->fetch_assoc()) {
     $tokens[] = $row['dt_token'];
 }
 $result->free();
+
+// 혹시 DB에 중복 토큰이 있어도 한 번만 발송되도록 중복 제거
+$tokens = array_values(array_unique($tokens));
 $mysqli->close();
 
 $total = count($tokens);
@@ -153,7 +156,8 @@ exit(0);
  */
 function expo_push_send($url, $messages)
 {
-    $payload = json_encode($messages, JSON_UNESCAPED_UNICODE);
+    // array_values()로 연속 인덱스 보장 → Expo API가 기대하는 JSON 배열 형태로 직렬화
+    $payload = json_encode(array_values($messages), JSON_UNESCAPED_UNICODE);
     $headers = [
         'Content-Type: application/json',
         'Accept: application/json',

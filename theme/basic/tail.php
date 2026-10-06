@@ -20,7 +20,7 @@ if(G5_COMMUNITY_USE === false) {
 <hr>
 
 <!-- 하단 시작 { -->
-<?php $is_app = strpos($_SERVER['HTTP_USER_AGENT'], 'SahanApp') !== false; ?>
+<?php $is_app = defined('G5_IS_APP') && G5_IS_APP; // UA, app=1 파라미터, 쿠키 모두 반영 ?>
 <?php if (!$is_app) { ?>
 <nav id="gnb" class="<?if(!defined("_INDEX_")){?>sub<?}?> ">
     <div class="gnb_wrap">

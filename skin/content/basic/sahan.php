@@ -89,8 +89,8 @@ add_stylesheet(
     #hd {display: none;}
     #container {width: 100%; margin: 0; padding: 0;}
     #gnb.sub {position: fixed; transition: .3s; width: 720px; left: 50%; transform:translate(-50%,0); right: initial;}
-    p {opacity: 0;}
-    p[data-effect="show"] {animation: fadein_bottom 1.2s forwards;}
+    #container p {opacity: 0;}
+    #container p[data-effect="show"] {animation: fadein_bottom 1.2s forwards;}
     .container_sahan {position: relative; max-width: 720px; margin: 0 auto;}
 
     .container_sahan * { box-sizing: border-box; font-family: 'Pretendard', sans-serif; letter-spacing: -0.025em;}
@@ -251,6 +251,126 @@ add_stylesheet(
     .sec_introduce .sahan{background: url('<?=G5_IMG_URL?>/about/section2_bg.png') no-repeat center bottom/100% auto; padding-bottom: 1590px}
     
 
+    @media(max-width:991px){
+        
+    .sec_bk{background-position-y: -7.265vw;}
+    /* =========================
+       Sec 01
+    ========================== */
+
+    .sec_moon:after {height: 115.136vw;}
+    .sec_moon .moon img {margin-top: -7.265vw;}
+    .sec_moon .since {margin-top: -4.945vw; font-size: 3.027vw; line-height: 4.844vw;}
+    .sec_moon .total {margin-top: 54.49vw; font-size: 3.633vw; line-height: 6.054vw;}
+
+
+    /* =========================
+       Sec 02
+    ========================== */
+
+    .sec_stars {margin-top: 24.521vw; padding: 4.743vw 0 7.265vw; height: 114.632vw;}
+    .sec_stars .star1 {top: 4.743vw; right: 15.338vw; width: 8.577vw;}
+    .sec_stars .star2 {top: 17.255vw; left: 11.201vw; width: 14.127vw;}
+    .sec_stars .star3 {top: 35.217vw; right: 11.1vw; width: 8.577vw;}
+    .sec_stars .star4 {top: 52.372vw; right: 30.273vw; width: 11.705vw;}
+    .sec_stars .star5 {bottom: 25.631vw; left: 21.191vw; width: 8.577vw;}
+    .sec_stars .star6 {bottom: 7.265vw; right: 25.227vw; width: 8.577vw;}
+
+
+    /* =========================
+       Sec 03
+    ========================== */
+
+    .sec_korean {}
+    .sec_korean .people {font-size: 2.826vw; line-height: 3.936vw;}
+    .sec_korean .wrap_num {margin-top: 7.265vw; padding: 1.009vw 0 26.942vw;}
+    .sec_korean .wrap_num:before {height: 54.49vw;}
+    .sec_korean .wrap_num:after {height: 54.49vw;}
+    .sec_korean .num {font-size: 26.337vw; line-height: 26.539vw;}
+    .sec_korean .desc {margin-top: 3.532vw; font-size: 3.027vw; line-height: 7.265vw;}
+    .sec_korean .desc em {font-size: 5.55vw;}
+
+
+    /* =========================
+       Sec 04
+    ========================== */
+
+    .sec_bubble {margin: 30.273vw auto 0 15.136vw;}
+    .sec_bubble img{width: 43.289vw;}
+
+
+    /* =========================
+       Sec 05
+    ========================== */
+
+    .sec_sky {margin-top: 7.265vw; padding-top: 49.445vw;}
+    .sec_sky p {font-size: 3.027vw; line-height: 4.844vw; text-shadow: 0vw 0vw 3.027vw rgba(48, 101, 209, 0.5);}
+    .sec_sky .txt01 {padding-left: 15.136vw;}
+    .sec_sky .txt02 {margin-top: 38.849vw; padding-right: 11.201vw;}
+    .sec_sky .txt03 {margin-top: 44.602vw; padding-left: 10.696vw;}
+    .sec_sky .txt04 {margin-top: 62.059vw; font-size: 3.633vw; line-height: 6.054vw; text-shadow: 0vw 0vw 3.027vw rgba(48, 101, 209, 0.5);}
+
+
+    /* =========================
+       Sec 06
+    ========================== */
+
+    .sec_comet {margin: 39.354vw auto 0; width: 15.641vw;}
+    .bottle {margin-top: 13.623vw; font-size: 3.027vw; line-height: 4.844vw; text-shadow: 0vw 0vw 3.027vw rgba(48, 101, 209, 0.63);}
+
+
+    /* =========================
+       Sec 07 ~ Rescue
+    ========================== */
+
+    .sec_rescue {padding: 59.031vw 0 26.539vw;}
+    .sec_rescue p {font-size: 3.027vw; line-height: 4.844vw; text-shadow: 0vw 0vw 3.027vw rgba(48, 101, 209, 0.63);}
+
+
+    /* =========================
+       Click 화면
+       
+       sec_bk의 마지막 100vh를
+       sec_wh가 겹쳐서 사용
+    ========================== */
+
+    .sec_wave{margin-top: 62.563vw;}
+    .sec_wave .btn_next {gap: 7.972vw;}
+    .sec_wave .btn_next img {width: 22.502vw;}
+    .sec_wave .btn_next span {width: 16.549vw; height: 7.366vw; border-radius: 3.734vw; font-size: 3.163vw;}
+
+
+    /* =========================
+       두 번째 전체 영역
+       
+       sec_bk의 마지막 100vh와 겹침
+    ========================== */
+
+    .sec_wh {padding-top: 34.107vw;}
+    .sec_wh .think {font-size: 3.027vw;}
+
+    /* =========================
+       Sec Net
+    ========================== */
+
+    .sec_net{margin-top: 68.617vw;}
+    .sec_net p{font-size: 3.027vw; line-height: 4.844vw;}
+
+    .sec_sl{margin-top: 72.15vw; padding-bottom: 42.28vw;}
+    .sec_sl .sl_phone{width: 40.404vw; margin: 26.236vw auto 0;}
+    .sec_sl .simple{text-shadow: 0vw 0vw 2.018vw rgba(198, 226, 255, 0.5); font-size: 4.844vw;}
+    .sec_sl .install{margin-top: 16.145vw; font-size: 2.624vw; line-height: 4.037vw;}
+    .sec_sl .install em{font-size: 3.027vw;}
+    
+    .sec_introduce{padding: 49.102vw 0 0;}
+    .sec_introduce .desc{text-shadow: 0vw 0vw 2.018vw rgba(220, 251, 255, 0.3); font-size: 2.624vw; line-height: 4.844vw;}
+    .sec_introduce .desc + .desc{margin-top: 39.455vw;}
+    .sec_introduce p{text-shadow: 0vw 0vw 1.513vw rgba(45, 70, 87, 0.8); font-size: 3.027vw;}
+    .sec_introduce .sec_stars{margin-top: 39.657vw;}
+    .sec_introduce p.for{margin-top: 49.001vw;}
+    .sec_introduce .logo{margin: 22.139vw auto 0; width: 42.079vw;}
+    .sec_introduce .sahan{padding-bottom: 155.358vw;}
+    }
     @media(max-width:720px){
         
     .sec_bk{background-position-y: -10vw;}

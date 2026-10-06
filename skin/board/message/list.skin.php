@@ -116,7 +116,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <input type="hidden" name="sw" value="">
 
     <!-- 게시판 페이지 정보 및 버튼 시작 { -->
-    <div id="bo_btn_top">
+    <div id="bo_btn_top" class="fixed">
         <?/*
         <div id="bo_list_total">
             <span>Total <?php echo number_format($total_count) ?>건</span>
@@ -129,12 +129,33 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                     <img src="<?=G5_IMG_URL?>/ico_top.webp" alt="상단으로">
                 </button>
             </li>
-        	<?php if ($admin_href) { ?><li><a href="<?php echo $admin_href ?>" class="btn_admin btn" title="관리자"><i class="fa fa-cog fa-spin fa-fw"></i><span class="sound_only">관리자</span></a></li><?php } ?>
-            <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn" title="RSS"><i class="fa fa-rss" aria-hidden="true"></i><span class="sound_only">RSS</span></a></li><?php } ?>
             <?php if ($write_href) { ?><li class="btn_write btn_board">
                 <a href="<?php echo $write_href ?>" class="btn_b01 btn" title="글쓰기">
                     <img src="<?=G5_IMG_URL?>/ico_write.webp" alt="">
-            </a></li><?php } ?>
+                </a>
+            </li><?php } ?>
+        </ul>
+    </div>
+    <div id="bo_btn_top">
+        <?/*
+        <div id="bo_list_total">
+            <span>Total <?php echo number_format($total_count) ?>건</span>
+            <?php echo $page ?> 페이지
+        </div>
+        */?>
+        
+        <?php if ($is_checkbox) { ?>
+            <div scope="col" class="all_chk chk_box">
+                <input type="checkbox" id="chkall" onclick="if (this.checked) all_checked(true); else all_checked(false);" class="selec_chk">
+                <label for="chkall">
+                    <span></span>
+                    <b>현재 페이지 게시물  전체선택</b>
+                </label>
+        </div>
+        <?php } ?>
+        <ul class="btn_bo_user">
+        	<?php if ($admin_href) { ?><li><a href="<?php echo $admin_href ?>" class="btn_admin btn" title="관리자"><i class="fa fa-cog fa-spin fa-fw"></i><span class="sound_only">관리자</span></a></li><?php } ?>
+            <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn" title="RSS"><i class="fa fa-rss" aria-hidden="true"></i><span class="sound_only">RSS</span></a></li><?php } ?>
         	<?php if ($is_admin == 'super' || $is_auth) {  ?>
         	<li>
         		<button type="button" class="btn_more_opt is_list_btn btn_b01 btn" title="게시판 리스트 옵션"><i class="fa fa-ellipsis-v" aria-hidden="true"></i><span class="sound_only">게시판 리스트 옵션</span></button>
@@ -152,16 +173,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
         	
     <div class="tbl_head01 tbl_wrap">
-        
-        <?php if ($is_checkbox) { ?>
-            <div scope="col" class="all_chk chk_box">
-                <input type="checkbox" id="chkall" onclick="if (this.checked) all_checked(true); else all_checked(false);" class="selec_chk">
-                <label for="chkall">
-                    <span></span>
-                    <b>현재 페이지 게시물  전체선택</b>
-                </label>
-        </div>
-        <?php } ?>
         <ul class="msg_wrap">
         <?php
             for ($i=0; $i<count($list); $i++) {
