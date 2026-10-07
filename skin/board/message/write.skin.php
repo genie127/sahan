@@ -138,7 +138,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     </div>
     <?}?>
 
-    <div class="wrap_send write_div">
+    <div class="wrap_send write_div to">
         <div class="send_info">
             <label for="wr_5">수신인</label>
             <input type="text" id="wr_5" name="wr_5" placeholder="받는 사람의 코드를 입력해주세요" required value="<?php echo $wr_5?>">
@@ -150,9 +150,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     
     <?if($is_admin){?>
     <div class="wrap_send write_div">
-        <div class="date">
-            <label for="wr_6">표기날짜</label>
-            <input type="text" id="wr_6" name="wr_6" inputmode="numeric" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>" style="width:85%">
+        <div class="date send_info ">
+            <label for="wr_6">표기<br>날짜</label>
+            <input type="text" id="wr_6" name="wr_6" inputmode="numeric" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>">
         </div>
     </div>
     <?}?>

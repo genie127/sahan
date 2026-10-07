@@ -29,7 +29,7 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 /* 갤러리 목록 */
 #bo_gall #gall_ul {padding:0;list-style:none;zoom:1;}
 #bo_gall #gall_ul:after {display:block;visibility:hidden;clear:both;content:""}
-#bo_gall .gall_li {position: relative; padding-left: 26.5px; border-left:2px solid #9AA3B2; }
+#bo_gall .gall_li {position: relative; padding-left: 26.5px; border-left:1px solid #9AA3B2; }
 #bo_gall .gall_li:last-child {border-left:none}
 #bo_gall .gall_li:before{content:''; position: absolute; left: 0; top: 0; transform:translateX(-50%); width: 13px; height: 13px; background: #5268A5; border-radius:50%;}
 .chk_box input[type="checkbox"] + label span{top: 44px; left: 0;}
@@ -57,7 +57,8 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 #bo_gall .gall_now .gall_text_href a {color:#ff3061}
 
 #bo_gall .gall_href a:link, #bo_gall .gall_href a:focus, #bo_gall .gall_href a:hover {text-decoration:none}
-#bo_gall .gall_img {border-bottom:1px solid #eee;text-align:center;overflow:hidden; width: 103px;}
+#bo_gall .gall_img {border-bottom:1px solid #eee;text-align:center;overflow:hidden; width: 103px; height: 150px !important; max-height:150px !important}
+#bo_gall .gall_img img{width: 100%; height: 150px;}
 #bo_gall .gall_img a,#bo_gall .gall_img .no_image,#bo_gall .gall_img .is_notice {display:block; width: 100%; height: 100%;}
 #bo_gall .gall_img img, #bo_gall .gall_img video {max-width:100%;height:100% !important;  object-fit: cover;}
 #bo_gall .gall_img span {display:inline-block;background:#eaeaea;text-align:center;text-transform:uppercase;font-weight:bold;font-size:1.25em;color:#777}
@@ -104,7 +105,7 @@ box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2)}
 #bo_list_total {float:left;line-height:34px;font-size:0.92em;color:#4e546f}
 
 .btn_bo_user {float:right;margin:0;padding:0;list-style:none}
-.btn_bo_user li {float:left;width:40px;text-align:center;margin-left:5px;background:#fff}
+.btn_bo_user li {float:left;width:40px;text-align:center;margin-left:5px;}
 .btn_bo_user > li {position:relative}
 .btn_bo_adm {float:left}
 .btn_bo_adm li {float:left;margin-right:5px}
@@ -178,7 +179,7 @@ html.no-overflowscrolling #autosave_pop {height:auto;max-height:10000px !importa
 .autosave_del {background:url(./img/close_btn.png) no-repeat 50% 50%;text-indent:-999px;overflow:hidden;height:20px;width:20px}
 
 /* 게시판 읽기 */
-#bo_v {margin-bottom:20px;background:#fff;box-sizing:border-box}
+#bo_v {margin-bottom:20px;box-sizing:border-box}
 
 #bo_v_table {position:absolute;top:0;right:16px;margin:0;padding:0 5px;height:25px;background:#ff3061;color:#fff;font-weight:bold;line-height:2.2em}
 
@@ -245,8 +246,8 @@ box-shadow:1px 1px 5px 0px hsl(232, 36%, 96%)}
 #bo_v_bot h2 {position:absolute;font-size:0;line-height:0;overflow:hidden}
 #bo_v_bot ul {padding:0;list-style:none}
 
-.bo_v_com {margin:20px 0;float:right}
-.bo_v_com > li {position:relative;float:left;margin-left:5px}
+.bo_v_com {margin:20px 0;float:right; position:relative;}
+.bo_v_com > li {position: static; float:left;margin-left:5px}
 
 .bo_v_nb {margin:20px 0;position:relative;clear:both;text-align:left}
 .bo_v_nb:after {display:block;visibility:hidden;clear:both;content:""}
@@ -392,12 +393,14 @@ box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.1)}
     .subtit {margin-bottom: 30px; font-size:40px; line-height: 1.3; color:#5268A5;}
     #bo_gall .gall_li {padding-left: 20px;}
     #bo_gall .gall_li:before{width: 9.5px; height: 9.5px;}
-    #bo_gall .gall_box {position:relative; padding-bottom: 22.5px; border-radius:0 0 1px 1px}
+    #bo_gall .gall_box {position:relative; padding-bottom: 40px; border-radius:0 0 1px 1px}
     #bo_gall .gall_con {position:relative; display: flex; flex-wrap:wrap;}
 
-    #bo_gall .gall_con .date {width: 100%; margin-bottom: 19px; font-size: 13px;}
+    #bo_gall .gall_con .date {width: 100%; margin-bottom: 19px; font-size: 15.6px;}
+    #bo_gall .gall_img{ height: 150px !important; max-height:150px !important}
+    #bo_gall .gall_img img{ height: 150px !important; max-height:150px !important}
     #bo_gall .gall_text_href { padding-left: 16px;}
     #bo_gall .gall_text_href h4{font-size:14.5px; color:#4A5362; font-weight:700;}
-    #bo_gall .bo_cnt {margin-top: 9.5px; font-size:11px; line-height: 1.5; color:#4A5362}
-    #bo_gall .gall_text_href .link_li li a{width: 136px; height: 28px; display: flex; align-items: center; justify-content: center; font-size:11px; border-radius:5px}
+    #bo_gall .bo_cnt {margin-top: 9.5px; font-size:13.2px; line-height: 1.5; color:#4A5362}
+    #bo_gall .gall_text_href .link_li li a{width: 163.2px; height: 33.6px; display: flex; align-items: center; justify-content: center; font-size:13.2px; border-radius:5px}
 }

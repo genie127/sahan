@@ -32,7 +32,7 @@ header("Pragma: no-cache"); // HTTP/1.0
 */
 ?>
 <!doctype html>
-<html lang="ko">
+<html lang="ko"<?php if (defined('_INDEX_')) echo ' class="main_html"'; ?>>
 <head>
 <meta charset="utf-8">
 <?php

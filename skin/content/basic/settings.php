@@ -6,44 +6,44 @@
 <style>
     body.has_subhd{padding-top: 40px;}
     .subtit {margin-bottom: 45px; font-size:53.5px; line-height: 1.3; color:#5268A5;}
-    .wrap_setli{margin-top: 40px;}
-    .wrap_setli p{font-size:16px; line-height: 1.5; color:#9AA3B2}
-    .wrap_setli p + ul{margin-top: 26.5px;}
-    .wrap_setli ul{padding-bottom: 13.5px; border-bottom:1px solid #E3E7EF}
+    .wrap_setli{margin-top: 44px;}
+    .wrap_setli p{font-size:12.8px; line-height: 1.5; color:#9AA3B2}
+    .wrap_setli p + ul{margin-top: 29.15px;}
+    .wrap_setli ul{padding-bottom: 14.85px; border-bottom:1px solid #E3E7EF}
     .wrap_setli ul li{}
-    .wrap_setli ul li + li{margin-top: 16px;}
+    .wrap_setli ul li + li{margin-top: 17.6px;}
     .wrap_setli ul li a,
     .wrap_setli ul li button{display: flex; align-items: center; justify-content: space-between; width: 100%; border:none; background: none;}
-    .wrap_setli ul li p{font-size:21.5px; color:#2F3744; font-weight:500}
+    .wrap_setli ul li p{font-size:17.2px; color:#2F3744; font-weight:500}
     .wrap_setli ul li p em{color:#5268A5; font-weight:600}
     .wrap_setli ul li a .arr{position: relative; width: 9.5px; height: 16px;}
     .wrap_setli ul li a .arr:after{content:''; position: absolute; width: 12px; height: 12px; border:1px solid #93A2CB; border-width:1px 1px 0 0; transform:rotate(45deg)}
-    .wrap_setli ul li a .ver{font-size:18.5px; line-height: 1.5; }
+    .wrap_setli ul li a .ver{font-size:14.8px; line-height: 1.5; }
     .wrap_setli ul li .toggle{position: relative; display: block; width: 66.5px; height: 32px; border-radius:16px; background: #E3E7EF; transition:.3s}
-    .wrap_setli ul li .toggle .toggle_btn{position: absolute; left: 6.5px; top: 50%; transform:translateY(-50%); width: 25.5px; height: 25.5px; border-radius:50%; background: #FEFEFB; transition:.3s}
+    .wrap_setli ul li .toggle .toggle_btn{position: absolute; left: 7.15px; top: 50%; transform:translateY(-50%); width: 25.5px; height: 25.5px; border-radius:50%; background: #FEFEFB; transition:.3s}
     .wrap_setli ul li .toggle.on{background: #5268A5;}
     .wrap_setli ul li .toggle.on .toggle_btn{position: absolute; left: calc(100% - 32px);}
     .wrap_setli ul li.right{text-align: right;}
-    .wrap_setli ul li.right a{display: inline-block; color:#9AA3B2; font-size: 16px; font-weight:500; text-decoration: underline;}
+    .wrap_setli ul li.right a{display: inline-block; color:#9AA3B2; font-size: 12.8px; font-weight:500; text-decoration: underline;}
     .wrap_setli.app ul{border-bottom:none}
 
 
 @media(max-width:720px){
     body.has_subhd{padding-top: 35.5px;}
     .subtit {margin-bottom: 30px; font-size:40px; line-height: 1.3; color:#5268A5;}
-    .wrap_setli{margin-top: 30px;}
-    .wrap_setli p{font-size:12px;}
-    .wrap_setli p + ul{margin-top: 20px;}
-    .wrap_setli ul{padding-bottom: 10px;}
-    .wrap_setli ul li + li{margin-top: 12px;}
-    .wrap_setli ul li p{font-size:16px;}
+    .wrap_setli{margin-top: 33px;}
+    .wrap_setli p{font-size:9.6px;}
+    .wrap_setli p + ul{margin-top: 22px;}
+    .wrap_setli ul{padding-bottom: 11px;}
+    .wrap_setli ul li + li{margin-top: 13.2px;}
+    .wrap_setli ul li p{font-size:12.8px;}
     .wrap_setli ul li a .arr{width: 7px; height: 12px;}
     .wrap_setli ul li a .arr:after{width: 9px; height: 9px;}
-    .wrap_setli ul li a .ver{font-size:14px;}
+    .wrap_setli ul li a .ver{font-size:11.2px;}
     .wrap_setli ul li .toggle{width: 50px; height: 24px; border-radius:12px;}
-    .wrap_setli ul li .toggle .toggle_btn{left: 5px; width: 19px; height: 19px;}
+    .wrap_setli ul li .toggle .toggle_btn{left: 5.5px; width: 19px; height: 19px;}
     .wrap_setli ul li .toggle.on .toggle_btn{left: calc(100% - 24px);}
-    .wrap_setli ul li.right a{font-size: 12px;}
+    .wrap_setli ul li.right a{font-size: 9.6px;}
 }
 
 </style>
