@@ -27,14 +27,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <input type="hidden" name="sod" value="<?php echo $sod ?>">
     <input type="hidden" name="page" value="<?php echo $page ?>">
     <input type="hidden" name="sw" value="">
-    <?/*
+
+    <?php if ($is_admin == 'super' || $is_auth) {  ?>
     <!-- 게시판 페이지 정보 및 버튼 시작 { -->
     <div id="bo_btn_top">
-        <div id="bo_list_total">
-            <span>Total <?php echo number_format($total_count) ?>건</span>
-            <?php echo $page ?> 페이지
-        </div>
-
         <ul class="btn_bo_user">
             <?php if ($admin_href) { ?><li><a href="<?php echo $admin_href ?>" class="btn_admin btn" title="관리자"><i class="fa fa-cog fa-spin fa-fw"></i><span class="sound_only">관리자</span></a></li><?php } ?>
             <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn" title="RSS"><i class="fa fa-rss" aria-hidden="true"></i><span class="sound_only">RSS</span></a></li><?php } ?>
@@ -57,8 +53,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         </ul>
     </div>
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
-
-    */ ?>
+    <?}?>
 
     <h2 class="subtit">
         <?php echo $board['bo_subject']?>
@@ -75,6 +70,12 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?php } ?>
 
     <ul id="gall_ul" class="gall_row">
+        <?php
+        // wr_5(날짜) 내림차순 정렬 - 큰 값(최신)이 먼저 오도록
+        usort($list, function($a, $b) {
+            return strcmp($b['wr_5'], $a['wr_5']);
+        });
+        ?>
         <?php for ($i=0; $i<count($list); $i++) {
 
             $classes = array();
@@ -149,7 +150,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                          </div>
                          <?if($list[$i]['wr_link1']){?>
                          <ul class="link_li">
-                             <li><a href="<?php echo $list[$i]['wr_link1']?>" target="_blank"><?=$list[$i]['wr_1']?> 바로가기</a></li>
+                             <li><a href="<?php echo $list[$i]['wr_link1']?>" target="_blank"><?=$list[$i]['wr_1']?> <img src="<?=G5_IMG_URL?>/ico_link.png" alt="바로가기"></a></li>
                          </ul>
                          <?}?>
                     </div>
@@ -163,7 +164,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <!-- 페이지 -->
     <?php echo $write_pages; ?>
     <!-- 페이지 -->
-    
+    <?/*
     <?php if ($list_href || $is_checkbox || $write_href) { ?>
     <div class="bo_fx">
         <?php if ($list_href || $write_href) { ?>
@@ -175,6 +176,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <?php } ?>
     </div>
     <?php } ?> 
+    */?>
     </form>
 
     <!-- 게시판 검색 시작 { -->

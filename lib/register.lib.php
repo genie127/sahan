@@ -11,6 +11,16 @@ function empty_mb_id($reg_mb_id)
 
 function valid_mb_id($reg_mb_id)
 {
+    // 영문 소문자, 대문자, 숫자 조합 허용 (레벨10 수정용)
+    if (!preg_match("/^[a-zA-Z0-9]+$/", $reg_mb_id))
+        return "개인고유번호는 영문, 숫자만 입력하세요.";
+    else
+        return "";
+}
+
+// 신규가입 시: 숫자만 허용
+function valid_mb_id_numeric($reg_mb_id)
+{
     if (!preg_match("/^[0-9]+$/", $reg_mb_id))
         return "개인고유번호는 숫자만 입력하세요.";
     else

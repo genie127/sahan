@@ -46,17 +46,21 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
 	                <label for="reg_mb_id">
 	                    개인 고유 코드 <em>(필수)</em>
 	                </label>
-	                <input type="text" name="mb_id" value="<?php echo $member['mb_id'] ?>" id="reg_mb_id" <?php echo $required ?> <?php echo $readonly ?> class=" full_input <?php echo $required ?> <?php echo $readonly ?>" minlength="3" maxlength="20" placeholder="아이디">
+	                <input type="text" name="mb_id" value="<?php echo $member['mb_id'] ?>" id="reg_mb_id" <?php echo $required ?> <?php echo $readonly ?> class=" full_input <?php echo $required ?> <?php echo $readonly ?>" minlength="3" maxlength="20" placeholder="개인 고유 코드를 입력해주세요">
+					<?php if ($w == 'u' && $member['mb_level'] >= 10) { ?>
+					<p class="desc">숫자 또는 영문+숫자 조합으로 입력 가능합니다.</p>
+					<?php } else { ?>
 					<p class="desc">숫자만 입력 가능합니다.</p>
+					<?php } ?>
 	                <span id="msg_mb_id"></span>
 	            </li>
 	            <li>
 	                <label for="reg_mb_password">비밀번호 <em>(필수)</em></label>
-	                <input type="password" name="mb_password" id="reg_mb_password" <?php echo $required ?> class=" full_input <?php echo $required ?>" minlength="3" maxlength="20" placeholder="비밀번호">
+	                <input type="password" name="mb_password" id="reg_mb_password" <?php echo $required ?> class=" full_input <?php echo $required ?>" minlength="3" maxlength="20" placeholder="비밀번호를 입력해주세요">
 	            </li>
 	            <li>
 	                <label for="reg_mb_password_re">비밀번호 확인 <em>(필수)</em></label>
-	                <input type="password" name="mb_password_re" id="reg_mb_password_re" <?php echo $required ?> class=" full_input <?php echo $required ?>" minlength="3" maxlength="20" placeholder="비밀번호 확인">
+	                <input type="password" name="mb_password_re" id="reg_mb_password_re" <?php echo $required ?> class=" full_input <?php echo $required ?>" minlength="3" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요">
 	            </li>
 				
 	
@@ -73,7 +77,7 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
 					</label>
 
 	                <input type="hidden" name="old_email" value="<?php echo $member['mb_email'] ?>">
-	                <input type="text" name="mb_email" value="<?php echo isset($member['mb_email'])?$member['mb_email']:''; ?>" id="reg_mb_email" required class=" email full_input required" size="70" maxlength="100" placeholder="E-mail">
+	                <input type="text" name="mb_email" value="<?php echo isset($member['mb_email'])?$member['mb_email']:''; ?>" id="reg_mb_email" required class=" email full_input required" size="70" maxlength="100" placeholder="E-mail 주소를 입력해주세요">
 	            </li>
 	        </ul>
 	    </div>
@@ -398,6 +402,9 @@ gif, jpg, png파일만 가능하며 용량 <?php echo number_format($config['cf_
 	</div>
 	<div class="btn_confirm">
 	    <button type="submit" id="btn_submit" class="btn_submit" accesskey="s"><?php echo $w==''?'회원가입':'정보수정'; ?></button>
+		<?php if($w!=''){?>
+		<button type="button" class="btn_submit leave" onclick="javascript:location.href='<?php echo G5_BBS_URL; ?>/member_confirm.php?url=member_leave.php';" class="btn01">회원탈퇴</button>
+		<?}?>
 	</div>
 	</form>
 </div>
@@ -414,9 +421,7 @@ $(function() {
 		$('#reg_mb_name, #reg_mb_nick').val(value)
 	});
 
-	$('#reg_mb_id').on('input', function () {
-		this.value = this.value.replace(/[^0-9]/g, '');
-	});
+
 
 
     $("#reg_zip_find").css("display", "inline-block");
@@ -499,10 +504,21 @@ function fregisterform_submit(f)
         }
     }
 
-	if (!/^\d+$/.test(f.mb_id.value)) {
-		alert("개인고유코드는 숫자만 입력 가능합니다.");
-		f.mb_id.focus();
-		return false;
+	// 회원가입(신규)이면 숫자만 허용, 정보수정+레벨10 이상이면 허용
+	if (f.w.value == "") {
+		if (!/^\d+$/.test(f.mb_id.value)) {
+			alert("개인 고유 코드는 숫자만 입력 가능합니다.");
+			f.mb_id.focus();
+			return false;
+		}
+	} else if (f.w.value == "u") {
+		<?php if ($member['mb_level'] < 10) { ?>
+		if (!/^\d+$/.test(f.mb_id.value)) {
+			alert("개인 고유 코드는 숫자만 입력 가능합니다.");
+			f.mb_id.focus();
+			return false;
+		}
+		<?php } ?>
 	}
 
     if (f.w.value == "") {

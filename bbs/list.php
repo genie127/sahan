@@ -197,7 +197,6 @@ if ($is_messages_board) {
                 $messages_condition = "
                     (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
                     AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
-                    AND (wr_7 IS NULL OR wr_7 = '')
                 ";
             } else {
                 $messages_condition = "1=0";

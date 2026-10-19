@@ -109,14 +109,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     */?>
     
 
-    <?if($is_admin){?>
+    <?if($is_admin || intval($member['mb_level']) >= 10){?>
     <div class="write_div checkbox_wrap sentence">
         <input type="checkbox" id="wr_2" name="wr_2" value="1" <?php echo $wr_2 == '1' ? 'checked' : ''; ?>>
         <label for="wr_2"><span class="checkbox"></span><p>날짜 명대사 (노출 지정 날짜에 메인 노출)</p></label>
     </div>
     <div class="write_div checkbox_wrap sentence">
         <input type="checkbox" id="wr_3" name="wr_3" value="1" <?php echo $wr_3 == '1' ? 'checked' : ''; ?>>
-        <label for="wr_3"><span class="checkbox"></span><p>이벤트 명대사 (발신자 검색으로만 노출)</p></label>
+        <label for="wr_3"><span class="checkbox"></span><p>썰, 명대사 (발신자 검색으로만 노출)</p></label>
     </div>
     <?}?>
 
@@ -128,7 +128,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <p>전체공개 설정 시 전체 목록 또는 검색 목록에서 노출되며 <br>전체공개 미 설정 시 수신인에게만 노출됩니다.</p></div>
     </div>
 
-    <?if($is_admin){?>
+    <?if($is_admin || intval($member['mb_level']) >= 10){?>
     <div class="wrap_send write_div">
         <div class="send_info">
             <label for="wr_4">발신인</label>
@@ -148,11 +148,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         </div>
     </div>
     
-    <?if($is_admin){?>
+    <?if($is_admin || intval($member['mb_level']) >= 10){?>
     <div class="wrap_send write_div">
         <div class="date send_info ">
             <label for="wr_6">표기<br>날짜</label>
-            <input type="text" id="wr_6" name="wr_6" inputmode="numeric" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>">
+            <input type="text" id="wr_6" name="wr_6" placeholder="0000.00.00 (미기입시 작성날짜 노출)" value="<?php echo $wr_6?>">
         </div>
     </div>
     <?}?>
@@ -350,7 +350,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             // wr_5 = 수신인 → 숫자 입력
             $("#wr_5").attr('placeholder', '받는 사람의 코드를 입력해주세요');
             $("label[for='wr_5']").text('수신인');
-            $("#wr_5").attr('inputmode', 'numeric');
             $("#wr_5").prop('required', true);
             $("#wr_5").prop('disabled', false);
 
@@ -409,20 +408,17 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     updateSentenceMode();
 
 
-    // wr_5(수신인/발신인) 입력 제한
+    
+    // wr_5(수신인) 입력 제한
     $('#wr_5').on('input', function() {
-        const isDateSentence  = $('#wr_2').prop('checked');
+        const isDateSentence = $('#wr_2').prop('checked');
         const isEventSentence = $('#wr_3').prop('checked');
         const isSentence = isDateSentence || isEventSentence;
 
-        if (isSentence) {
-            // 명대사 → 영문 + 숫자
-            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
-        } else {
-            // 일반 메시지 → 숫자
-            this.value = this.value.replace(/[^0-9]/g, '');
-        }
+        // 수신인: 영문 + 숫자만 허용 (한글, 공백 등 차단)
+        this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
     });
+
 
     $('.about_this').click(function() {
         $(this).find('p').toggle();

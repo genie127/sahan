@@ -96,7 +96,16 @@ run_event('register_form_update_before', $mb_id, $w);
 if ($w == '' || $w == 'u') {
 
     if ($msg = empty_mb_id($mb_id))         alert($msg, "", true, true); // alert($msg, $url, $error, $post);
-    if ($msg = valid_mb_id($mb_id))         alert($msg, "", true, true);
+    // 신규가입이면 숫자만, 정보수정+레벨10 이상이면 영문+숫자 허용
+    if ($w == '') {
+        if ($msg = valid_mb_id_numeric($mb_id))  alert($msg, "", true, true);
+    } else {
+        if ($member['mb_level'] < 10) {
+            if ($msg = valid_mb_id_numeric($mb_id))  alert($msg, "", true, true);
+        } else {
+            if ($msg = valid_mb_id($mb_id))          alert($msg, "", true, true);
+        }
+    }
     if ($msg = count_mb_id($mb_id))         alert($msg, "", true, true);
 
     // 이름, 닉네임에 utf-8 이외의 문자가 포함됐다면 오류

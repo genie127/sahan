@@ -91,7 +91,7 @@
     <div class="wrap_setli app">
         <ul>
             <li><a href="javascript:void()"><p>앱 버전</p><span class="ver">1.0.0</span></a></li>
-            <li class="right"><a href="//x.com/b1ack2overs" target="_blank">오류/개선문의</a></li>
+            <li class="right"><a href="https://docs.google.com/spreadsheets/d/1cBSpczog56aoJrTY2lAsbIcJV3YdtQGE-nmD2TKsC1w/edit?gid=0#gid=0" target="_blank">오류/개선문의</a></li>
         </ul>
     </div>
 

@@ -21,10 +21,10 @@ if ($stx) {
     // 한 페이지에 출력할 검색 결과 수
     $srows = isset($_GET['srows'])
         ? (int)preg_replace('#[^0-9]#', '', $_GET['srows'])
-        : 10;
+        : 20;
 
     if (!$srows) {
-        $srows = 10;
+        $srows = 20;
     }
 
     /*
@@ -62,26 +62,38 @@ if ($stx) {
      *
      * 영문 + 숫자
      * → 발신인 코드(wr_4) 검색
-     * → 이벤트명대사(wr_3=1)인 글만 노출
-     *   (날짜명대사 wr_2=1 는 발신자 검색에서 제외)
+     * → 이벤트명대사(wr_3=1) 또는 날짜명대사(wr_2=1) 글 노출
+     *   (발신인 코드가 입력된 경우 날짜명대사도 검색 포함)
      */
 
     if (preg_match('/^[0-9]+$/', $stx)) {
 
-        // 숫자 검색 → mb_id 기반, 전체공개 일반 메세지만
+        // 숫자 검색 → 발신인 코드(wr_4) 기반 명대사 OR mb_id 기반 전체공개 일반 메세지
         $sql_search = "
-            mb_id = '" . sql_escape_string($stx) . "'
-            AND wr_1 = '1'
-            AND (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
-            AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+            (
+                (
+                    wr_4 = '" . sql_escape_string($stx) . "'
+                    AND (wr_3 = '1' OR wr_2 = '1')
+                    AND UPPER(wr_4) != 'SAHAN'
+                )
+                OR
+                (
+                    mb_id = '" . sql_escape_string($stx) . "'
+                    AND wr_1 = '1'
+                    AND (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                    AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                )
+            )
         ";
 
     } elseif (preg_match('/^[a-zA-Z0-9]+$/', $stx)) {
 
-        // 영문+숫자 검색 → 발신인 코드(wr_4) 기반, 이벤트명대사(wr_3=1)만
+        // 영문+숫자 검색 → 발신인 코드(wr_4) 기반, 이벤트명대사(wr_3=1) 또는 날짜명대사(wr_2=1) 모두 노출
+        // 단, 발신인이 SAHAN인 경우 검색 결과에서 제외
         $sql_search = "
             wr_4 = '" . sql_escape_string($stx) . "'
-            AND wr_3 = '1'
+            AND (wr_3 = '1' OR wr_2 = '1')
+            AND UPPER(wr_4) != 'SAHAN'
         ";
 
     } else {

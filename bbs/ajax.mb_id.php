@@ -12,7 +12,7 @@ $mb_id = isset($_POST['reg_mb_id']) ? trim($_POST['reg_mb_id']) : '';
 set_session('ss_check_mb_id', '');
 
 if ($msg = empty_mb_id($mb_id))     die($msg);
-if ($msg = valid_mb_id($mb_id))     die($msg);
+if ($msg = valid_mb_id_numeric($mb_id)) die($msg);
 if ($msg = count_mb_id($mb_id))     die($msg);
 if ($msg = exist_mb_id($mb_id))     die($msg);
 if ($msg = reserve_mb_id($mb_id))   die($msg);

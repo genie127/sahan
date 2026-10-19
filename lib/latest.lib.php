@@ -82,7 +82,7 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
                  STR_TO_DATE(NULLIF(wr_6,''), '%Y.%m.%d'),
                  wr_datetime
              ) asc,
-             wr_datetime asc
+             wr_id asc
          limit 0, {$rows} ";
 
         $result = sql_query($sql);

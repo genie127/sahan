@@ -20,6 +20,21 @@ $is_board_admin = (
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+
+// 현재 목록 타입 (mine=내게 온 메세지, all=전체공개 에서만 신고/차단 노출)
+$cur_type = isset($_GET['type']) ? $_GET['type'] : '';
+$show_report_block_tab = ($cur_type === 'mine' || $cur_type === 'all');
+
+// 로그인 회원이 차단한 발신인(mb_id) 목록 조회 (A: 개인별 차단)
+$blocked_mb_ids = array();
+if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table'])) {
+    $res = sql_query(" select block_mb_id
+                         from {$g5['message_block_table']}
+                        where mb_id = '".sql_escape_string($member['mb_id'])."' ");
+    while ($res && $brow = sql_fetch_array($res)) {
+        $blocked_mb_ids[$brow['block_mb_id']] = true;
+    }
+}
 ?>
 <!-- 게시판 목록 시작 { -->
 <div id="bo_list" style="width:<?php echo $width; ?>">
@@ -176,6 +191,11 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <ul class="msg_wrap">
         <?php
             for ($i=0; $i<count($list); $i++) {
+
+                // 내가 차단한 발신인의 메세지는 목록에서 숨김 (관리자 화면 제외)
+                if (!$is_admin && $list[$i]['mb_id'] !== '' && isset($blocked_mb_ids[$list[$i]['mb_id']])) {
+                    continue;
+                }
             ?>
            <li class="<?php echo $lt_class ?> msg_item">
 
@@ -217,6 +237,33 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                     <img src="<?=G5_IMG_URL?>/ico_bookmark.webp" alt="북마크"/>
                 </button>
 
+            <?php } ?>
+
+            <?php
+            // 신고 / 차단 버튼
+            // 노출 조건: '내게 온 메세지'(mine) 또는 '전체공개'(all) 탭 +
+            //           로그인 회원 + 본인 글 아님 + 작성자가 회원일 때
+            $writer_mb_id = isset($list[$i]['mb_id']) ? trim($list[$i]['mb_id']) : '';
+            $can_report_block = (
+                $show_report_block_tab &&
+                $is_member &&
+                !empty($member['mb_id']) &&
+                $writer_mb_id !== '' &&
+                $writer_mb_id !== $member['mb_id']
+            );
+            if ($can_report_block) {
+            ?>
+            <div class="msg_report_block" data-wr-id="<?php echo (int)$list[$i]['wr_id']; ?>">
+               <button type="button" class="open_opt">...</button>
+               <ul>
+                    <li>
+                        <button type="button" class="btn_report" data-wr-id="<?php echo (int)$list[$i]['wr_id']; ?>">게시글 신고</button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn_block" data-wr-id="<?php echo (int)$list[$i]['wr_id']; ?>">작성자 차단</button>
+                    </li>
+               </ul>
+            </div>
             <?php } ?>
 
             <?php if ($is_checkbox) { ?>
@@ -265,7 +312,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <div class="cont">
                 <?if(strlen($list[$i]['wr_content']) < 400){?>
                     <p>
-                        <?php echo $list[$i]['wr_content'] ?>
+                        <?if($list[$i]['wr_content'] == '-'){?>
+                        <?}else{?>
+                            <?php echo $list[$i]['wr_content']; ?></p>
+                        <?}?>
                     </p>
                 <?}else{?>
                     <p class="short">
@@ -276,12 +326,10 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             </div>
             <div class="send">
                 <p class="from">from. 
-                    <?if($list[$i]['name'] == '<span class="sv_member">최고관리자</span>'){?>
-                        <?if($list[$i]['wr_4']){?>
-                            <?php echo $list[$i]['wr_4'] ?>
-                        <?}else{?>
-                            SAHAN
-                        <?}?>
+                    <?if($list[$i]['wr_4']){?>
+                        <?php echo $list[$i]['wr_4'] ?>
+                    <?}elseif($list[$i]['name'] == '<span class="sv_member">최고관리자</span>'){?>
+                        SAHAN
                     <?}else{?>
                         <?php echo $list[$i]['name'] ?>
                     <?}?>
@@ -541,6 +589,119 @@ jQuery(function($){
 
             });
 
+        });
+
+        // ============================================
+        // 신고/차단 옵션 토글
+        // ============================================
+        $('.msg_report_block .open_opt').on('click', function(e) {
+            e.stopPropagation();
+            var $box = $(this).closest('.msg_report_block');
+            // 다른 열린 옵션은 닫기
+            $('.msg_report_block').not($box).removeClass('on');
+            $box.toggleClass('on');
+        });
+
+        // 옵션 ul 내부 클릭은 바깥 클릭으로 처리하지 않음
+        $('.msg_report_block ul').on('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // 바깥(ul 이외) 클릭 시 열린 옵션 닫기
+        $(document).on('click', function() {
+            $('.msg_report_block').removeClass('on');
+        });
+
+        // ============================================
+        // 메세지 신고
+        // ============================================
+        $('.btn_report').on('click', function() {
+            var $btn = $(this);
+            var wr_id = $btn.data('wr-id');
+
+            // 옵션 닫기
+            $btn.closest('.msg_report_block').removeClass('on');
+
+            var reason = prompt('신고 사유를 입력해주세요.');
+
+            // 취소(null) 시 중단
+            if (reason === null) {
+                return;
+            }
+
+            reason = reason.trim();
+            if (reason === '') {
+                alert('신고 사유를 입력해주세요.');
+                return;
+            }
+
+            $.ajax({
+                url: '<?php echo G5_THEME_URL; ?>/act/report_message.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    wr_id: wr_id,
+                    reason: reason
+                },
+                success: function(data) {
+                    if (data.result === 'success') {
+                        alert(data.msg || '신고가 접수되었습니다.');
+                    } else if (data.result === 'login') {
+                        alert('로그인이 필요합니다.');
+                    } else {
+                        alert(data.msg || '신고하지 못했습니다.');
+                    }
+                },
+                error: function(xhr) {
+                    console.log('신고 AJAX 오류');
+                    console.log(xhr.responseText);
+                    alert('서버 오류가 발생했습니다.');
+                }
+            });
+        });
+
+        // ============================================
+        // 발신인 차단
+        // ============================================
+        $('.btn_block').on('click', function() {
+            var $btn = $(this);
+            var wr_id = $btn.data('wr-id');
+
+            // 옵션 닫기
+            $btn.closest('.msg_report_block').removeClass('on');
+
+            var confirmed = confirm('이 발신인을 차단하시겠습니까?\n차단하면 해당 발신인의 메세지가 목록에서 보이지 않습니다.');
+            if (!confirmed) {
+                return;
+            }
+
+            $.ajax({
+                url: '<?php echo G5_THEME_URL; ?>/act/block_message.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    wr_id: wr_id
+                },
+                success: function(data) {
+                    if (data.result === 'success') {
+                        alert(data.msg || '차단했습니다.');
+                        // 해당 발신인의 현재 화면 메세지들을 즉시 숨김 처리
+                        $btn.closest('.msg_item').fadeOut();
+                    } else if (data.result === 'duplicate') {
+                        alert(data.msg || '이미 차단한 사용자입니다.');
+                        $btn.closest('.msg_item').fadeOut();
+                    } else if (data.result === 'login') {
+                        alert('로그인이 필요합니다.');
+                    } else {
+                        alert(data.msg || '차단하지 못했습니다.');
+                    }
+                },
+                error: function(xhr) {
+                    console.log('차단 AJAX 오류');
+                    console.log(xhr.responseText);
+                    alert('서버 오류가 발생했습니다.');
+                }
+            });
         });
 
     })

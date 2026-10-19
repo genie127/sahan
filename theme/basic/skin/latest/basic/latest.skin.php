@@ -64,29 +64,36 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
 
         <li class="basic_li swiper-slide">
 
-            <p class="lt_date">
-                <?if($list[$i]['wr_6']){?>
-                    <?php echo $list[$i]['wr_6']; ?>
-                <?}else{?>
-                    <?php echo $title; ?>
-                <?}?>
-                <?php if (!empty($member['mb_id'])) { ?>
+            <div class="lt_top">
+                <p class="lt_date">
+                    <?if($list[$i]['wr_6']){?>
+                        <?php echo $list[$i]['wr_6']; ?>
+                    <?}else{?>
+                        <?php echo $title; ?>
+                    <?}?>
+                    <?php if (!empty($member['mb_id'])) { ?>
 
-                    <button
-                        type="button"
-                        class="btn_bookmark <?php echo $is_bookmarked ? 'is_bookmarked' : ''; ?>"
-                        data-wr-id="<?php echo (int)$list[$i]['wr_id']; ?>"
-                        <?php echo $is_bookmarked ? 'disabled' : ''; ?>
-                    >
-                        <img src="<?=G5_IMG_URL?>/ico_bookmark.webp" alt="북마크"/>
-                    </button>
+                        <button
+                            type="button"
+                            class="btn_bookmark <?php echo $is_bookmarked ? 'is_bookmarked' : ''; ?>"
+                            data-wr-id="<?php echo (int)$list[$i]['wr_id']; ?>"
+                            <?php echo $is_bookmarked ? 'disabled' : ''; ?>
+                        >
+                            <img src="<?=G5_IMG_URL?>/ico_bookmark.webp" alt="북마크"/>
+                        </button>
 
-                <?php } ?>
-            </p>
+                    <?php } ?>
+                </p>
+                <p class="lt_cont">
+                    <?if($list[$i]['wr_content'] == '-'){?>
+                    <?}else{?>
+                        <?php echo $list[$i]['wr_content']; ?>
+                    <?}?>
+                </p>
+            </div>
 
 
-            <div class="lt_cont">
-                <p><?php echo $list[$i]['wr_content']; ?></p>
+            <div class="lt_bot">
                  <div class="send">
                     <p class="from">from. 
                         <?if($list[$i]['wr_4']){?>
@@ -118,8 +125,8 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
     </ul>
     <?if($list_count > 1){?>
         <div class="btn_wrap">
-            <div class="btn prev">이전</div>
-            <div class="btn next">다음</div>
+            <div class="btn prev" title="이전"></div>
+            <div class="btn next" title="다음"></div>
         </div>
     <?}?>
 </div>
@@ -132,7 +139,8 @@ $(function() {
     if($('.swiper-slide').length > 1){
         const sl_bookmark = new Swiper('.sl_list',{
             slidesPerView:1,
-            spaceBetween:20,
+            spaceBetween:10,
+            autoHeight:false,
             navigation:{
                 nextEl:'.btn_wrap .next',
                 prevEl:'.btn_wrap .prev'

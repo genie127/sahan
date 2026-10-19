@@ -169,7 +169,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 
                 <?php } ?>
             </div>
-            <div class="cont"><?php echo $list[$idx][$i]['wr_content'] ?></div>
+            <div class="cont"><p><?php echo $list[$idx][$i]['wr_content'] ?></p></div>
             <div class="send">
                 <p class="from">from. 
                     <?if($list[$idx][$i]['wr_4']){?>

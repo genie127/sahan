@@ -47,8 +47,8 @@ include_once($dbconfig_file);
 
 // ── 발송 메시지 설정 ─────────────────────────────────────────────────
 // CLI 인자로 제목/내용 오버라이드 가능: --title="제목" --body="내용"
-$push_title = '사한절';                             // ← 원하는 제목으로 수정
-$push_body  = 'Happy Birthday To 희건,사한'; // ← 원하는 내용으로 수정
+$push_title = 'Happy Birth day.';                             // ← 원하는 제목으로 수정
+$push_body  = ''; // ← 원하는 내용으로 수정
 $push_data  = new stdClass();                            // 앱에 추가로 전달할 데이터 (선택) — 반드시 object여야 함
 
 if ($is_cli) {

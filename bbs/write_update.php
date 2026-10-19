@@ -140,8 +140,8 @@ for ($i=1; $i<=10; $i++) {
 // ============================================================
 if ($bo_table === 'messages') {
 
-    // wr_2 / wr_3 는 관리자만 체크 가능 (비관리자면 강제 0)
-    if (!$is_admin) {
+    // wr_2 / wr_3 는 관리자 또는 레벨 10 이상만 체크 가능 (그 외 강제 0)
+    if (!$is_admin && intval($member['mb_level']) < 10) {
         $wr_2 = '0';
         $wr_3 = '0';
         $wr_4 = '';
@@ -162,7 +162,7 @@ if ($bo_table === 'messages') {
 
 // wr_subject 빈값 체크 (messages 커스텀 처리 후)
 // messages 게시판 이벤트명대사(wr_3=1)는 wr_subject 불필요 → 자동 세팅
-if ($bo_table === 'messages' && $is_admin && $wr_3 === '1') {
+if ($bo_table === 'messages' && ($is_admin || intval($member['mb_level']) >= 10) && $wr_3 === '1') {
     // wr_6(임의날짜)이 있으면 그걸 제목으로, 없으면 작성일시로 자동 세팅
     if ($wr_subject == '') {
         $wr_subject = ($wr_6 !== '') ? $wr_6 : date('Y-m-d H:i:s');
@@ -262,9 +262,10 @@ if ($w == '' || $w == 'r') {
 }
 
 if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject'])) {
-    // messages 게시판 이벤트명대사(wr_3=1)는 위에서 wr_subject 자동 세팅됨 → 통과
-    // 일반 게시판이거나 messages 비관리자인 경우에만 체크
-    if (!($bo_table === 'messages' && $is_admin)) {
+    // messages 게시판은 위 커스텀 처리에서 wr_subject 자동 세팅됨(수신인 코드/날짜 등)
+    //  → 관리자/비관리자 모두 POST 원본값 기반 체크를 건너뛰고 최종 $wr_subject 로만 판단
+    // 일반 게시판인 경우에만 체크
+    if ($bo_table !== 'messages') {
         alert('제목을 입력하여 주십시오.');
     }
 }
@@ -825,8 +826,9 @@ run_event('write_update_after', $board, $wr_id, $w, $qstr, $redirect_url);
 if ($file_upload_msg)
     alert($file_upload_msg, $redirect_url);
 else
-    if ($bo_table == 'message') {
-        goto_url(get_pretty_url($bo_table));
+    if ($bo_table == 'messages') {
+        // 메세지 게시판은 작성 완료 후 상세가 아니라 '내게 온 메세지(mine)' 목록으로 이동
+        goto_url(G5_BBS_URL.'/board.php?bo_table='.$bo_table.'&type=mine');
     } else {
         goto_url(get_pretty_url($bo_table, $wr_id));
     }

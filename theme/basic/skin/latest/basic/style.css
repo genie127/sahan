@@ -29,3 +29,23 @@
 .lat .lt_cmt {background:#e9eff5;color:#5268A5;font-size:11px;height:16px;line-height:16px;padding:0 5px;border-radius:3px;vertical-align:middle}
 .lat .lt_more {position:absolute;top:11px;right:0;display:block;width:40px;line-height:25px;color:#5268A5;border-radius:3px;text-align:center}
 .lat .lt_more:hover {color:#777}
+
+/* 슬라이드 높이 통일: 가장 큰 슬라이드 기준으로 맞춤 */
+.sl_list .swiper-wrapper{align-items:stretch}
+.sl_list .swiper-slide{height:auto}
+.sl_list .swiper-slide.basic_li{display:flex;flex-direction:column; justify-content: space-between;}
+.sl_list .swiper-slide.basic_li:last-child{margin-right: 0 !important;}
+.sl_list {margin-right: -10px !important;}
+/* btn_wrap: 슬라이드 위에 떠 있되(z-index:8), width:100% 투명 영역이 중앙 터치를 막지 않도록
+   컨테이너는 터치를 통과시키고(pointer-events:none), 실제 버튼에만 터치를 활성화한다.
+   → 버튼 사이 빈 중앙 영역의 스크롤/스와이프가 아래 슬라이드로 그대로 전달된다. */
+.btn_wrap{position: absolute; left: 50%; top: 50%; transform:translate(-50%,-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 10px; z-index: 8; pointer-events: none;}
+.btn_wrap .btn{width: 45px; height: 45px; background: rgb(255,255,255,.2); border-radius:50%; position: relative; padding: 0; pointer-events: auto;}
+.btn_wrap .btn:before{content:''; position: absolute; left: 50%; top: 50%; width: 16px; height: 16px; border:1px solid #fff; border-width:1px 1px 0 0; transform:translate(-75%,-50%) rotate(45deg)}
+.btn_wrap .btn.prev{transform:rotate(180deg)}
+
+@media (max-width:720px) {
+	.btn_wrap .btn{width: 20px; height: 20px;}
+	.btn_wrap .btn:before{width: 7px; height: 7px;}
+	
+}
