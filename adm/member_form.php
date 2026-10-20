@@ -622,6 +622,49 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
                 run_event('admin_member_form_add', $mb, $w, 'table');
                 ?>
 
+                <?php
+                // ============================================================
+                // 차단한 사용자 목록 (수정 모드에서만 표시)
+                // ============================================================
+                if ($w == 'u' && isset($g5['message_block_table']) && $mb['mb_id']) {
+                    $block_result = sql_query("
+                        SELECT block_mb_id, mb_datetime
+                          FROM {$g5['message_block_table']}
+                         WHERE mb_id = '".sql_escape_string($mb['mb_id'])."'
+                         ORDER BY mb_datetime DESC
+                    ");
+                    $block_list = array();
+                    while ($block_result && $brow = sql_fetch_array($block_result)) {
+                        $block_list[] = $brow;
+                    }
+                ?>
+                <tr>
+                    <th scope="row">차단한 사용자</th>
+                    <td colspan="3">
+                        <?php if (empty($block_list)) { ?>
+                            <span style="color:#888">차단한 사용자가 없습니다.</span>
+                        <?php } else { ?>
+                        <ul id="adm_block_list" style="margin:0;padding:0;list-style:none">
+                            <?php foreach ($block_list as $bitem) {
+                                $bid = htmlspecialchars($bitem['block_mb_id']);
+                            ?>
+                            <li id="adm_block_<?php echo $bid ?>" style="padding:4px 0;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px">
+                                <span style="min-width:120px;font-weight:500"><?php echo $bid ?></span>
+                                <span style="color:#999;font-size:12px"><?php echo $bitem['mb_datetime'] ?></span>
+                                <button type="button"
+                                    class="btn_frmline btn_adm_unblock"
+                                    data-mb-id="<?php echo htmlspecialchars($mb['mb_id']) ?>"
+                                    data-block-mb-id="<?php echo $bid ?>"
+                                    style="margin-left:auto"
+                                >차단 해제</button>
+                            </li>
+                            <?php } ?>
+                        </ul>
+                        <?php } ?>
+                    </td>
+                </tr>
+                <?php } // end if w==u ?>
+
                 <?php for ($i = 1; $i <= 10; $i++) { ?>
                     <tr>
                         <th scope="row"><label for="mb_<?php echo $i ?>">여분 필드 <?php echo $i ?></label></th>
@@ -660,6 +703,35 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
     jQuery(function($){
         $("#captcha_key").prop('required', false).removeAttr("required").removeClass("required");
+
+        // 관리자 - 회원 차단 해제
+        $(document).on('click', '.btn_adm_unblock', function() {
+            var $btn       = $(this);
+            var mbId       = $btn.data('mb-id');
+            var blockMbId  = $btn.data('block-mb-id');
+
+            if (!confirm('"' + mbId + '" 회원의 "' + blockMbId + '" 차단을 해제하시겠습니까?')) return;
+
+            $.ajax({
+                url: '<?php echo G5_URL; ?>/adm/member_block_unblock.php',
+                type: 'POST',
+                dataType: 'json',
+                data: { mb_id: mbId, block_mb_id: blockMbId },
+                success: function(data) {
+                    if (data.result === 'success') {
+                        $('#adm_block_' + blockMbId).fadeOut(250, function() {
+                            $(this).remove();
+                            if ($('#adm_block_list li').length === 0) {
+                                $('#adm_block_list').replaceWith('<span style="color:#888">차단한 사용자가 없습니다.</span>');
+                            }
+                        });
+                    } else {
+                        alert(data.msg || '차단 해제에 실패했습니다.');
+                    }
+                },
+                error: function() { alert('서버 오류가 발생했습니다.'); }
+            });
+        });
 
         $("#mb_password").on("keyup", function(e) {
             var $warp = $("#mb_password_captcha_wrap"),

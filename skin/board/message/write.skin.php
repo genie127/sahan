@@ -158,7 +158,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?}?>
 
     <div class="wrap_send write_div is-hidden">
-        <input type="text" id="wr_7" name="wr_7" value="<?php echo $wr_id ?>" hidden>
+        <input type="text" id="wr_7" name="wr_7" value="<?php echo ($w == 'u') ? (isset($write['wr_7']) ? $write['wr_7'] : '') : '0'; ?>" hidden>
     </div>
 
     <div class="bo_w_tit write_div">

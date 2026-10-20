@@ -81,6 +81,14 @@
         </ul>
     </div>
     <?php } ?>
+     <?if($member['mb_id']){?>
+    <div class="wrap_setli">
+        <p>차단한 사용자</p>
+        <ul>
+            <li><a href="<?php echo G5_BBS_URL; ?>/content.php?co_id=blocked_users"><p>차단한 사용자 목록</p> <span class="arr"></span></a></li>
+        </ul>
+    </div>
+    <?}?>
     <div class="wrap_setli">
         <p>이용약관</p>
         <ul>

@@ -9,6 +9,12 @@ if (!$is_member) {
     exit;
 }
 
+// 관리자는 차단 불가 (차단 기능 자체를 사용할 수 없음)
+if ($is_admin) {
+    echo json_encode(array('result' => 'error', 'msg' => '차단 기능을 사용할 수 없습니다.'));
+    exit;
+}
+
 $wr_id = isset($_POST['wr_id']) ? (int)$_POST['wr_id'] : 0;
 
 if (!$wr_id) {
@@ -39,6 +45,13 @@ if ($row['mb_id'] === '') {
 // 본인은 차단 불가
 if ($row['mb_id'] === $member['mb_id']) {
     echo json_encode(array('result' => 'self', 'msg' => '본인은 차단할 수 없습니다.'));
+    exit;
+}
+
+// 작성자가 레벨 10 이상이면 차단 불가
+$writer = sql_fetch(" select mb_level from {$g5['member_table']} where mb_id = '".sql_escape_string($row['mb_id'])."' limit 1 ");
+if (isset($writer['mb_level']) && intval($writer['mb_level']) >= 10) {
+    echo json_encode(array('result' => 'error', 'msg' => '이 발신인은 차단할 수 없습니다.'));
     exit;
 }
 

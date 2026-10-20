@@ -103,15 +103,19 @@ if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table']))
 
             <?if($is_board_admin){?>
             <li class="<?if(isset($_GET['type']) && $_GET['type'] == 'adm_messages'){?>on<?}?>">
-                <a href="/bbs/board.php?bo_table=messages&type=adm_messages">관리자용 전체메세지</a>
+                <a href="/bbs/board.php?bo_table=messages&type=adm_messages">유저 메세지</a>
+            </li>
+
+            <li class="<?if(isset($_GET['type']) && $_GET['type'] == 'adm_bookmarks'){?>on<?}?>">
+                <a href="/bbs/board.php?bo_table=messages&type=adm_bookmarks">유저 북마크</a>
             </li>
 
             <li class="<?if(isset($_GET['type']) && $_GET['type'] == 'adm_date'){?>on<?}?>">
-                <a href="/bbs/board.php?bo_table=messages&type=adm_date">명대사관리(날짜)</a>
+                <a href="/bbs/board.php?bo_table=messages&type=adm_date">명대사(날짜별 메인)</a>
             </li>
 
             <li class="<?if(isset($_GET['type']) && $_GET['type'] == 'adm_special'){?>on<?}?>">
-                <a href="/bbs/board.php?bo_table=messages&type=adm_special">명대사관리(이벤트)</a>
+                <a href="/bbs/board.php?bo_table=messages&type=adm_special">명대사(썰 검색)</a>
             </li>
             <?}?>
         </ul>
@@ -172,6 +176,9 @@ if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table']))
         	<?php if ($admin_href) { ?><li><a href="<?php echo $admin_href ?>" class="btn_admin btn" title="관리자"><i class="fa fa-cog fa-spin fa-fw"></i><span class="sound_only">관리자</span></a></li><?php } ?>
             <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn" title="RSS"><i class="fa fa-rss" aria-hidden="true"></i><span class="sound_only">RSS</span></a></li><?php } ?>
         	<?php if ($is_admin == 'super' || $is_auth) {  ?>
+            <li>
+            	<button type="button" class="btn_bo_sch btn_b01 btn" title="게시판 검색"><i class="fa fa-search" aria-hidden="true"></i><span class="sound_only">게시판 검색</span></button>
+            </li>
         	<li>
         		<button type="button" class="btn_more_opt is_list_btn btn_b01 btn" title="게시판 리스트 옵션"><i class="fa fa-ellipsis-v" aria-hidden="true"></i><span class="sound_only">게시판 리스트 옵션</span></button>
         		<?php if ($is_checkbox) { ?>	
@@ -197,7 +204,7 @@ if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table']))
                     continue;
                 }
             ?>
-           <li class="<?php echo $lt_class ?> msg_item">
+           <li class="<?php echo $lt_class ?> msg_item" data-writer-mb-id="<?php echo htmlspecialchars($list[$i]['mb_id']); ?>">
 
            <?php
                 $is_bookmarked = false;
@@ -241,12 +248,12 @@ if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table']))
 
             <?php
             // 신고 / 차단 버튼
-            // 노출 조건: '내게 온 메세지'(mine) 또는 '전체공개'(all) 탭 +
-            //           로그인 회원 + 본인 글 아님 + 작성자가 회원일 때
+            // 노출 조건: 'mine' 또는 'all' 탭 + 로그인 회원 + 본인 글 아님 + admin 아님
             $writer_mb_id = isset($list[$i]['mb_id']) ? trim($list[$i]['mb_id']) : '';
             $can_report_block = (
                 $show_report_block_tab &&
                 $is_member &&
+                !$is_admin &&
                 !empty($member['mb_id']) &&
                 $writer_mb_id !== '' &&
                 $writer_mb_id !== $member['mb_id']
@@ -373,6 +380,28 @@ if ($is_member && !empty($member['mb_id']) && isset($g5['message_block_table']))
     */?>
     </form>
 
+    <!-- 게시판 검색 시작 { -->
+    <div class="bo_sch_wrap">
+        <fieldset class="bo_sch">
+            <h3>검색</h3>
+            <form name="fsearch" method="get">
+            <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
+            <input type="hidden" name="sca" value="<?php echo $sca ?>">
+            <input type="hidden" name="sop" value="and">
+            <label for="sfl" class="sound_only">검색대상</label>
+            <select name="sfl" id="sfl">
+                <?php echo get_board_sfl_select_options($sfl); ?>
+            </select>
+            <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
+            <div class="sch_bar">
+                <input type="text" name="stx" value="<?php echo stripslashes($stx) ?>" required id="stx" class="sch_input" size="25" maxlength="20" placeholder=" 검색어를 입력해주세요">
+                <button type="submit" value="검색" class="sch_btn"><i class="fa fa-search" aria-hidden="true"></i><span class="sound_only">검색</span></button>
+            </div>
+            <button type="button" class="bo_sch_cls" title="닫기"><i class="fa fa-times" aria-hidden="true"></i><span class="sound_only">닫기</span></button>
+            </form>
+        </fieldset>
+        <div class="bo_sch_bg"></div>
+    </div>
     <script>
     $(function() {
         $("#top_btn").on("click", function() {
@@ -685,11 +714,21 @@ jQuery(function($){
                 success: function(data) {
                     if (data.result === 'success') {
                         alert(data.msg || '차단했습니다.');
-                        // 해당 발신인의 현재 화면 메세지들을 즉시 숨김 처리
-                        $btn.closest('.msg_item').fadeOut();
+                        // 차단한 발신인의 현재 화면 메세지 전체 즉시 제거
+                        var blockedId = data.block_mb_id || '';
+                        if (blockedId) {
+                            $('.msg_item[data-writer-mb-id="' + blockedId + '"]').fadeOut();
+                        } else {
+                            $btn.closest('.msg_item').fadeOut();
+                        }
                     } else if (data.result === 'duplicate') {
                         alert(data.msg || '이미 차단한 사용자입니다.');
-                        $btn.closest('.msg_item').fadeOut();
+                        var blockedId2 = data.block_mb_id || '';
+                        if (blockedId2) {
+                            $('.msg_item[data-writer-mb-id="' + blockedId2 + '"]').fadeOut();
+                        } else {
+                            $btn.closest('.msg_item').fadeOut();
+                        }
                     } else if (data.result === 'login') {
                         alert('로그인이 필요합니다.');
                     } else {

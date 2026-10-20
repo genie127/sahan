@@ -47,6 +47,7 @@
 
 .btn_bo_user > li.btn_board a,
 .btn_bo_user > li.btn_board button{display: flex; justify-content: center; align-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1px solid #93A2CB; background: none;}
+.btn_bo_user > li.btn_board button#top_btn{background: #fff;}
 .btn_bo_user > li.btn_write a{background: #5268A5; border-color:#5268A5}
 .btn_bo_user > li img {height: 26.5px;}
 .btn_bo_adm {float:left}
@@ -56,7 +57,7 @@
 .bo_notice td a {font-weight:bold}
 .bo_notice .notice_icon {display:inline-block;line-height:25px;border-radius:5px;font-weight:bold;color:#f9267f}
 
-.more_opt {display:none;position:absolute;top:45px;right:0;background:#fff;border:1px solid #b8bfc4;z-index:999}
+.more_opt {display:none;position:absolute;top:auto;right:0;background:#fff;border:1px solid #b8bfc4;z-index:999}
 .more_opt:before {content:"";position:absolute;top:-8px;right:13px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #b8bfc4 transparent}
 .more_opt:after {content:"";position:absolute;top:-6px;right:13px;width:0;height:0;border-style:solid;border-width:0 6px 8px 6px;border-color:transparent transparent #fff transparent}
 .more_opt li {border-bottom:1px solid #f1f1f1;padding:10px;float:inherit;width:90px;margin:0;color:#6b757c;text-align:left}
@@ -194,7 +195,7 @@ box-shadow:1px 1px 5px 0px hsl(232, 36%, 96%)}
 #bo_v_bot ul {padding:0;list-style:none}
 
 .bo_v_com {margin:20px 0;float:right}
-.bo_v_com > li {position:relative;float:left;margin-left:5px}
+.bo_v_com > li {position:static;float:left;margin-left:5px}
 
 .bo_v_nb {position:relative;margin:20px 0;clear:both;text-align:left}
 .bo_v_nb:after {display:block;visibility:hidden;clear:both;content:""}
@@ -380,8 +381,8 @@ box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.1)}
 .msg_report_block ul {display: none; background: #fff; border:1px solid #eee; border-radius:4px}
 .msg_report_block.on ul { display: block; }
 .msg_report_block.on ul li + li{border-top:1px solid #eee}
-.msg_report_block.on ul li button{padding: 2px;}
-.msg_report_block button{background: none; border:none;}
+.msg_report_block.on ul li button{padding: 4px 8px;}
+.msg_report_block button{background: none; border:none; transform:rotate(90deg)}
 
 .msg_wrap .msg_item{position: relative; box-shadow: 0px 0px 8px 5.5px #E3E7EF; border-radius:20px; padding: 26.5px; background: #fff;}
 .msg_wrap .msg_item + .msg_item{margin-top: 32px;}
@@ -462,7 +463,7 @@ box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.1)}
     #bo_w .checkbox_wrap .checkbox{display: block; width: 14px; height: 14px; border-radius:2px; background:#E3E7EF url('../../../img/ico_check_wh.png') no-repeat center center/9.5px auto;}
     #bo_w .checkbox_wrap p{font-size:14px; color:#9AA3B2;}
     #bo_w .select_open .about_this .ico_info{width: 14px;}
-    #bo_w .select_open .about_this p{left: 25px; border:2px solid #24262a; border-radius:4px; padding: 4px 6px; font-size:11px;}
+    #bo_w .select_open .about_this p{left: 25px; border-width:1px; border-radius:4px; padding: 4px 6px; font-size:11px;}
     #bo_w .select_open .about_this p:before{width: 5px; height: 9px; }
     
     #bo_w .wrap_send label{font-size:14px}

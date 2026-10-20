@@ -161,7 +161,9 @@ function expo_push_send($url, $messages)
     $headers = [
         'Content-Type: application/json',
         'Accept: application/json',
-        'Accept-Encoding: gzip, deflate',
+        // Accept-Encoding 헤더를 보내지 않으면 Expo가 평문 JSON을 반환
+        // (gzip 응답을 보내면 CURLOPT_ENCODING으로 자동 해제되지만,
+        //  dothome 등 일부 호스팅은 curl gzip 해제가 불안정하므로 명시적으로 제외)
     ];
 
     if (function_exists('curl_init')) {
@@ -173,6 +175,7 @@ function expo_push_send($url, $messages)
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_ENCODING       => '',   // 빈 문자열 = curl이 지원하는 모든 인코딩 자동 해제
         ]);
         $response = curl_exec($ch);
         $err      = curl_error($ch);
@@ -196,8 +199,12 @@ function expo_push_send($url, $messages)
         'ssl' => ['verify_peer' => true],
     ]);
 
-    $response = @file_get_contents($url, false, $context);
-    return $response;
+    $raw = @file_get_contents($url, false, $context);
+    // gzip 압축 응답이면 수동 해제
+    if ($raw !== false && isset($raw[0]) && ord($raw[0]) === 0x1f && isset($raw[1]) && ord($raw[1]) === 0x8b) {
+        $raw = gzdecode($raw);
+    }
+    return $raw;
 }
 
 /**

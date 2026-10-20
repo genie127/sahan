@@ -140,11 +140,12 @@ exit(0);
 
 function expo_push_send($url, $messages)
 {
-    $payload = json_encode($messages, JSON_UNESCAPED_UNICODE);
+    $payload = json_encode(array_values($messages), JSON_UNESCAPED_UNICODE);
     $headers = [
         'Content-Type: application/json',
         'Accept: application/json',
-        'Accept-Encoding: gzip, deflate',
+        // Accept-Encoding 헤더 제거 → Expo가 평문 JSON 반환
+        // (gzip 압축 응답 시 json_decode 파싱 실패 방지)
     ];
 
     if (function_exists('curl_init')) {
@@ -156,6 +157,7 @@ function expo_push_send($url, $messages)
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_ENCODING       => '',   // 자동 압축 해제 (gzip/deflate 모두)
         ]);
         $response = curl_exec($ch);
         $err      = curl_error($ch);
@@ -179,7 +181,12 @@ function expo_push_send($url, $messages)
         'ssl' => ['verify_peer' => true],
     ]);
 
-    return @file_get_contents($url, false, $context);
+    $raw = @file_get_contents($url, false, $context);
+    // 혹시 gzip 압축된 응답이 오면 수동으로 해제
+    if ($raw !== false && isset($raw[0]) && ord($raw[0]) === 0x1f && isset($raw[1]) && ord($raw[1]) === 0x8b) {
+        $raw = gzdecode($raw);
+    }
+    return $raw;
 }
 
 function log_msg($msg)
