@@ -17,10 +17,6 @@ $count_write = $count_comment = 0;
 // ============================================================
 
 if ($is_admin == 'super') {
-var_dump($is_admin);
-var_dump($member['mb_id']);
-var_dump($write['mb_id']);
-exit;
     // 최고관리자 통과
 
 } else if ($is_admin == 'group') {
@@ -256,24 +252,35 @@ while ($row = sql_fetch_array($result))
     }
 }
 // ============================================================
-// 해당 원본을 북마크한 메시지도 삭제
-// wr_6 = 원본 게시글 wr_id
+// 해당 원본을 북마크한 메시지 사본도 삭제
+// wr_7 = 원본 게시글 wr_id (bookmark_message.php에서 저장하는 방식과 일치)
 // ============================================================
 
-sql_query("
-    delete from {$g5['write_prefix']}messages
-    where wr_6 = '{$write['wr_id']}'
-    and wr_4 = '0'
-");
+if ($bo_table === 'messages' && !empty($write['wr_7'])) {
+    sql_query("
+        delete from {$g5['write_prefix']}messages
+        where wr_7 = '{$write['wr_id']}'
+    ");
+}
 
 // ============================================================
 // 게시글 + 댓글 삭제
+// 북마크 사본(wr_7 != '')은 wr_parent가 원본을 가리키므로
+// wr_parent 기준 일괄 삭제 대신 해당 레코드만 단독 삭제
 // ============================================================
 
-sql_query("
-    delete from $write_table
-    where wr_parent = '{$write['wr_id']}'
-");
+if ($bo_table === 'messages' && !empty($write['wr_7']) && (int)$write['wr_7'] > 0) {
+    // 북마크 사본 단독 삭제 (원본에 영향 없음)
+    sql_query("
+        delete from $write_table
+        where wr_id = '{$write['wr_id']}'
+    ");
+} else {
+    sql_query("
+        delete from $write_table
+        where wr_parent = '{$write['wr_id']}'
+    ");
+}
 
 
 // ============================================================

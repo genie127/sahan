@@ -53,7 +53,11 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
     $today_mmdd = date('md', $base_time);
     $today_date_sql = date('Y-m-d', $base_time);
 
-    if(G5_USE_CACHE) {
+    // 메인페이지 명대사/오늘 작성 게시글 랜덤 노출:
+    // messages 게시판은 캐시를 사용하지 않고 매 로드마다 랜덤 선택
+    $is_messages_random = ($bo_table === 'messages');
+
+    if (!$is_messages_random && G5_USE_CACHE) {
         $cache_file_name = "latest-{$bo_table}-{$skin_dir}-{$rows}-{$subject_len}-{$today_mmdd}-".g5_cache_secret_key();
         $caches = g5_get_cache($cache_file_name, (int) $time_unit * (int) $cache_time);
         $cache_list = isset($caches['list']) ? $caches['list'] : array();
@@ -73,6 +77,107 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
         $bo_subject = get_text($board['bo_subject']);
 
         $tmp_write_table = $g5['write_prefix'] . $bo_table; // 게시판 테이블 전체이름
+
+        // ================================================================
+        // 메인페이지 랜덤 노출 로직 (messages 게시판 전용)
+        // ================================================================
+        // A. 오늘 날짜 명대사 (wr_2=1, wr_subject=MMDD)
+        // B. 오늘 작성된 전체 공개 게시글 (wr_1=1, wr_2=0, wr_3=0, 비밀글 제외)
+        // 두 후보 중 하나를 랜덤으로 선택하여 노출
+        // ================================================================
+        if ($is_messages_random) {
+
+            // ---- A. 오늘 날짜 명대사 조회 ----
+            $sql_date = " select * from {$tmp_write_table}
+             where wr_is_comment = 0
+             and wr_2 = '1'
+             and (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+             and wr_subject = '{$today_mmdd}'
+             order by
+                 COALESCE(
+                     STR_TO_DATE(NULLIF(wr_6,''), '%Y.%m.%d'),
+                     wr_datetime
+                 ) asc,
+                 wr_id asc
+             limit 0, {$rows} ";
+
+            $date_rows = array();
+            $result_date = sql_query($sql_date);
+            while ($row = sql_fetch_array($result_date)) {
+                $date_rows[] = $row;
+            }
+
+            // ---- B. 오늘 작성된 전체 공개 게시글 조회 ----
+            // 조건: 전체공개(wr_1=1), 명대사 아님(wr_2=0, wr_3=0),
+            //        비밀글 제외, 오늘 00:00 이후 작성, 북마크 사본 제외(wr_7)
+            $sql_today = " select * from {$tmp_write_table}
+             where wr_is_comment = 0
+             and wr_1 = '1'
+             and wr_2 = '0'
+             and wr_3 = '0'
+             and (wr_7 IS NULL OR wr_7 = '' OR wr_7 = '0')
+             and wr_datetime >= '{$today_date_sql} 00:00:00'
+             and wr_datetime <= '{$today_date_sql} 23:59:59'
+             order by wr_id desc
+             limit 0, {$rows} ";
+
+            $today_rows = array();
+            $result_today = sql_query($sql_today);
+            while ($row = sql_fetch_array($result_today)) {
+                $today_rows[] = $row;
+            }
+
+            // ---- 랜덤 후보 구성 및 선택 ----
+            $candidates = array();
+
+            // 매년 10월 21일에는 무조건 명대사만 노출
+            $is_oct21 = (date('md', $base_time) === '1021');
+
+            // 후보 A: 오늘 날짜 명대사 (여러 개면 전체 그룹을 하나의 후보로)
+            if (!empty($date_rows)) {
+                $candidates['date'] = $date_rows;
+            }
+
+            // 후보 B: 오늘 작성된 전체 공개 게시글 (여러 개면 무작위 1개 선정)
+            // 단, 10월 21일에는 일반 게시글 후보에서 제외
+            if (!$is_oct21 && !empty($today_rows)) {
+                $random_idx = array_rand($today_rows);
+                $candidates['today'] = array($today_rows[$random_idx]);
+            }
+
+            // 랜덤 선택
+            $final_rows = array();
+            if (!empty($candidates)) {
+                $selected_key = array_rand($candidates);
+                $final_rows = $candidates[$selected_key];
+            }
+
+            // 선택된 게시글을 $list 에 가공
+            for ($i=0; $i < count($final_rows); $i++) {
+                $row = $final_rows[$i];
+                try {
+                    unset($row['wr_password']);
+                } catch (Exception $e) {
+                }
+                $row['wr_email'] = '';
+                if (strpos($row['wr_option'], 'secret') !== false){
+                    $row['wr_content'] = $row['wr_link1'] = $row['wr_link2'] = '';
+                    $row['file'] = array('count'=>0);
+                }
+                $list[$i] = get_list($row, $board, $latest_skin_url, $subject_len);
+
+                $list[$i]['first_file_thumb'] = (isset($row['wr_file']) && $row['wr_file']) ? get_board_file_db($bo_table, $row['wr_id'], 'bf_file, bf_content', "and bf_type in (1, 2, 3, 18) ", true) : array('bf_file'=>'', 'bf_content'=>'');
+                $list[$i]['bo_table'] = $bo_table;
+                if(! isset($list[$i]['icon_file'])) $list[$i]['icon_file'] = '';
+            }
+
+            g5_latest_cache_data($bo_table, $list);
+
+        } else {
+
+        // ================================================================
+        // 일반 최신글 추출 (기존 로직)
+        // ================================================================
         $sql = " select * from {$tmp_write_table}
          where wr_is_comment = 0
          and wr_2 = '1'
@@ -119,7 +224,9 @@ function latest($skin_dir='', $bo_table='', $rows=10, $subject_len=40, $cache_ti
         }
         g5_latest_cache_data($bo_table, $list);
 
-        if(G5_USE_CACHE) {
+        } // end if ($is_messages_random) else
+
+        if(!$is_messages_random && G5_USE_CACHE) {
 
             $caches = array(
                 'list' => $list,

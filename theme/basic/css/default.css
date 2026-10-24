@@ -702,7 +702,7 @@ h1.main_logo{position: absolute; left: 50%; top: 25%; transform:translateX(-50%)
 .empty_list .txt{margin-top: 34.5px; font-size:23px; line-height: 1.5; color:#4A5362}
 .empty_list .desc{margin-top: 11.5px; font-size:17.5px; line-height: 1.5; color:#6E7786}
 
-body{padding-top: 45px;}
+body{padding-top: 60px;}
 body.has_subhd{padding-top: 123.5px;}
 .container{padding: 0 26.5px;}
 .pb{padding-bottom: 80px;}
@@ -770,7 +770,7 @@ body.has_subhd{padding-top: 123.5px;}
     .empty_list .txt{margin-top: 26px; font-size:17.5px; line-height: 1.5; color:#4A5362}
     .empty_list .desc{margin-top: 8.5px; font-size:13px; line-height: 1.5; color:#6E7786}
 
-    body{padding-top: 35.5px; padding-bottom: 120px;}
+    body{padding-top: 55.5px; padding-bottom: 120px;}
     body.has_subhd{padding-top: 92.5px;}
     .container{padding: 0 20px;}
     .pb{padding-bottom: 60px;}

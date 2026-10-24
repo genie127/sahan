@@ -46,11 +46,11 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
 	                <label for="reg_mb_id">
 	                    개인 고유 코드 <em>(필수)</em>
 	                </label>
-	                <input type="text" name="mb_id" value="<?php echo $member['mb_id'] ?>" id="reg_mb_id" <?php echo $required ?> <?php echo $readonly ?> class=" full_input <?php echo $required ?> <?php echo $readonly ?>" minlength="3" maxlength="20" placeholder="개인 고유 코드를 입력해주세요">
+	                <input type="text" name="mb_id" value="<?php echo $member['mb_id'] ?>" id="reg_mb_id" <?php echo $required ?> <?php echo $readonly ?> class=" full_input <?php echo $required ?> <?php echo $readonly ?>" placeholder="개인 고유 코드 8자리 숫자">
 					<?php if ($w == 'u' && $member['mb_level'] >= 10) { ?>
 					<p class="desc">숫자 또는 영문+숫자 조합으로 입력 가능합니다.</p>
 					<?php } else { ?>
-					<p class="desc">숫자만 입력 가능합니다.</p>
+					<p class="desc">숫자 8자리만 입력 가능합니다.</p>
 					<?php } ?>
 	                <span id="msg_mb_id"></span>
 	            </li>
@@ -131,18 +131,16 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
 				<?php } ?>
 	            <li>
 	                <label for="reg_mb_name">이름 (필수)<?php echo $desc_name ?></label>
-	                <input type="text" id="reg_mb_name" name="mb_name" value="<?php echo get_text($member['mb_name']) ?>" <?php echo $required ?> <?php echo $name_readonly; ?> class=" full_input <?php echo $required ?> <?php echo $name_readonly ?>" size="10" placeholder="이름">
+	                <input type="text" id="reg_mb_name" name="mb_name" value="<?php echo get_text($member['mb_name']) ?>" <?php echo $required ?> <?php echo $name_readonly; ?> class=" full_input <?php echo $required ?> <?php echo $name_readonly ?>" size="10" maxlength="8" placeholder="개인 고유 코드와 동일">
 	            </li>
 	            <?php if ($req_nick) {  ?>
 	            <li>
 	                <label for="reg_mb_nick">
-	                	닉네임 (필수)
-	                	<button type="button" class="tooltip_icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i><span class="sound_only">설명보기</span></button>
-						<span class="tooltip">공백없이 한글,영문,숫자만 입력 가능 (한글2자, 영문4자 이상)<br> 닉네임을 바꾸시면 앞으로 <?php echo (int)$config['cf_nick_modify'] ?>일 이내에는 변경 할 수 없습니다.</span>
+	                	개인 고유 코드 <em>(필수)</em>
 	                </label>
 	                
                     <input type="hidden" name="mb_nick_default" value="<?php echo isset($member['mb_nick'])?get_text($member['mb_nick']):''; ?>">
-                    <input type="text" name="mb_nick" value="<?php echo isset($member['mb_nick'])?get_text($member['mb_nick']):''; ?>" id="reg_mb_nick" required class=" required nospace full_input" size="10" maxlength="20" placeholder="닉네임">
+                    <input type="text" name="mb_nick" value="<?php echo isset($member['mb_nick'])?get_text($member['mb_nick']):''; ?>" id="reg_mb_nick" required class=" required nospace full_input" size="10" maxlength="8" placeholder="개인 고유 코드와 동일">
                     <span id="msg_mb_nick"></span>	                
 	            </li>
 	            <?php }  ?>
@@ -422,8 +420,6 @@ $(function() {
 	});
 
 
-
-
     $("#reg_zip_find").css("display", "inline-block");
     var pageTypeParam = "pageType=register";
 
@@ -504,18 +500,29 @@ function fregisterform_submit(f)
         }
     }
 
-	// 회원가입(신규)이면 숫자만 허용, 정보수정+레벨10 이상이면 허용
+	// 회원가입(신규)이면 숫자 8자리, 정보수정+레벨10 이상이면 허용
 	if (f.w.value == "") {
-		if (!/^\d+$/.test(f.mb_id.value)) {
-			alert("개인 고유 코드는 숫자만 입력 가능합니다.");
+		if (!/^\d{8}$/.test(f.mb_id.value)) {
+			alert("개인 고유 코드는 숫자 8자리로 입력 가능합니다.");
 			f.mb_id.focus();
+			return false;
+		}
+		// 닉네임도 숫자 8자리 체크
+		if (!/^\d{8}$/.test(f.mb_nick.value)) {
+			alert("개인 고유 코드는 숫자 8자리로 입력 가능합니다.");
+			f.mb_nick.focus();
 			return false;
 		}
 	} else if (f.w.value == "u") {
 		<?php if ($member['mb_level'] < 10) { ?>
-		if (!/^\d+$/.test(f.mb_id.value)) {
-			alert("개인 고유 코드는 숫자만 입력 가능합니다.");
+		if (!/^\d{8}$/.test(f.mb_id.value)) {
+			alert("개인 고유 코드는 숫자 8자리로 입력 가능합니다.");
 			f.mb_id.focus();
+			return false;
+		}
+		if (!/^\d{8}$/.test(f.mb_nick.value)) {
+			alert("개인 고유 코드는 숫자 8자리로 입력 가능합니다.");
+			f.mb_nick.focus();
 			return false;
 		}
 		<?php } ?>
@@ -551,14 +558,12 @@ function fregisterform_submit(f)
             return false;
         }
 
-        /*
-        var pattern = /([^가-힣\x20])/i;
-        if (pattern.test(f.mb_name.value)) {
-            alert("이름은 한글로 입력하십시오.");
-            f.mb_name.select();
+        // 개인고유번호(이름) 숫자 8자리 체크 - 신규가입
+        if (!/^\d{8}$/.test(f.mb_name.value)) {
+            alert("개인 고유 코드는 숫자 8자리로 입력 가능합니다.");
+            f.mb_name.focus();
             return false;
         }
-        */
     }
 
     <?php if($w == '' && $config['cf_cert_use'] && $config['cf_cert_req']) { ?>

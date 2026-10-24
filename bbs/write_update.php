@@ -148,6 +148,16 @@ if ($bo_table === 'messages') {
         $wr_6 = '';
     }
 
+    // wr_7 은 bookmark_message.php 에서만 저장하는 값
+    // 일반 작성/수정 폼에서는 항상 0으로 고정 (수정 시 기존 북마크 사본의 wr_7 보호)
+    if ($w === 'u') {
+        // 수정 시: 기존 DB 값 유지 (폼에서 넘어온 값 무시)
+        $wr_7 = isset($wr['wr_7']) ? $wr['wr_7'] : '0';
+    } else {
+        // 신규 작성 시: 항상 0
+        $wr_7 = '0';
+    }
+
     // 날짜명대사/이벤트명대사가 아닌 일반 메세지이면
     // wr_subject = wr_5 (수신인 코드) 로 자동 세팅
     if ($wr_2 !== '1' && $wr_3 !== '1') {
@@ -166,6 +176,11 @@ if ($bo_table === 'messages' && ($is_admin || intval($member['mb_level']) >= 10)
     // wr_6(임의날짜)이 있으면 그걸 제목으로, 없으면 작성일시로 자동 세팅
     if ($wr_subject == '') {
         $wr_subject = ($wr_6 !== '') ? $wr_6 : date('Y-m-d H:i:s');
+    }
+} elseif ($bo_table === 'messages') {
+    // messages 게시판 일반 메시지: wr_subject가 비어있어도 허용 (기본값 세팅)
+    if ($wr_subject == '') {
+        $wr_subject = date('Y-m-d H:i:s');
     }
 } elseif ($wr_subject == '') {
     alert('<strong>제목</strong>을 입력하세요.');

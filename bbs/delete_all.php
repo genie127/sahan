@@ -278,26 +278,38 @@ for ($i = $chk_count - 1; $i >= 0; $i--)
     // 게시글 + 댓글 삭제
     // ========================================================
 
-    sql_query("
-        delete from $write_table
-        where wr_parent = '{$write['wr_id']}'
-    ");
+    // 북마크 사본(wr_7 != '')은 wr_parent가 원본을 가리키므로
+    // wr_parent 기준 일괄 삭제 대신 해당 레코드만 단독 삭제
+    if ($bo_table == 'messages' && !empty($write['wr_7']) && (int)$write['wr_7'] > 0) {
+
+        // 북마크 사본 단독 삭제
+        sql_query("
+            delete from $write_table
+            where wr_id = '{$write['wr_id']}'
+        ");
+
+    } else {
+
+        sql_query("
+            delete from $write_table
+            where wr_parent = '{$write['wr_id']}'
+        ");
+
+    }
 
 
     // ========================================================
     // messages 게시판이면
-    // 해당 원본을 북마크한 메시지도 삭제
-    //
-    // 원본 wr_id = 16
-    // 북마크 글 wr_6 = 16
+    // 원본 삭제 시 해당 원본을 북마크한 사본도 함께 삭제
+    // wr_7 = 원본 wr_id (bookmark_message.php 저장 방식과 일치)
+    // 북마크 사본 자체를 삭제하는 경우엔 실행하지 않음
     // ========================================================
 
-    if ($bo_table == 'messages') {
+    if ($bo_table == 'messages' && (empty($write['wr_7']) || (int)$write['wr_7'] === 0)) {
 
         sql_query("
             delete from $write_table
-            where wr_6 = '{$write['wr_id']}'
-            and wr_4 = '0'
+            where wr_7 = '{$write['wr_id']}'
         ");
     }
 

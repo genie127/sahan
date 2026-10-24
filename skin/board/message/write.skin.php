@@ -11,7 +11,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
             <button onclick="history.back()" class="arr_prev"></button>
             <h3>
                 <?if($bo_table =='messages'){?>
-                    메세지 쓰기
+                    메시지 쓰기
                 <?}else{?>
                     게시글 등록
                 <?}?>
@@ -121,7 +121,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?}?>
 
     <div class="select_open write_div checkbox_wrap">
-        <input type="checkbox" id="wr_1" name="wr_1" value="1" <?php echo $wr_1 == '1' ? 'checked' : ''; ?>>
+        <input type="checkbox" id="wr_1" name="wr_1" value="1" <?php echo ($w != 'u' || $wr_1 == '1') ? 'checked' : ''; ?>>
         <label for="wr_1"><span class="checkbox"></span><p>전체공개</p></label>
         <div class="about_this">
             <span class="ico_info"><img src="<?=G5_IMG_URL?>/ico_info.png" alt=""></span>
@@ -131,7 +131,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?if($is_admin || intval($member['mb_level']) >= 10){?>
     <div class="wrap_send write_div">
         <div class="send_info">
-            <label for="wr_4">발신인</label>
+            <label for="wr_4">발신코드</label>
             <input type="text" id="wr_4" name="wr_4" placeholder="보내는 사람으로 표기될 코드를 써주세요." value="<?php echo $wr_4?>">
         </div>
         <span class="noti">검색할 때 쓰이는 코드입니다.<br>알파벳을 섞어야 해당 코드로의 회원가입을 막을 수 있습니다.</span>
@@ -140,8 +140,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
     <div class="wrap_send write_div to">
         <div class="send_info">
-            <label for="wr_5">수신인</label>
-            <input type="text" id="wr_5" name="wr_5" placeholder="받는 사람의 코드를 입력해주세요" required value="<?php echo $wr_5?>">
+            <label for="wr_5">수신코드</label>
+            <input type="text" id="wr_5" name="wr_5" placeholder="받는 사람의 코드를 입력해주세요" value="<?php echo $wr_5?>">
         </div>
         <div class="for_me">
         <button type="button" onclick="checkForMe(this)" class="checkbox_wrap"><span class="checkbox"></span><p>내게 쓰기</p></button>
@@ -158,7 +158,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <?}?>
 
     <div class="wrap_send write_div is-hidden">
-        <input type="text" id="wr_7" name="wr_7" value="<?php echo $wr_id ?>" hidden>
+        <input type="text" id="wr_7" name="wr_7" value="<?php echo ($w == 'u') ? (isset($write['wr_7']) ? $write['wr_7'] : '') : '0'; ?>" hidden>
     </div>
 
     <div class="bo_w_tit write_div">
@@ -343,14 +343,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         const isSentence = isDateSentence || isEventSentence;
 
         if (!isSentence) {
-            // 일반 메세지
+            // 일반 메시지
             $(".select_open").show();
             $(".for_me").show();
 
-            // wr_5 = 수신인 → 숫자 입력
+            // wr_5 = 수신인 → 선택 입력
             $("#wr_5").attr('placeholder', '받는 사람의 코드를 입력해주세요');
-            $("label[for='wr_5']").text('수신인');
-            $("#wr_5").prop('required', true);
+            $("label[for='wr_5']").text('수신코드');
+            $("#wr_5").prop('required', false);
             $("#wr_5").prop('disabled', false);
 
             // subject 숨기고 값 자동 처리 (서버에서 wr_5로 덮어씀)

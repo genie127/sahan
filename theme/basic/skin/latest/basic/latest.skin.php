@@ -26,22 +26,27 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
         // 이벤트명대사(wr_3=1)는 latest에서 노출 안 함
         if ($list[$i]['wr_3'] == '1') continue;
 
-        $title = substr($list[$i]['subject'], 0, 2)
-               . '.'
-               . substr($list[$i]['subject'], 2, 4);
+        // 날짜 표시 처리
+        // 1. wr_6(표기날짜)이 있으면 그것을 사용
+        // 2. 날짜명대사(wr_2=1)이고 subject가 MMDD 4자리면 올해연도.MM.DD
+        // 3. 일반 게시글이면 wr_datetime의 날짜를 Y.m.d 형식으로 표시
+        $title = $list[$i]['subject'];
 
-        // wr_6 없을 때 쓸 날짜: wr_2=1(날짜명대사)이고 subject가 MMDD 4자리면 올해연도.MM.DD
-        if (
-            empty($list[$i]['wr_6']) &&
+        if (!empty($list[$i]['wr_6'])) {
+            $title = $list[$i]['wr_6'];
+        } elseif (
             $list[$i]['wr_2'] == '1' &&
             preg_match('/^(\d{2})(\d{2})$/', $list[$i]['wr_subject'], $_dm)
         ) {
             $title = date('Y', G5_SERVER_TIME) . '.' . $_dm[1] . '.' . $_dm[2];
+        } elseif (!empty($list[$i]['wr_datetime'])) {
+            $title = date('Y.m.d', strtotime($list[$i]['wr_datetime']));
         }
 
 
         // ====================================================
         // 현재 게시글의 북마크 여부
+        // 명대사(wr_2=1 또는 wr_3=1)와 일반 게시글 모두 북마크 가능
         // ====================================================
         $is_bookmarked = false;
 
@@ -66,11 +71,7 @@ $list_count = (is_array($list) && $list) ? count($list) : 0;
 
             <div class="lt_top">
                 <p class="lt_date">
-                    <?if($list[$i]['wr_6']){?>
-                        <?php echo $list[$i]['wr_6']; ?>
-                    <?}else{?>
-                        <?php echo $title; ?>
-                    <?}?>
+                    <?php echo $title; ?>
                     <?php if (!empty($member['mb_id'])) { ?>
 
                         <button
@@ -139,6 +140,10 @@ $(function() {
     if($('.swiper-slide').length > 1){
         const sl_bookmark = new Swiper('.sl_list',{
             slidesPerView:1,
+            effect:'fade',
+            fadeEffect:{
+                crossFade:true
+            },
             spaceBetween:10,
             autoHeight:false,
             navigation:{
@@ -156,7 +161,7 @@ $(function() {
 
         // 저장 여부 확인
         var confirmed = confirm(
-            '내게 온 메세지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
+            '내게 온 메시지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
         );
 
         // 취소한 경우 저장 요청하지 않음
@@ -179,7 +184,7 @@ $(function() {
 
                 if (data.result === 'success') {
 
-                    alert('내게 온 메세지에 저장되었습니다.');
+                    alert('내게 온 메시지에 저장되었습니다.');
 
                     $btn
                         .addClass('is_bookmarked')
@@ -189,7 +194,7 @@ $(function() {
 
                 else if (data.result === 'duplicate') {
 
-                    alert('이미 저장한 메세지입니다.');
+                    alert('이미 저장한 메시지입니다.');
 
                     $btn
                         .addClass('is_bookmarked')

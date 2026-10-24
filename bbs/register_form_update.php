@@ -119,6 +119,17 @@ if ($w == '' || $w == 'u') {
         alert('닉네임을 올바르게 입력해 주십시오.');
     }
 
+    // 닉네임: 신규가입이거나 레벨 10 미만이면 숫자 8자리, 레벨 10 이상이면 자유
+    if ($w == '') {
+        if ($msg = valid_mb_nick_numeric($mb_nick))     alert($msg, "", true, true);
+    } else {
+        if ($member['mb_level'] < 10) {
+            if ($msg = valid_mb_nick_numeric($mb_nick))     alert($msg, "", true, true);
+        } else {
+            if ($msg = valid_mb_nick($mb_nick))     alert($msg, "", true, true);
+        }
+    }
+
     // 비밀번호를 체크하는 상태의 기본값은 true이며, 비밀번호를 체크하지 않으려면 hook 을 통해 false 값으로 바꿔야 합니다.
     $is_check_password = run_replace('register_member_password_check', true, $mb_id, $mb_nick, $mb_email, $w);
 
@@ -136,7 +147,7 @@ if ($w == '' || $w == 'u') {
     if ($msg = reserve_mb_nick($mb_nick))   alert($msg, "", true, true);
     // 이름에 한글명 체크를 하지 않는다.
     //if ($msg = valid_mb_name($mb_name))     alert($msg, "", true, true);
-    if ($msg = valid_mb_nick($mb_nick))     alert($msg, "", true, true);
+    // 닉네임 형식 체크는 위에서 레벨 조건에 따라 이미 수행됨
     if ($msg = valid_mb_email($mb_email))   alert($msg, "", true, true);
     if ($msg = prohibit_mb_email($mb_email))alert($msg, "", true, true);
 

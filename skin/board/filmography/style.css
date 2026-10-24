@@ -38,7 +38,7 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 #bo_gall .gall_con {position:relative; display: flex; flex-wrap:wrap;}
 #bo_gall .gall_con .date {width: 100%; margin-bottom: 25.5px;}
 
-.subtit {margin-bottom: 45px; font-size:53.5px; line-height: 1.3; color:#5268A5;}
+.subtit {margin-bottom: 45px; font-size:38.5px; line-height: 1.3; color:#5268A5;}
 
 .gall_row .col-gn-0,.gall_row .col-gn-1,.gall_row .col-gn-2,.gall_row .col-gn-3,.gall_row .col-gn-4,.gall_row .col-gn-5,.gall_row .col-gn-6,.gall_row .col-gn-7,.gall_row .col-gn-8,.gall_row .col-gn-9,.gall_row .col-gn-10 {position:relative;min-height:1px;padding-left:10px;*padding-left:0;padding-right:10px;*padding-right:0;float:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin-left:0}
 .gall_row .col-gn-0,.gall_row .col-gn-1 {width:100%}
@@ -69,7 +69,7 @@ box-shadow:inset 0 2px 5px rgb(33, 135, 202)}
 #bo_gall .bo_tit .cnt_cmt {background:#e9eff5;color:#5268A5;font-size:11px;height:16px;line-height:16px;padding:0 5px;border-radius:3px;vertical-align:middle}
 
 
-#bo_gall .gall_con .date {width: 100%; margin-bottom: 25.5px; font-size: 17px; line-height: 1; color:#5268A5}
+#bo_gall .gall_con .date {width: 100%; margin-bottom: 25.5px; font-size: 21.5px; line-height: 1; color:#5268A5}
 #bo_gall .gall_text_href{display: flex; flex-direction: column; justify-content: space-between;}
 #bo_gall .gall_text_href h4{font-size:19px; color:#4A5362; font-weight:700;}
 #bo_gall .gall_text_href .link_li{display: flex; flex-wrap:wrap;}
@@ -105,7 +105,7 @@ box-shadow:2px 2px 3px 0px rgba(0,0,0,0.2)}
 #bo_list_total {float:left;line-height:34px;font-size:0.92em;color:#4e546f}
 
 .btn_bo_user {float:right;margin:0;padding:0;list-style:none}
-.btn_bo_user li {float:left;width:40px;text-align:center;margin-left:5px;background:#fff}
+/* .btn_bo_user li {float:left;width:40px;text-align:center;margin-left:5px;background:#fff} */
 .btn_bo_user > li {position:static}
 .btn_bo_adm {float:left}
 .btn_bo_adm li {float:left;margin-right:5px}
@@ -391,13 +391,13 @@ box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.1)}
 
 /* ===== 반응형 미디어쿼리 통합 ===== */
 @media(max-width:720px){
-    .subtit {margin-bottom: 30px; font-size:40px; line-height: 1.3; color:#5268A5;}
+    .subtit {margin-bottom: 30px; font-size:27px; line-height: 1.3; color:#5268A5;}
     #bo_gall .gall_li {padding-left: 20px;}
     #bo_gall .gall_li:before{width: 9.5px; height: 9.5px;}
     #bo_gall .gall_box {position:relative; padding-bottom: 22.5px; border-radius:0 0 1px 1px}
     #bo_gall .gall_con {position:relative; display: flex; flex-wrap:wrap;}
 
-    #bo_gall .gall_con .date {width: 100%; margin-bottom: 19px; font-size: 13px;}
+    #bo_gall .gall_con .date {width: 100%; margin-bottom: 19px; font-size: 16px;}
     #bo_gall .gall_text_href { padding-left: 16px;}
     #bo_gall .gall_text_href h4{font-size:14.5px; color:#4A5362; font-weight:700;}
     #bo_gall .bo_cnt {margin-top: 9.5px; font-size:11px; line-height: 1.5; color:#4A5362}

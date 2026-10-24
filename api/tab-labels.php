@@ -11,17 +11,15 @@ require_once dirname(__DIR__) . '/common.php';
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-cache, no-store, must-revalidate');
 
-$menu_datas = get_menu_db(0, true);
+// tab-labels.json 파일에서 탭 레이블 매핑을 읽어옴
+$json_file = __DIR__ . '/tab-labels.json';
+$raw = file_exists($json_file) ? json_decode(file_get_contents($json_file), true) : [];
 
 $labels = [];
-foreach ($menu_datas as $row) {
-    if (empty($row)) continue;
-
+foreach ($raw as $name => $label) {
     $labels[] = [
-        'name'   => $row['me_name'],   // 탭 식별 키 (이미지 파일명 등에 사용)
-        'label'  => $row['me_name'],   // 탭에 표시할 텍스트
-        'link'   => $row['me_link'],   // 연결 URL
-        'target' => $row['me_target'], // 링크 타겟
+        'name'  => $name,
+        'label' => $label,
     ];
 }
 

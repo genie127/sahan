@@ -36,13 +36,28 @@ if ($row['wr_id']) {
 
 
 /*
- * 원본 게시글 확인 (날짜명대사 wr_2=1 또는 이벤트명대사 wr_3=1)
+ * 원본 게시글 확인
+ *
+ * 북마크 대상:
+ * 1) 날짜명대사 (wr_2=1) 또는 이벤트명대사 (wr_3=1)
+ * 2) 전체 공개 일반 게시글 (wr_1=1, wr_2=0, wr_3=0, 북마크 사본 아님, 비밀글 아님)
  */
 $sql = " select *
          from {$g5['write_prefix']}messages
          where wr_id = '{$wr_id}'
          and wr_is_comment = 0
-         and (wr_2 = '1' or wr_3 = '1')
+         and (
+             -- 명대사 (날짜/이벤트)
+             wr_2 = '1' or wr_3 = '1'
+             -- 일반 전체공개 게시글
+             or (
+                 wr_1 = '1'
+                 and wr_2 = '0'
+                 and wr_3 = '0'
+                 and (wr_7 IS NULL or wr_7 = '' or wr_7 = '0')
+                 and wr_option NOT LIKE '%secret%'
+             )
+         )
          limit 1 ";
 
 $original = sql_fetch($sql);

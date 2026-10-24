@@ -25,7 +25,7 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
     <div id="skip_to_container"><a href="#container">본문 바로가기</a></div>
     <h1 id="logo" class="logo <?if(defined('_INDEX_')) {?>main_logo<?}?>">
         <div class="container">
-            <img src="<?php echo G5_IMG_URL?>/logo.svg" alt="SAHAN">
+            <img src="<?php echo G5_IMG_URL?>/logo.svg" alt="SAHAN" style="height:35px">
         </div>
     </h1>
     <?php
@@ -39,7 +39,7 @@ include_once(G5_LIB_PATH.'/popular.lib.php');
         <fieldset id="hd_sch">
             <form name="fsearchbox" method="get" action="<?php echo G5_BBS_URL ?>/search.php" onsubmit="return fsearchbox_submit(this);">
             <label for="sch_stx" class="sound_only">검색어 필수</label>
-            <input type="text" name="stx" id="sch_stx" maxlength="20" placeholder="발신인 코드를 검색해보세요">
+            <input type="text" name="stx" id="sch_stx" maxlength="20" placeholder="발신코드를 검색해보세요">
             <button type="submit" id="sch_submit" class="btn_search" value="검색"></button>
             </form>
 

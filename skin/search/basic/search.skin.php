@@ -15,7 +15,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
          <script>document.getElementById("gr_id").value = "<?php echo $gr_id ?>";</script>
      
          <label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
-             <input type="text" name="stx" value="<?php echo $text_stx ?>" id="stx" required  placeholder="발신인 코드를 검색해보세요">
+             <input type="text" name="stx" value="<?php echo $text_stx ?>" id="stx" required  placeholder="발신코드를 검색해보세요">
              <button type="submit" id="sch_submit" class="btn_search" value="검색">
                 <span class="ico_search"></span>
             </button>     
@@ -72,8 +72,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
      ?>
     <div class="empty_list">
         <img src="<?=G5_IMG_URL?>/ico_emptyMessage.webp">
-        <p class="txt">검색된 메세지가 없습니다</p>
-        <p class="desc">먼저 메세지를 보내보세요</p>
+        <p class="txt">검색된 메시지가 없습니다</p>
+        <p class="desc">먼저 메시지를 보내보세요</p>
     </div>
     <?php } }  ?>
 
@@ -88,7 +88,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
         
         <ul class="msg_wrap">
          <?php
-            for ($i=0; $i<count($list); $i++) {
+            for ($i=0; $i<count($list[$idx]) && $k<$rows; $i++, $k++) {
             ?>
            <li class="<?php echo $lt_class ?> msg_item">
 
@@ -212,7 +212,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 
             // 저장 여부 확인
                 var confirmed = confirm(
-                    '내게 온 메세지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
+                    '내게 온 메시지로 저장하시겠습니까?\n(저장 후 삭제는 불가합니다)'
                 );
 
                 // 취소한 경우 저장 요청하지 않음
@@ -235,7 +235,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 
                     if (data.result === 'success') {
 
-                        alert('내게 온 메세지에 저장되었습니다.');
+                        alert('내게 온 메시지에 저장되었습니다.');
 
                         $btn
                             .addClass('is_bookmarked')
@@ -245,7 +245,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$search_skin_url.'/style.css">', 
 
                     else if (data.result === 'duplicate') {
 
-                        alert('이미 저장한 메세지입니다.');
+                        alert('이미 저장한 메시지입니다.');
 
                         $btn
                             .addClass('is_bookmarked')

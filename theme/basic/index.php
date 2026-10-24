@@ -27,29 +27,15 @@ include_once(G5_THEME_PATH.'/head.php');
         <div class="star_img delay4" style="background-image:url('<?php echo G5_IMG_URL?>/sahan/star05.png')"></div>
     </div>
     <?php
-       $today_mmdd = date('md', G5_SERVER_TIME);
-
-        $sql = " select count(*) as cnt
-                from {$g5['write_prefix']}messages
-                where wr_is_comment = 0
-                and wr_2 = '1'
-                and wr_subject = '{$today_mmdd}' ";
-
-        $row = sql_fetch($sql);
-
-        if ($row['cnt'] > 0) {
+        // 메인페이지 명대사/오늘 작성 게시글 랜덤 노출
+        // latest() 함수 내부에서 오늘 날짜 명대사와 오늘 작성된 전체 공개 게시글 중
+        // 하나를 랜덤으로 선택하여 노출 (이벤트명대사 wr_3=1 제외)
     ?>
-        <div class="list_sentence">
-            <?php
-            // 이 함수가 바로 최신글을 추출하는 역할을 합니다.
-            // 사용방법 : latest(스킨, 게시판아이디, 출력라인, 글자수);
-            // 테마의 스킨을 사용하려면 theme/basic 과 같이 지정
-            echo latest('theme/basic', 'messages', 50, 200);		// 최소설치시 자동생성되는 자유게시판
-            ?>
-        </div>
+    <div class="list_sentence">
         <?php
-        }
-    ?>
+        echo latest('theme/basic', 'messages', 50, 200);
+        ?>
+    </div>
 
     </div>
 </div>

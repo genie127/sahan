@@ -49,9 +49,9 @@
 </style>
 
 
-<h2 class="subtit">
-    <?=$g5['title']?>
-</h2>
+<!-- <h2 class="subtit">
+    <?/*=$g5['title']*/?>
+</h2> -->
 
 <div class="wrap_content">
     <div class="wrap_setli">
@@ -81,6 +81,14 @@
         </ul>
     </div>
     <?php } ?>
+     <?if($member['mb_id']){?>
+    <div class="wrap_setli">
+        <p>개인 설정</p>
+        <ul>
+            <li><a href="<?php echo G5_BBS_URL; ?>/content.php?co_id=blocked_users"><p>차단한 사용자 목록</p> <span class="arr"></span></a></li>
+        </ul>
+    </div>
+    <?}?>
     <div class="wrap_setli">
         <p>이용약관</p>
         <ul>

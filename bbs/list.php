@@ -188,8 +188,8 @@ if ($is_messages_board) {
 
         // --------------------------------------------------------
         // 관리자 전체메세지
-        // 명대사 아닌 일반 메세지 전부 (북마크 사본 제외)
-        // wr_7 IS NULL (wr_7에 원본wr_id 없음 = 북마크 사본 아님)
+        // 명대사 아닌 일반 메세지 중 원본 게시글만 (북마크 사본 제외)
+        // wr_7 IS NULL OR wr_7 = '' → 북마크 사본 아님
         // --------------------------------------------------------
         case 'adm_messages':
 
@@ -197,6 +197,28 @@ if ($is_messages_board) {
                 $messages_condition = "
                     (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
                     AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                    AND (wr_7 IS NULL OR wr_7 = '' OR wr_7 = '0')
+                ";
+            } else {
+                $messages_condition = "1=0";
+            }
+
+            break;
+
+
+        // --------------------------------------------------------
+        // 관리자 유저 북마크 목록
+        // 유저가 북마크하여 저장한 사본만 표시
+        // wr_7 IS NOT NULL AND wr_7 != '' → 북마크 사본
+        // wr_2=0, wr_3=0 (명대사 아님)
+        // --------------------------------------------------------
+        case 'adm_bookmarks':
+
+            if ($is_board_admin) {
+                $messages_condition = "
+                    (wr_2 = '0' OR wr_2 IS NULL OR wr_2 = '')
+                    AND (wr_3 = '0' OR wr_3 IS NULL OR wr_3 = '')
+                    AND wr_7 IS NOT NULL AND wr_7 > '0'
                 ";
             } else {
                 $messages_condition = "1=0";

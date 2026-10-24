@@ -6,7 +6,10 @@ include_once(G5_LIB_PATH.'/thumbnail.lib.php');
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 ?>
 
-
+<style>
+    body{padding-top: 65px;}
+    #logo img{height: 35px;}
+</style>
 <!-- 게시판 목록 시작 { -->
 <div id="bo_gall" style="width:<?php echo $width; ?>">
     <?php if ($is_category) { ?>
@@ -55,9 +58,9 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
     <!-- } 게시판 페이지 정보 및 버튼 끝 -->
     <?}?>
 
-    <h2 class="subtit">
+   <!-- <h2 class="subtit">
         <?php echo $board['bo_subject']?>
-    </h2>
+    </h2>  -->
 
     <?php if ($is_checkbox) { ?>
     <div id="gall_allchk" class="all_chk chk_box">
@@ -126,7 +129,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
                             if($thumb['src']) {
                                 $img_content = '<img src="'.$thumb['src'].'" alt="'.$thumb['alt'].'" >';
                             } else {
-                                $img_content = '<span class="no_image" style="'.$line_height_style.'">no image</span>';
+                                $img_content = '<span class="no_image" style="display:flex; align-items:center; justify-content:center">no image</span>';
                             }
 
                             echo run_replace('thumb_image_tag', $img_content, $thumb);
