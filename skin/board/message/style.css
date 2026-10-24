@@ -464,7 +464,7 @@ box-shadow:inset 0 1px 2px rgba(0, 0, 0, 0.1)}
     #bo_w .checkbox_wrap .checkbox{display: block; width: 14px; height: 14px; border-radius:2px; background:#E3E7EF url('../../../img/ico_check_wh.png') no-repeat center center/9.5px auto;}
     #bo_w .checkbox_wrap p{font-size:14px; color:#9AA3B2;}
     #bo_w .select_open .about_this .ico_info{width: 14px;}
-    #bo_w .select_open .about_this p{left: 25px; border-width:1px; border-radius:4px; padding: 4px 6px; font-size:2.28vw;}
+    #bo_w .select_open .about_this p{left: 25px; border-width:1px; border-radius:4px; padding: 4px 6px; font-size:11px;}
     #bo_w .select_open .about_this p:before{width: 5px; height: 9px; }
     
     #bo_w .wrap_send label{font-size:14px}

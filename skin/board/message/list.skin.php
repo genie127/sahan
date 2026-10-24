@@ -719,7 +719,7 @@ jQuery(function($){
                 success: function(data) {
                     if (data.result === 'success') {
                         alert(data.msg || '차단했습니다.');
-                        // 차단한 발신인의 현재 화면 메시지 전체 즉시 제거
+                        // 차단한 발신인의 현재 화면 메세지 전체 즉시 제거
                         var blockedId = data.block_mb_id || '';
                         if (blockedId) {
                             $('.msg_item[data-writer-mb-id="' + blockedId + '"]').fadeOut();

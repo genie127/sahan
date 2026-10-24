@@ -87,7 +87,7 @@ function valid_mb_nick_numeric($reg_mb_nick)
 function count_mb_nick($reg_mb_nick)
 {
     if (strlen($reg_mb_nick) < 4)
-        return "개인고유번호는 최소 4자 이상 입력해주세요.";
+        return "개인고유번호는 4글자 이상 입력 가능합니다.";
     else
         return "";
 }
