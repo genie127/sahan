@@ -28,8 +28,8 @@
 #fregister_chkall {position:relative; border:1px solid #C9D0DD; border-radius:11px; color:#C9D0DD; font-weight:600;padding: 11px 17px; cursor:pointer}
 #fregister_chkall.on{border-color:#5268A5}
 #fregister_chkall input:checked + label {color:#5268A5}
-#fregister textarea, .fregister_terms div {display:block; padding: 10px 20px; resize:none; border:1px solid #C1CAE3; font-size:16px;}
-.fregister_terms div {padding:13px;background:#fff}
+#fregister textarea, .fregister_terms div {display:block; padding: 10px 20px; resize:none; border:1px solid #C1CAE3; font-size:16px; background: none;}
+.fregister_terms div {padding:13px;}
 .fregister_terms table {width:100%;border-collapse:collapse;}
 .fregister_terms table caption {position:absolute;font-size:0;line-height:0;overflow:hidden}
 .fregister_terms table th {background:#f7f7f9;width:33.33%;color:#000;padding:7px;border:1px solid #d8dbdf}
@@ -42,7 +42,7 @@
 .fregister_agree{ display: flex; justify-content: space-between; align-items: center;}
 .fregister_agree .ico_drop{position: relative; cursor:pointer; transition:.3s; width: 16px; height: 16px;}
 .fregister_agree .ico_drop:after{content:''; position: absolute; left: 50%; top: 50%; transform:translate(-50%,-75%) rotate(135deg); width: 12px; height: 12px; border:1px solid #5268A5; border-width:1px 1px 0 0;}
-.fregister_agree input[type="checkbox"] + label {position: relative; padding-left: 32px; font-size: 24px;  display: block; color:#4A5362;  font-weight:600; cursor:pointer; width: 100%;}
+.fregister_agree input[type="checkbox"] + label {position: relative; padding-left: 32px; font-size: 24px;  display: block; color:#E0E0E0;  font-weight:600; cursor:pointer; width: 100%;}
 .fregister_agree input[type="checkbox"] + label em{color:#5268A5}
 .fregister_agree input[type="checkbox"] + label span {position:absolute; top: 50%; left: 0; transform:translateY(-50%); width:19px;height:13px;display:block;background:url('../../../img/ico_check_off.png') no-repeat center center/cover}
 .fregister_agree input[type="checkbox"]:checked + label span {background-image:url('../../../img/ico_check_on.png');border-color:#1471f6;border-radius:2px}
@@ -52,8 +52,8 @@
   #fregister_chkall {position:relative; border:1px solid #C9D0DD; border-radius:8px; color:#C9D0DD; font-weight:600;padding: 8px 13px;}
   #fregister_chkall.on{border-color:#5268A5}
   #fregister_chkall input:checked + label {color:#5268A5}
-  #fregister textarea, .fregister_terms div {display:block; padding: 7px 15px; resize:none; border:1px solid #C1CAE3; font-size:12px;}
-  .fregister_terms div {padding:10px;background:#fff}
+  #fregister textarea, .fregister_terms div {display:block; padding: 7px 15px; resize:none; font-size:12px;}
+  .fregister_terms div {padding:10px;}
   .fregister_terms table {width:100%;border-collapse:collapse;}
   .fregister_terms table caption {position:absolute;font-size:0;line-height:0;overflow:hidden}
   .fregister_terms table th {background:#f7f7f9;width:33.33%;color:#000;padding:5px;border:1px solid #d8dbdf}
@@ -66,7 +66,7 @@
   .fregister_agree{ display: flex; justify-content: space-between; align-items: center;}
   .fregister_agree .ico_drop{position: relative; cursor:pointer; transition:.3s; width: 12px; height: 12px;}
   .fregister_agree .ico_drop:after{content:''; position: absolute; left: 50%; top: 50%; transform:translate(-50%,-75%) rotate(135deg); width: 9px; height: 9px; border:1px solid #5268A5; border-width:1px 1px 0 0;}
-  .fregister_agree input[type="checkbox"] + label {position: relative; padding-left: 24px; font-size: 18px;  display: block; color:#4A5362;  font-weight:600}
+  .fregister_agree input[type="checkbox"] + label {position: relative; padding-left: 24px; font-size: 18px;  display: block;  font-weight:600}
   .fregister_agree input[type="checkbox"] + label em{color:#5268A5}
   .fregister_agree input[type="checkbox"] + label span {position:absolute; top: 50%; left: 0; transform:translateY(-50%); width:14px;height:10px;display:block;background:url('../../../img/ico_check_off.png') no-repeat center center/cover}
   .fregister_agree input[type="checkbox"]:checked + label span {background-image:url('../../../img/ico_check_on.png');border-color:#1471f6;border-radius:1px}
@@ -80,12 +80,12 @@
 /* 회원가입 입력 */
 #register_form {margin-bottom:13px}
 #register_form ul li{margin-bottom: 32px;}
-.register_form_inner:not(.tbl_frm01) label {display: block; font-size:19px; font-weight:500; color:#050606; margin-bottom: 16px;}
+.register_form_inner:not(.tbl_frm01) label {display: block; font-size:19px; font-weight:500; color:#F7F8FC; margin-bottom: 16px;}
 .register_form_inner label em{color:#5268A5}
 .register_form_inner label.inline {display:inline}
 .register_form_inner input[type="text"],
 .register_form_inner input[type="password"]
-{padding: 11px 20px; border:1px solid #C1CAE3; border-radius:11px; color:#4A5362; font-size:19px; height: auto;}
+{padding: 11px 20px; border:1px solid #C1CAE3; border-radius:11px; color:#E0E0E0; font-size:19px; height: auto;}
 .register_form_inner input[type="text"]::placeholder{color:#9AA3B2}
 .register_form_inner input[type="text"]:focus,
 .register_form_inner input[type="text"]:active{border-color:#93A2CB}
@@ -93,7 +93,7 @@
 .register_form_inner .input_check{position: relative;}
 .register_form_inner #btn_id_check{position: absolute; top: 5px; right: 7px; background: #5268A5; color:#fff; border-radius:3px; font-weight:500; font-size:9px; height: 20px; line-height: 20px;}
 
-.register_form_inner .desc{margin-top: 11px; font-size:16px; color:#4A5362}
+.register_form_inner .desc{margin-top: 11px; font-size:16px; color:#E0E0E0}
 
 #fregisterform .cert_desc {color:#5268A5;}
 #fregisterform .cert_req {margin-left:3px;line-height:23px;}
@@ -124,17 +124,17 @@
 
 @media (max-width:720px) {
   #register_form ul li{margin-bottom: 24px;}
-  .register_form_inner:not(.tbl_frm01) label {display: block; font-size:14px; font-weight:500; color:#050606; margin-bottom: 12px;}
+  .register_form_inner:not(.tbl_frm01) label {font-size:14px; margin-bottom: 12px;}
   .register_form_inner label em{color:#5268A5}
   .register_form_inner label.inline {display:inline}
   .register_form_inner input[type="text"],
   .register_form_inner input[type="password"]
-  {padding: 8px 15px; border:1px solid #C1CAE3; border-radius:8px; color:#4A5362; font-size:14px; height: auto;}
+  {padding: 8px 15px; border:1px solid #C1CAE3; border-radius:8px; font-size:14px; height: auto;}
   .register_form_inner input[type="text"]::placeholder{color:#9AA3B2}
   .register_form_inner input[type="text"]:focus,
   .register_form_inner input[type="text"]:active{border-color:#93A2CB}
   .register_form_inner input.required{background: none !important;}
-  .register_form_inner .desc{margin-top: 8px; font-size:12px; color:#4A5362}
+  .register_form_inner .desc{margin-top: 8px; font-size:12px; }
 
   #fregisterform .form_01 h2 {font-size:14px; font-weight:500; color:#050606; margin-bottom: 12px}
   #captcha #captcha_info{width: 100%; font-size:10px}
@@ -170,7 +170,7 @@
 #find_info.cert h3 {display:block;}
 #find_info #mb_hp_label {display:inline-block;margin-left:7px}
 #find_info p {font-size:16px; color:#9AA3B2; margin-bottom: 11px;}
-#find_info p.em{color:#5268A5; margin-bottom: 16px; font-weight:500}
+#find_info p.em{color:#fff; margin-bottom: 16px; font-weight:500}
 #find_info #mb_email {}
 #find_info .find_btn .btn_submit {width:30%;word-break:keep-all;}
 
@@ -213,7 +213,7 @@
 #mb_login {}
 #mb_login #login_fs .login_if_auto{margin-top: 11px; display: flex; justify-content: flex-start; align-items: center;}
 #mb_login #login_fs .login_if_auto input + label{padding-left: 35px; font-size:19px;}
-#mb_login #login_fs .login_if_auto input + label span{position: absolute; left: 0; top: 50%; transform:translateY(-50%); width: 21px; height: 21px; border-radius:5px; background: #E3E7EF url('../../../img/ico_check_wh.png') no-repeat center center / 12px 8px; border:none;}
+#mb_login #login_fs .login_if_auto input + label span{position: absolute; left: 0; top: 50%; transform:translateY(-50%); width: 21px; height: 21px; border-radius:5px; background: #6E7786 url('../../../img/ico_check_wh.png') no-repeat center center / 12px 8px; border:none;}
 #mb_login #login_fs .login_if_auto input:checked + label{color:#5268A5; font-weight:600}
 #mb_login #login_fs .login_if_auto input:checked + label span{background-color:#5268A5;}
 #mb_login #login_fs .btn_submit {margin:45px 0 16px; font-size:15px; height: 54px; padding: 0; line-height: 27px; border-radius:5px}
@@ -225,7 +225,7 @@
 @media(max-width:720px){
   #mb_login #login_fs .login_if_auto{margin-top: 8px; display: flex; justify-content: flex-start; align-items: center;}
   #mb_login #login_fs .login_if_auto input + label{padding-left: 26px; font-size:14px;}
-  #mb_login #login_fs .login_if_auto input + label span{position: absolute; left: 0; top: 50%; transform:translateY(-50%); width: 16px; height: 16px; border-radius:4px; background: #E3E7EF url('../../../img/ico_check_wh.png') no-repeat center center / 9px 6px; border:none;}
+  #mb_login #login_fs .login_if_auto input + label span{position: absolute; left: 0; top: 50%; transform:translateY(-50%); width: 16px; height: 16px; border-radius:4px; background: #6E7786 url('../../../img/ico_check_wh.png') no-repeat center center / 9px 6px; border:none;}
   #mb_login #login_fs .login_if_auto input:checked + label{color:#5268A5; font-weight:600}
   #mb_login #login_fs .login_if_auto input:checked + label span{background-color:#5268A5;}
   #mb_login #login_fs .btn_submit {margin:34px 0 12px; font-size:16px; height: 40px; line-height: 40px; border-radius:8px}

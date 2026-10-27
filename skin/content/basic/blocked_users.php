@@ -20,14 +20,15 @@ if (!$is_member) {
         padding: 14px 0;
         border-bottom: 1px solid #E3E7EF;
     }
-    .wrap_blocked ul li span { font-size: 15px; color: #2F3744; font-weight: 500; }
+    .wrap_blocked ul li span { font-size: 15px; color: #C6C8C8; font-weight: 500; }
     .wrap_blocked ul li .btn_unblock {
         flex-shrink: 0;
         padding: 6px 14px;
         border: 1px solid #5268A5;
         border-radius: 4px;
         background: none;
-        color: #5268A5;
+        background: #5268A5;
+        color:#fff;
         font-size: 13px;
         cursor: pointer;
     }

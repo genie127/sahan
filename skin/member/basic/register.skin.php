@@ -15,7 +15,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
 
 <h1 class="logo_side">
     <div class="container">
-        <img src="<?php echo G5_IMG_URL ?>/logo_b.svg" alt="SAHAN">
+        <img src="<?php echo G5_IMG_URL ?>/logo.svg" alt="SAHAN">
     </div>
 </h1>
 <!-- 회원가입약관 동의 시작 { -->

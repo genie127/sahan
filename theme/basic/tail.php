@@ -79,12 +79,7 @@ if(G5_COMMUNITY_USE === false) {
 
                     class="gnb_1da">
                     <div class="img_wrap">
-                        <?if(defined("_INDEX_")){?>
-                            <img src="<?=G5_IMG_URL?>/nav<?php echo $row['me_name'] ?>.png" alt="<?php echo $row['me_name'] ?>" class="off_img">
-                        <?}else{?>
-                            <img src="<?=G5_IMG_URL?>/navSub<?php echo $row['me_name'] ?>.png" alt="<?php echo $row['me_name'] ?>" class="off_img">
-                        <?}?>
-                        <img src="<?=G5_IMG_URL?>/nav<?php echo $row['me_name'] ?>_on.png" alt="<?php echo $row['me_name'] ?>" class="on_img">
+                        <img src="<?=G5_IMG_URL?>/ico_<?php echo $row['me_name'] ?>.png" alt="<?php echo $row['me_name'] ?>" class="">
                     </div>
                     <p><?php echo $row['me_name'] ?></p>
                 </a>

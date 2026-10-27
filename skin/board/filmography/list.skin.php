@@ -7,7 +7,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 ?>
 
 <style>
-    body{padding-top: 65px;}
+    body{padding-top: 70px;}
+    body.ios_body{padding-top: 105px;}
     #logo img{height: 35px;}
 </style>
 <!-- 게시판 목록 시작 { -->

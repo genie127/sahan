@@ -117,7 +117,7 @@ if (
 }
 ?>
 
-<body<?php echo isset($g5['body_script']) ? $g5['body_script'] : ''; ?> class="<?php echo trim($body_class); ?>">
+<body<?php echo isset($g5['body_script']) ? $g5['body_script'] : ''; ?> class="<?php echo trim($body_class); ?> <?if(preg_match('/(iPhone|iPod|iPad|Macintosh|MacIntel).*AppleWebKit.*Safari/i', $_SERVER['HTTP_USER_AGENT'])){?>ios_body<?}else{?>aos_body<?}?>">
 <?php
 if ($is_member) { // 회원이라면 로그인 중이라는 메세지를 출력해준다.
     $sr_admin_msg = '';
